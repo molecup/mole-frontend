@@ -12,7 +12,7 @@ Please refer to https://create-react-app.dev/docs/documentation-intro for extens
 ## Modules
 The project uses some additional modules. Please refer to the official documentations for usage examples, help, and troubleshooting
 
-* [Material UI](https://mui.com/material-ui/getting-started/) - Used with Emotion for graphics, layout and style
+* [Material UI](https://mui.com/material-ui/getting-started/) - Used with Emotion for graphics, layout and style managment
 * [React Router](https://reactrouter.com/en/main/start/overview) - Used for client-side routing
 
 ## Project structure
