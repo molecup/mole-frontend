@@ -1,8 +1,10 @@
 import NavBar from '@/components/navBar';
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
+import ThemeRegistry from '@/components/ThemeRegistry/ThemeRegistry';
 
-const inter = Inter({ subsets: ['latin'] })
+
+//const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
   title: 'Mole cup - official site',
@@ -17,8 +19,10 @@ export default function RootLayout({
   return (
     <html lang="it">
       <body>
+      <ThemeRegistry>
         <NavBar/>
         {children}
+      </ThemeRegistry>
       </body>
     </html>
   )

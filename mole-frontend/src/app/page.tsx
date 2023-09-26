@@ -1,7 +1,10 @@
+import CardSlider from '@/components/cardSlider';
+
 export default function Home() {
   return (
-    <div>
-      <h1>Molecup main page</h1>
-    </div>
+    <>
+      <h2>Le partite</h2>
+      <CardSlider/>
+    </>
   )
 }
