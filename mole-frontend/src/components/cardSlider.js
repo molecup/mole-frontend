@@ -3,17 +3,11 @@
 */
 
 'use client'
-import react from 'react';
-import MatchCard from '@/components/cards';
 import Stack from '@mui/material/Stack';
 import { useRef } from "react";
-
-
-
-import matchImg from "@/components/static_media/match_placeholder.jpg";
 import { Button } from '@mui/material';
 
-export default function CardSlider(){
+export default function CardSlider(props){
   const ref = useRef();
 
   const isVisible = (node, container) => {
@@ -116,51 +110,13 @@ export default function CardSlider(){
 
   return(
     <>
-      <Stack direction="row" 
+      <Stack 
+        direction="row" 
         spacing={1.5} 
         sx={{overflowX: "scroll", overflowY: "hidden", padding:'10px'}}
         ref={ref}
       >
-        <MatchCard
-          key={1}
-          title = "Alf -Cat"
-          description = "Questo è un esempio di partita"
-          url = "/news"
-          img = {matchImg}
-          datetime = "20:30 12/10"
-        />
-        <MatchCard
-          key={2}
-          title = "Alf -Cat"
-          description = "Questo è un esempio di partita"
-          url = "/news"
-          img = {matchImg}
-          datetime = "20:30 12/10"
-        />
-        <MatchCard
-          key={3}
-          title = "Alf -Cat"
-          description = "Questo è un esempio di partita"
-          url = "/news"
-          img = {matchImg}
-          datetime = "20:30 12/10"
-        />
-        <MatchCard
-          key={4}
-          title = "Alf -Cat"
-          description = "Questo è un esempio di partita"
-          url = "/news"
-          img = {matchImg}
-          datetime = "20:30 12/10"
-        />
-        <MatchCard
-          key={5}
-          title = "Alf -Cat"
-          description = "Questo è un esempio di partita"
-          url = "/news"
-          img = {matchImg}
-          datetime = "20:30 12/10"
-        />
+        {children}
       </Stack>
       <Stack direction='row' spacing={2}>
         <Button onClick={() => handleArrowClick("left")}>Left</Button>
