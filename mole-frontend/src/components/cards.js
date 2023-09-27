@@ -12,9 +12,11 @@ import Image from "next/image";
 import Link from "next/link";
 import Chip from '@mui/material/Chip';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+/*
 import VideocamIcon from '@mui/icons-material/Videocam';
 import PhotoCameraIcon from '@mui/icons-material/PhotoCamera';
 import CheckIcon from '@mui/icons-material/Check';
+*/
 import Stack from '@mui/material/Stack';
 
 
@@ -22,9 +24,10 @@ import Stack from '@mui/material/Stack';
 export default function MatchCard(props) {
   return (
     <Card sx={{
-      maxWidth: 200, 
+      MaxWidth:200,
+      minWidth:200,
       transition: "transform 0.15s ease-in-out",
-      "&:hover": { transform: "scale3d(1.05, 1.05, 1)" }
+      "&:hover": { transform: "scale3d(0.98, 0.98, 1)" }
       }} 
       elevation={3}
     >
