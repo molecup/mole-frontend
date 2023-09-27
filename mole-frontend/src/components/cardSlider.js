@@ -11,6 +11,7 @@ export default function CardSlider(){
         description = "Questo è un esempio di partita"
         url = "/news"
         img = {matchImg}
+        datetime = "20:30 12/10"
       />
     </>
   );
