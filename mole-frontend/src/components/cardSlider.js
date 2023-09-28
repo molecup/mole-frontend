@@ -4,10 +4,11 @@
 
 'use client'
 import Stack from '@mui/material/Stack';
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
 import { Button } from '@mui/material';
 
 export default function CardSlider(props){
+  const { children } = props;
   const ref = useRef();
 
   const isVisible = (node, container) => {
@@ -26,7 +27,7 @@ export default function CardSlider(props){
     if (rightIndex >= leftIndex) {
       const mid = leftIndex + Math.floor((rightIndex - leftIndex) / 2);
       const element = container.children[mid];
-      console.log("left", element);
+      //console.log("left", element);
 
       if (
         isVisible(element, container) &&
@@ -76,6 +77,26 @@ export default function CardSlider(props){
 
     return null;
   };
+
+  const findInitialTarget = (container) => {
+    for (let i in container.children){
+      if (container.children[i].id === "initial"){
+        return container.children[i];
+      }
+    }
+    return null;
+  };
+
+  const scrollToInitialTarget = () => {
+    let element = findInitialTarget(ref.current);
+    let nextScrollLeft = element ? element.offsetLeft - Math.round(element.offsetWidth / 2) : 0;
+    ref.current.scrollTo({
+      left: nextScrollLeft,
+      behavior: "instant"
+    });
+  }
+
+  useEffect(scrollToInitialTarget);
 
   const handleArrowClick = (direction) => {
     let nextScrollLeft;

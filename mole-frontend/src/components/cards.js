@@ -29,7 +29,9 @@ export default function MatchCard(props) {
       transition: "transform 0.15s ease-in-out",
       "&:hover": { transform: "scale3d(0.98, 0.98, 1)" }
       }} 
+      id = {props.initial? 'initial': null}
       elevation={3}
+      ref={props.initRef}
     >
       <CardActionArea LinkComponent={Link} href={props.url}>
         <CardMedia
@@ -37,7 +39,7 @@ export default function MatchCard(props) {
           title="Match_placeholder"
         >
           <div style={{ position: 'relative', width: '100%', height: '100%' }}>
-              <Image src={props.img}  fill='true' style={{objectFit: "cover"}} />
+              <Image alt="Image placeholder" src={props.img}  fill='true' style={{objectFit: "cover"}} />
           </div>
         </CardMedia>
         <CardContent>

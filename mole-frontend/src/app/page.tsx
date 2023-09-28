@@ -1,53 +1,27 @@
 import CardSlider from '@/components/cardSlider';
 import MatchCard from '@/components/cards';
 import matchImg from "@/components/static_media/match_placeholder.jpg";
+import { flightRouterStateSchema } from 'next/dist/server/app-render/types';
+
 
 export default function Home() {
   return (
     <>
       <h2>Le partite</h2>
       <CardSlider>
-        <MatchCard
-          key={1}
-          title = "Alf -Cat"
-          description = "Questo è un esempio di partita"
-          url = "/news"
-          img = {matchImg}
-          datetime = "20:30 12/10"
-        />
-        <MatchCard
-          key={2}
-          title = "Alf -Cat"
-          description = "Questo è un esempio di partita"
-          url = "/news"
-          img = {matchImg}
-          datetime = "20:30 12/10"
-        />
-        <MatchCard
-          key={3}
-          title = "Alf -Cat"
-          description = "Questo è un esempio di partita"
-          url = "/news"
-          img = {matchImg}
-          datetime = "20:30 12/10"
-        />
-        <MatchCard
-          key={4}
-          title = "Alf -Cat"
-          description = "Questo è un esempio di partita"
-          url = "/news"
-          img = {matchImg}
-          datetime = "20:30 12/10"
-        />
-        <MatchCard
-          key={5}
-          title = "Alf -Cat"
-          description = "Questo è un esempio di partita"
-          url = "/news"
-          img = {matchImg}
-          datetime = "20:30 12/10"
-        />  
+        {[...Array(10)].map((x, i) =>
+          <MatchCard 
+            key = {i}
+            img = {matchImg}
+            url = '/'
+            initial = {i == 3}
+            title = {i == 3? "Initial" : "Maj - Daz"}
+            description = "Questo è un esempio di partita. Bal bla bla bla"
+            datetime = "20:30 12/10"
+          />
+        )}
       </CardSlider>
+      
     </>
   )
 }
