@@ -42,10 +42,10 @@ export default function MatchCard(props) {
           </div>
         </CardMedia>
         <CardContent>
-          <Typography /*gutterBottom*/ variant="h4" color="textPrimary">
+          <Typography /*gutterBottom*/ variant="h5" color="textPrimary" textTransform="uppercase">
             {props.title}
           </Typography>
-          <Typography variant="body2" color="textSecondary"  >
+          <Typography variant="body2" color="textSecondary" gutterBottom >
             {props.description}
           </Typography>
           <Stack direction="row" spacing={1} justifyContent="flex-end">
