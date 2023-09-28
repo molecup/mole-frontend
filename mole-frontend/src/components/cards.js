@@ -31,7 +31,6 @@ export default function MatchCard(props) {
       }} 
       id = {props.initial? 'initial': null}
       elevation={3}
-      ref={props.initRef}
     >
       <CardActionArea LinkComponent={Link} href={props.url}>
         <CardMedia
@@ -43,16 +42,14 @@ export default function MatchCard(props) {
           </div>
         </CardMedia>
         <CardContent>
-          <Typography /*gutterBottom*/ variant="h4" >
+          <Typography /*gutterBottom*/ variant="h4" color="textPrimary">
             {props.title}
           </Typography>
-          
-
-          <Typography variant="body2" color="textSecondary" >
+          <Typography variant="body2" color="textSecondary"  >
             {props.description}
           </Typography>
           <Stack direction="row" spacing={1} justifyContent="flex-end">
-            <Chip icon={<CalendarMonthIcon />} size='small' label={<Typography variant='caption'>{props.datetime}</Typography>} />
+            <Chip icon={<CalendarMonthIcon />} size='small' label={<Typography variant='caption' color="textSecondary">{props.datetime}</Typography>} />
           </Stack>
           
         </CardContent>

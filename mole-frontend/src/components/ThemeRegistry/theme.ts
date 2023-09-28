@@ -1,4 +1,4 @@
-import { Roboto } from 'next/font/google';
+import { Cabin, Roboto } from 'next/font/google';
 import { createTheme } from '@mui/material/styles';
 
 const roboto = Roboto({
@@ -7,12 +7,18 @@ const roboto = Roboto({
   display: 'swap',
 });
 
+const cabin = Cabin({
+  weight: ['400', '500', '600', '700'],
+  subsets: ['latin'],
+  display: 'swap',
+})
+
 const theme = createTheme({
   palette: {
     mode: 'light',
   },
   typography: {
-    fontFamily: roboto.style.fontFamily,
+    fontFamily: cabin.style.fontFamily,
   },
   components: {
     MuiAlert: {
@@ -24,7 +30,9 @@ const theme = createTheme({
         }),
       },
     },
+    
   },
+  
 });
 
 export default theme;

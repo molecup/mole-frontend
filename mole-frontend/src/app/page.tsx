@@ -1,7 +1,6 @@
 import CardSlider from '@/components/cardSlider';
 import MatchCard from '@/components/cards';
 import matchImg from "@/components/static_media/match_placeholder.jpg";
-import { flightRouterStateSchema } from 'next/dist/server/app-render/types';
 
 
 export default function Home() {
@@ -21,7 +20,6 @@ export default function Home() {
           />
         )}
       </CardSlider>
-      
     </>
   )
 }
