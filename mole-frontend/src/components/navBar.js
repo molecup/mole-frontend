@@ -51,6 +51,7 @@ function HideOnScroll(props) {
 }
 
 function NavBar(props) {
+  const { children } = props;
   const [showMobileNav, setShowMobileNav] = useState(false);
   const [anchorElUser, setAnchorElUser] = useState(null);
 
@@ -73,6 +74,7 @@ function NavBar(props) {
   typeof navigator !== 'undefined' && /iPad|iPhone|iPod/.test(navigator.userAgent);
 
   return (
+    <>
     <Box sx={{ display: 'flex' }}>
       <HideOnScroll >
       <AppBar  sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
@@ -213,6 +215,11 @@ function NavBar(props) {
       </HideOnScroll>
       
     </Box>
+    <Toolbar/>
+    <Container>
+      {children}
+    </Container>
+    </>
   );
 }
 export default NavBar;

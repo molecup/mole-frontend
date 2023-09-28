@@ -20,8 +20,9 @@ export default function RootLayout({
     <html lang="it">
       <body>
       <ThemeRegistry>
-        <NavBar/>
-        {children}
+        <NavBar>
+          {children}
+        </NavBar>
       </ThemeRegistry>
       </body>
     </html>
