@@ -12,9 +12,9 @@ export default function Home() {
           <MatchCard 
             key = {i}
             img = {matchImg}
-            url = '/'
+            url = {'/match/' + i}
             initial = {i == 3}
-            title = {i == 3? "Initial" : "Maj - Daz"}
+            title = {i == 3? "Initial" : "Maj - Daz " + i}
             description = "Questo è un esempio di partita. Bal bla bla bla"
             datetime = "20:30 12/10"
           />
