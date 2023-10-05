@@ -5,7 +5,8 @@
 'use client'
 import Stack from '@mui/material/Stack';
 import { useRef, useEffect } from "react";
-import { Button } from '@mui/material';
+import Button from '@mui/material/Button';
+import Container from '@mui/system/Container';
 
 export default function CardSlider(props){
   const { children } = props;
@@ -139,7 +140,7 @@ export default function CardSlider(props){
       >
         {children}
       </Stack>
-      <Stack direction='row' spacing={2}>
+      <Stack direction='row' spacing={2} sx={{display : {xs:"none", md:"flex"}}}>
         <Button onClick={() => handleArrowClick("left")}>Left</Button>
         <Button onClick={() => handleArrowClick("right")}>Right</Button>
       </Stack>
