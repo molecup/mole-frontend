@@ -29,7 +29,7 @@ export default function TeamCard(props){
                     
                 </CardMedia>
                 <CardContent sx={props.noTitle ? {display:"none"} : {}}>
-                    <Typography variant='h4' align="center">
+                    <Typography variant='h5' align="center">
                         {props.name}
                     </Typography>
                 </CardContent>
