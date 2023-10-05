@@ -18,7 +18,7 @@ export default function TeamCard(props){
             id = {props.initial? 'initial': null}
             elevation={3}
           >
-            <CardActionArea>
+            <CardActionArea LinkComponent={Link} href={props.url}>
                 <CardMedia 
                     sx={{height: "100px"}}
                     title="Match_placeholder"

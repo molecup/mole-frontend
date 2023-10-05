@@ -1,11 +1,12 @@
+import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 
 export default function TeamPage({params}){
     return(
         <Container>
-            <h1>
+            <Typography variant='h2' align='center'>
                 Squadra : {params.slug}
-            </h1>
+            </Typography>
         </Container>
     );
 }
