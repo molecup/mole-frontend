@@ -24,6 +24,7 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import { NextLinkComposed } from '@/components/Link';
+import Link from "next/link";
 import MoleIcon from '@/components/moleIcon';
 import useScrollTrigger from '@mui/material/useScrollTrigger';
 import Slide from '@mui/material/Slide';
@@ -112,7 +113,7 @@ function NavBar(props) {
                 <List>
                   {pages.map((page) => (
                     <ListItem key={page.name} disablePadding>
-                    <ListItemButton component={NextLinkComposed} to={page.url}>
+                    <ListItemButton component={Link} href={page.url}>
                       <ListItemText primary={page.name} />
                     </ListItemButton>
                   </ListItem>
@@ -126,8 +127,8 @@ function NavBar(props) {
             <Typography
               variant="h5"
               noWrap
-              component={NextLinkComposed}
-              to="/"
+              component={Link}
+              href="/"
               sx={{
                 mr: 2,
                 display: { xs: 'flex', md: 'none' },
@@ -147,8 +148,8 @@ function NavBar(props) {
             <Typography
               variant="h6"
               noWrap
-              component={NextLinkComposed}
-              to="/"
+              component={Link}
+              href="/"
               sx={{
                 mr: 2,
                 display: { xs: 'none', md: 'flex' },
@@ -167,8 +168,8 @@ function NavBar(props) {
               {pages.map((page) => (
                   <Button
                     key={page.name}
-                    component={NextLinkComposed}
-                    to={page.url}
+                    component={Link}
+                    href={page.url}
                     onClick={handleCloseNavMenu}
                     sx={{ my: 2, color: 'white', display: 'block' }}
                   >
@@ -216,9 +217,7 @@ function NavBar(props) {
       
     </Box>
     <Toolbar/>
-    <Container>
-      {children}
-    </Container>
+    {children}
     </>
   );
 }

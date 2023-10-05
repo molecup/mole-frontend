@@ -38,7 +38,7 @@ export default function MatchCard(props) {
           title="Match_placeholder"
         >
           <div style={{ position: 'relative', width: '100%', height: '100%' }}>
-              <Image alt="Image placeholder" src={props.img}  fill='true' style={{objectFit: "cover"}} />
+              <Image alt="Image placeholder" src={props.img}  fill='true' style={{objectFit: "cover"}} sizes="(max-width: 768px) 50vw, (max-width: 1200px) 25vw, 12vw"/>
           </div>
         </CardMedia>
         <CardContent>
