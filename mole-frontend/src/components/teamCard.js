@@ -10,8 +10,8 @@ import Link from "next/link";
 export default function TeamCard(props){
     return(
         <Card sx={{
-            MaxWidth:140,
-            minWidth:140,
+            MaxWidth: props.noTitle? 140 : 180,
+            minWidth: props.noTitle? 140 : 180,
             transition: "transform 0.15s ease-in-out",
             "&:hover": { transform: "scale3d(0.98, 0.98, 1)" }
             }} 
@@ -24,12 +24,12 @@ export default function TeamCard(props){
                     title="Match_placeholder"
                 >
                     <div style={{ position: 'relative', width: '100%', height: '100%' }}>
-                        <Image alt="Image placeholder" src={props.img}  fill='true' style={{objectFit: "cover"}} sizes="(max-width: 768px) 50vw, (max-width: 1200px) 25vw, 12vw"/>
+                        <Image alt="Image placeholder" src={props.img}  fill='true' style={{objectFit: "fill"}} sizes="(max-width: 768px) 50vw, (max-width: 1200px) 25vw, 12vw"/>
                     </div>
                     
                 </CardMedia>
                 <CardContent sx={props.noTitle ? {display:"none"} : {}}>
-                    <Typography variant='h5' align="center">
+                    <Typography variant='h4' align="center">
                         {props.name}
                     </Typography>
                 </CardContent>
