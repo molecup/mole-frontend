@@ -2,6 +2,7 @@ import NavBar from '@/components/navBar';
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import ThemeRegistry from '@/components/ThemeRegistry/ThemeRegistry';
+import Container from '@mui/system/Container';
 
 
 //const inter = Inter({ subsets: ['latin'] })
@@ -21,7 +22,9 @@ export default function RootLayout({
       <body>
       <ThemeRegistry>
         <NavBar>
-          {children}
+          <Container sx={{padding : {xs : 0, md : 1}}}>
+            {children}
+          </Container>
         </NavBar>
       </ThemeRegistry>
       </body>
