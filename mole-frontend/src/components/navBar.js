@@ -78,7 +78,7 @@ function NavBar(props) {
     <>
     <Box sx={{ display: 'flex' }}>
       <HideOnScroll >
-      <AppBar  sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
+      <AppBar  sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }} color="primary">
         <Container maxWidth="xl">
           <Toolbar disableGutters>
 

@@ -1,5 +1,5 @@
 import { Cabin, Roboto } from 'next/font/google';
-import { createTheme } from '@mui/material/styles';
+import { createTheme, responsiveFontSizes } from '@mui/material/styles';
 
 const roboto = Roboto({
   weight: ['300', '400', '500', '700'],
@@ -13,8 +13,14 @@ const cabin = Cabin({
   display: 'swap',
 })
 
-const theme = createTheme({
+const theme = responsiveFontSizes(createTheme({
   palette: {
+    primary: {
+      main: '#4963F4',
+    },
+    secondary: {
+      main: "#4B4E59",
+    },
     mode: 'light',
   },
   typography: {
@@ -30,9 +36,23 @@ const theme = createTheme({
         }),
       },
     },
-    
+    MuiTableContainer:{
+      styleOverrides: {
+        root: () => ({
+          "& .MuiTableCell-head": {
+            backgroundColor: theme.palette.secondary.main,
+            color : theme.palette.secondary.contrastText,
+            fontWeight: 600,
+          },
+          "& .MuiToolbar-root": {
+            backgroundColor: theme.palette.primary.main,
+            color : theme.palette.primary.contrastText,
+          }
+        })
+      }
+    }
   },
   
-});
+}));
 
 export default theme;
