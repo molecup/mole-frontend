@@ -5,8 +5,11 @@
 'use client'
 import Stack from '@mui/material/Stack';
 import { useRef, useEffect } from "react";
-import Button from '@mui/material/Button';
-import Container from '@mui/system/Container';
+import IconButton from '@mui/material/IconButton';
+import ButtonGroup from '@mui/material/ButtonGroup';
+import ArrowForwardIosRoundedIcon from '@mui/icons-material/ArrowForwardIosRounded';
+import ArrowBackIosRoundedIcon from '@mui/icons-material/ArrowBackIosRounded';
+import Box from '@mui/system/Box';
 
 export default function CardSlider(props){
   const { children } = props;
@@ -131,7 +134,7 @@ export default function CardSlider(props){
   };
 
   return(
-    <>
+    <Box sx={{position: 'relative', height:'auto', width: '100%'}}>
       <Stack 
         direction="row" 
         spacing={1.5} 
@@ -140,10 +143,43 @@ export default function CardSlider(props){
       >
         {children}
       </Stack>
-      <Stack direction='row' spacing={2} sx={{display : {xs:"none", md:"flex"}}}>
-        <Button onClick={() => handleArrowClick("left")}>Left</Button>
-        <Button onClick={() => handleArrowClick("right")}>Right</Button>
-      </Stack>
-    </>
+      
+      <ButtonGroup sx={{display : {xs:"none", md:"flex"}, justifyContent:"center"}}>
+        <IconButton onClick={() => handleArrowClick("left")}><ArrowBackIosRoundedIcon/></IconButton>
+        <IconButton onClick={() => handleArrowClick("right")}><ArrowForwardIosRoundedIcon/></IconButton>
+      </ButtonGroup>
+    </Box>
   );
 }
+
+/*
+<div style={navButtonsStyle}>
+        <div style={{...navButtonStyle, left:0}}>
+          <i className="fa fa-chevron-left"></i>
+        </div>
+        <div style={{...navButtonStyle, right:0}}>
+          <i className="fa fa-chevron-right"></i>
+        </div>
+      </div>
+
+      const navButtonsStyle = {
+    position: 'absolute',
+    top: '50%',
+    left: 0,
+    width: '100%',
+    height: '50px',
+    display: flex,
+    justifyContent: 'space-between',
+    alignItems: 'center'
+  };
+  
+  const navButtonStyle = {
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    width: '50px',
+    height: '50px'
+  };
+  
+  
+      */
