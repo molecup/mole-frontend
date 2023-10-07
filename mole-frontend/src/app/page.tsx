@@ -82,7 +82,7 @@ export default function Home() {
         )}
       </CardSlider>
       <Container sx={{marginTop:"10px", marginBottom:"10px"}}>
-        <StandingTable title="Girone A"/>
+        <StandingTable title="Girone A" small/>
         <StandingTable title="Girone B"/>
         <StandingTable title="Girone C"/>
       </Container>
