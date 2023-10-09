@@ -17,7 +17,7 @@ const dataExample = {
     league : "girone a"
 }
 
-export default function MatchPage({params, props}){
+export default function MatchPage({params}){
     let scoreText = dataExample.time;
     if (dataExample.score !== undefined){
         scoreText = dataExample.score[0] + " - " + dataExample.score[1];
