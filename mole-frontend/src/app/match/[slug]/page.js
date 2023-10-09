@@ -1,9 +1,4 @@
-import Container from '@mui/material/Container';
-import Paper from '@mui/material/Paper';
-import Stack from '@mui/system/Stack';
-import Avatar from '@mui/material/Avatar';
-import Typography from '@mui/material/Typography';
-import Box from '@mui/material/Box';
+import MatchHeader from '@/components/matchHeader';
 
 const dataExample = {
     teamA : {
@@ -19,11 +14,7 @@ const dataExample = {
     score : [0, 1],
     time : "20:30",
     date : "20 ottobre 2023",
-    category : "girone a"
-}
-
-const capitalizeStyle = {
-    textTransform: "capitalize"
+    league : "girone a"
 }
 
 export default function MatchPage({params, props}){
@@ -33,19 +24,13 @@ export default function MatchPage({params, props}){
     }
     return(
         <>
-            <Paper sx={{margin : "10px", padding: "10px"}}>
-                <Stack>
-                    <Stack direction="row" sx={{justifyContent:"center", alignItems: "center"}} spacing={2}>
-                        <Avatar sx={{ width: 57, height: 57 }} alt={"logo " + dataExample.teamA.name} src={dataExample.teamA.img} />
-                        <Typography variant="h2" sx={capitalizeStyle}>{dataExample.teamA.short}</Typography>
-                        <Typography variant="h3" sx={capitalizeStyle}>{scoreText}</Typography>
-                        <Typography variant="h2" sx={capitalizeStyle}>{dataExample.teamB.short}</Typography>
-                        <Avatar sx={{ width: 57, height: 57 }} alt={"logo " + dataExample.teamB.name} src={dataExample.teamB.img} />
-                    </Stack>
-                    <Typography variant="overline" sx={{textAlign : "center"}}>{dataExample.category}</Typography>
-                    <Typography variant="h5" sx={{textAlign : "center", ...capitalizeStyle}}>{dataExample.date}</Typography>
-                </Stack>
-            </Paper>
+            <MatchHeader 
+                teamA = {dataExample.teamA}
+                teamB = {dataExample.teamB}
+                scoreText = {dataExample.scoreText}
+                league = {dataExample.league}
+                date = {dataExample.date}
+            />
         </>
     );
 }
