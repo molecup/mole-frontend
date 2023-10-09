@@ -27,7 +27,7 @@ export default function MatchPage({params, props}){
             <MatchHeader 
                 teamA = {dataExample.teamA}
                 teamB = {dataExample.teamB}
-                scoreText = {dataExample.scoreText}
+                scoreText = {scoreText}
                 league = {dataExample.league}
                 date = {dataExample.date}
             />
