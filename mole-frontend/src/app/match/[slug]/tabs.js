@@ -28,6 +28,7 @@ export default function MatchTabs(props) {
           <Tab label={"Rosa " + props.teamA.name} {...a11yProps(0)} />
           <Tab label={"Rosa " + props.teamB.name} {...a11yProps(1)} />
           <Tab label={props.league.name} {...a11yProps(2)} />
+          <Tab label="News" {...a11yProps(3)} />
         </Tabs>
       </Box>
       <CustomTabPanel value={value} index={0}>
@@ -38,6 +39,9 @@ export default function MatchTabs(props) {
       </CustomTabPanel>
       <CustomTabPanel value={value} index={2}>
         <StandingTable title={props.league.name} />
+      </CustomTabPanel>
+      <CustomTabPanel value={value} index={3}>
+        <Typography>News</Typography>
       </CustomTabPanel>
     </Box>
   );
