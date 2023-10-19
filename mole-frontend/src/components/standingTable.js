@@ -54,7 +54,7 @@ export default function StandingTable(props){
                         key={entry.id}
                         sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                     >
-                        <TableCell sx={{...stickyColStyle, ...stickyColBorderStyle, background : "white"}} component="th" scope="row" elevation={2}>
+                        <TableCell sx={{...stickyColStyle, ...stickyColBorderStyle, bgcolor: 'background.paper'}} component="th" scope="row" elevation={2}>
                             <Stack direction="row" spacing={1}>
                                 <p>{i + 1}</p>
                                 <Avatar href={"/team/"+entry.id} component={Link} sx={{ width: 24, height: 24 }} alt={entry.name + " icon"} src={entry.img} />
