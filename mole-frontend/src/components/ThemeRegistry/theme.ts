@@ -1,4 +1,4 @@
-import { Cabin, Roboto } from 'next/font/google';
+import {Cabin, Roboto } from 'next/font/google';
 import { createTheme, responsiveFontSizes } from '@mui/material/styles';
 
 const roboto = Roboto({

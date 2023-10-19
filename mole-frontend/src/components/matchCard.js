@@ -45,9 +45,9 @@ export default function MatchCard(props) {
         </CardMedia>
         <CardContent>
           <Stack direction='row' spacing={1} sx={{ justifyContent: "center", alignItems: "end" }}>
-            <Typography variant="h4" color="textPrimary" textTransform="capitalize">{props.teamA.short}</Typography>
+            <Typography variant="h4" color="textPrimary" textTransform="uppercase">{props.teamA.short}</Typography>
             <Typography variant="h5" color="textPrimary">{props.scoreText}</Typography>
-            <Typography variant="h4" color="textPrimary" textTransform="capitalize">{props.teamB.short}</Typography>
+            <Typography variant="h4" color="textPrimary" textTransform="uppercase">{props.teamB.short}</Typography>
           </Stack>
           <Stack>
             <Typography variant="overline" color="textSecondary" sx={{ textAlign: "center" }}>{props.league}</Typography>
