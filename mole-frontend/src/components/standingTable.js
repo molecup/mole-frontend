@@ -33,8 +33,8 @@ export default function StandingTable(props){
                 <Typography variant='h5'>{props.title}</Typography>
             </Toolbar>
             <Table aria-label={"Classifica gironi - "+props.title} size={props.small ? "small" : "normal"}>
-                <TableHead >
-                    <TableRow sx={{height: "10px"}}>
+                <TableHead>
+                    <TableRow>
                         <TableCell align="left" sx={stickyColStyle}>Squadra</TableCell>
                         <TableCell align="right">Pt</TableCell>
                         <TableCell align="right">PG</TableCell>
