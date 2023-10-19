@@ -12,6 +12,8 @@ import Image from "next/image";
 import Link from "next/link";
 import Chip from '@mui/material/Chip';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+import Avatar from '@mui/material/Avatar';
+
 /*
 import VideocamIcon from '@mui/icons-material/Videocam';
 import PhotoCameraIcon from '@mui/icons-material/PhotoCamera';
@@ -24,34 +26,36 @@ import Stack from '@mui/material/Stack';
 export default function MatchCard(props) {
   return (
     <Card sx={{
-      MaxWidth:200,
-      minWidth:200,
+      MaxWidth: 200,
+      minWidth: 200,
       transition: "transform 0.15s ease-in-out",
       "&:hover": { transform: "scale3d(0.98, 0.98, 1)" }
-      }} 
-      id = {props.initial? 'initial': null}
+    }}
+      id={props.initial ? 'initial' : null}
       elevation={3}
     >
       <CardActionArea LinkComponent={Link} href={props.url}>
         <CardMedia
-          sx={{height: "100px", backgroundColor: "rgba(0, 0, 0, 0.6)"}}
+          sx={{ height: "100px", backgroundColor: "rgba(0, 0, 0, 0.6)" }}
           title="Match_placeholder"
         >
-          <div style={{ position: 'relative', width: '100%', height: '100%', opacity: 0.9}}>
-              <Image alt="Image placeholder" src={props.img}  fill='true' style={{objectFit: "cover"}} sizes="(max-width: 768px) 50vw, (max-width: 1200px) 25vw, 12vw"/>
+          <div style={{ position: 'relative', width: '100%', height: '100%', opacity: 0.9 }}>
+            <Image alt="Image placeholder" src={props.img} fill='true' style={{ objectFit: "cover" }} sizes="(max-width: 768px) 50vw, (max-width: 1200px) 25vw, 12vw" />
           </div>
         </CardMedia>
         <CardContent>
-          <Typography /*gutterBottom*/ variant="h5" color="textPrimary" textTransform="uppercase">
-            {props.title}
-          </Typography>
-          <Typography variant="body2" color="textSecondary" gutterBottom >
-            {props.description}
-          </Typography>
-          <Stack direction="row" spacing={1} justifyContent="flex-end">
-            <Chip icon={<CalendarMonthIcon />} size='small' label={<Typography variant='caption' color="textSecondary">{props.datetime}</Typography>} />
+          <Stack direction='row' spacing={1} sx={{ justifyContent: "center", alignItems: "end" }}>
+            <Typography variant="h4" color="textPrimary" textTransform="capitalize">{props.teamA.short}</Typography>
+            <Typography variant="h5" color="textPrimary">{props.scoreText}</Typography>
+            <Typography variant="h4" color="textPrimary" textTransform="capitalize">{props.teamB.short}</Typography>
           </Stack>
-          
+          <Stack>
+            <Typography variant="overline" color="textSecondary" sx={{ textAlign: "center" }}>{props.league}</Typography>
+          </Stack>
+          <Stack direction="row" justifyContent="flex-end">
+            <Chip icon={<CalendarMonthIcon />} size='small' label={<Typography variant='caption' color="textSecondary">{props.date + " " + props.time}</Typography>} />
+          </Stack>
+
         </CardContent>
       </CardActionArea>
     </Card>
