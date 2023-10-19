@@ -30,12 +30,12 @@ const teams = [
 
 const matches = [
   { id: "1", teamA: teams[0], teamB: teams[1], score: [0, 1], description: "Questo è un esempio di partita. Bal bla bla bla", date: "20/10", time: "21:30", league: "Girone A", img: matchImg, initial: false },
-  { id: "2", teamA: teams[2], teamB: teams[5], score: [0, 1], description: "Questo è un esempio di partita. Bal bla bla bla", date: "20/10", time: "20:00", league: "Girone A", img: matchImg, initial: false },
-  { id: "3", teamA: teams[4], teamB: teams[3], score: [0, 1], description: "Questo è un esempio di partita. Bal bla bla bla", date: "27/10", time: "21:30", league: "Girone A", img: matchImg, initial: false },
-  { id: "4", teamA: teams[7], teamB: teams[0], score: [0, 1], description: "Questo è un esempio di partita. Prima partita  ", date: "27/10", time: "20:00", league: "Girone A", img: matchImg, initial: true },
-  { id: "5", teamA: teams[0], teamB: teams[1], score: [0, 1], description: "Questo è un esempio di partita. Bal bla bla bla", date: "02/11", time: "21:30", league: "Girone A", img: matchImg, initial: false },
-  { id: "6", teamA: teams[5], teamB: teams[6], score: [0, 1], description: "Questo è un esempio di partita. Bal bla bla bla", date: "02/11", time: "20:00", league: "Girone A", img: matchImg, initial: false },
-  { id: "7", teamA: teams[6], teamB: teams[2], score: [0, 1], description: "Questo è un esempio di partita. Bal bla bla bla", date: "09/11", time: "21:30", league: "Girone A", img: matchImg, initial: false },
+  { id: "2", teamA: teams[2], teamB: teams[5], score: [2, 1], description: "Questo è un esempio di partita. Bal bla bla bla", date: "20/10", time: "20:00", league: "Girone C", img: matchImg, initial: false },
+  { id: "3", teamA: teams[4], teamB: teams[3], score: [0, 0], description: "Questo è un esempio di partita. Bal bla bla bla", date: "27/10", time: "21:30", league: "Girone B", img: matchImg, initial: false },
+  { id: "4", teamA: teams[7], teamB: teams[0], score: null, description: "Questo è un esempio di partita. Prima partita  ", date: "27/10", time: "20:00", league: "Girone A", img: matchImg, initial: true },
+  { id: "5", teamA: teams[0], teamB: teams[1], score: null, description: "Questo è un esempio di partita. Bal bla bla bla", date: "02/11", time: "21:30", league: "Girone B", img: matchImg, initial: false },
+  { id: "6", teamA: teams[5], teamB: teams[6], score: null, description: "Questo è un esempio di partita. Bal bla bla bla", date: "02/11", time: "20:00", league: "Girone D", img: matchImg, initial: false },
+  { id: "7", teamA: teams[6], teamB: teams[2], score: null, description: "Questo è un esempio di partita. Bal bla bla bla", date: "09/11", time: "21:30", league: "Girone C", img: matchImg, initial: false },
 
 ];
 
@@ -82,7 +82,7 @@ export default function Home() {
             date={match.date}
             time={match.time}
             league={match.league}
-            scoreText={match.score[0] + " - " + match.score[1]}
+            scoreText={match.score ? match.score[0] + " - " + match.score[1] : "-"}
           />
         )}
       </CardSlider>
