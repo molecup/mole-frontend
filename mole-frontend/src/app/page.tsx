@@ -17,25 +17,25 @@ import dazeImg from '@/components/static_media/dazeglio.png';
 import majoImg from '@/components/static_media/majo.png';
 
 const teams = [
-  { id: "alf", name: "Alfieri", short:"Alf", img: alfieriImg },
-  { id: "gob", name: "Gobetti", short:"Gob", img: gobettiImg },
-  { id: "cat", name: "Cattaneo", short:"Cat", img: cattaneoImg },
-  { id: "gob22", name: "Gobetti", short:"Gob", img: gobetti22Img },
-  { id: "avo", name: "Avogadro", short:"Avo", img: avogadroImg },
-  { id: "cav", name: "Cavour", short:"Cav", img: cavourImg },
-  { id: "conv", name: "Covitto", short:"Con", img: convittoImg },
-  { id: "daze", name: "Dazeglio", short:"Daz", img: dazeImg },
-  { id: "majo", name: "Majorana", short:"Maj", img: majoImg },
+  { id: "alf", name: "Alfieri", short: "Alf", img: alfieriImg },
+  { id: "gob", name: "Gobetti", short: "Gob", img: gobettiImg },
+  { id: "cat", name: "Cattaneo", short: "Cat", img: cattaneoImg },
+  { id: "gob22", name: "Gobetti", short: "Gob", img: gobetti22Img },
+  { id: "avo", name: "Avogadro", short: "Avo", img: avogadroImg },
+  { id: "cav", name: "Cavour", short: "Cav", img: cavourImg },
+  { id: "conv", name: "Covitto", short: "Con", img: convittoImg },
+  { id: "daze", name: "Dazeglio", short: "Daz", img: dazeImg },
+  { id: "majo", name: "Majorana", short: "Maj", img: majoImg },
 ];
 
 const matches = [
-  { id: "1", teamA:teams[0], teamB:teams[1], score:[0, 1], description: "Questo è un esempio di partita. Bal bla bla bla", date: "20/10", time: "21:30", league: "Girone A",  img: matchImg, initial: false },
-  { id: "2", teamA:teams[2], teamB:teams[5], score:[0, 1], description: "Questo è un esempio di partita. Bal bla bla bla", date: "20/10", time: "20:00", league: "Girone A",  img: matchImg, initial: false },
-  { id: "3", teamA:teams[4], teamB:teams[3], score:[0, 1], description: "Questo è un esempio di partita. Bal bla bla bla", date: "27/10", time: "21:30", league: "Girone A",  img: matchImg, initial: false },
-  { id: "4", teamA:teams[7], teamB:teams[0], score:[0, 1], description: "Questo è un esempio di partita. Prima partita  ", date: "27/10", time: "20:00", league: "Girone A",  img: matchImg, initial: true },
-  { id: "5", teamA:teams[0], teamB:teams[1], score:[0, 1], description: "Questo è un esempio di partita. Bal bla bla bla", date: "02/11",  time: "21:30", league: "Girone A", img: matchImg, initial: false },
-  { id: "6", teamA:teams[5], teamB:teams[6], score:[0, 1], description: "Questo è un esempio di partita. Bal bla bla bla", date: "02/11",  time: "20:00", league: "Girone A", img: matchImg, initial: false },
-  { id: "7", teamA:teams[6], teamB:teams[2], score:[0, 1], description: "Questo è un esempio di partita. Bal bla bla bla", date: "09/11",  time: "21:30", league: "Girone A", img: matchImg, initial: false },
+  { id: "1", teamA: teams[0], teamB: teams[1], score: [0, 1], description: "Questo è un esempio di partita. Bal bla bla bla", date: "20/10", time: "21:30", league: "Girone A", img: matchImg, initial: false },
+  { id: "2", teamA: teams[2], teamB: teams[5], score: [0, 1], description: "Questo è un esempio di partita. Bal bla bla bla", date: "20/10", time: "20:00", league: "Girone A", img: matchImg, initial: false },
+  { id: "3", teamA: teams[4], teamB: teams[3], score: [0, 1], description: "Questo è un esempio di partita. Bal bla bla bla", date: "27/10", time: "21:30", league: "Girone A", img: matchImg, initial: false },
+  { id: "4", teamA: teams[7], teamB: teams[0], score: [0, 1], description: "Questo è un esempio di partita. Prima partita  ", date: "27/10", time: "20:00", league: "Girone A", img: matchImg, initial: true },
+  { id: "5", teamA: teams[0], teamB: teams[1], score: [0, 1], description: "Questo è un esempio di partita. Bal bla bla bla", date: "02/11", time: "21:30", league: "Girone A", img: matchImg, initial: false },
+  { id: "6", teamA: teams[5], teamB: teams[6], score: [0, 1], description: "Questo è un esempio di partita. Bal bla bla bla", date: "02/11", time: "20:00", league: "Girone A", img: matchImg, initial: false },
+  { id: "7", teamA: teams[6], teamB: teams[2], score: [0, 1], description: "Questo è un esempio di partita. Bal bla bla bla", date: "09/11", time: "21:30", league: "Girone A", img: matchImg, initial: false },
 
 ];
 
