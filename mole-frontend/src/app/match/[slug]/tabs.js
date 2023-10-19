@@ -22,7 +22,7 @@ export default function MatchTabs(props) {
   return (
     <Box sx={{ margin: '10px' }}>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-        <Tabs value={value} onChange={handleChange} aria-label="tab rose" variant="scrollable" scrollButtons='auto'>
+        <Tabs value={value} onChange={handleChange} aria-label="tab rose">
           <Tab label={"Rosa " + props.teamA.name} {...a11yProps(0)} />
           <Tab label={"Rosa " + props.teamB.name} {...a11yProps(1)} />
         </Tabs>
