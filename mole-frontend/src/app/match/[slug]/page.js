@@ -59,12 +59,7 @@ export default function MatchPage({params}){
                 teamB = {dataExample.teamB}
                 league = {dataExample.league}
             />
-            <Container>
-                <StandingTable
-                    title = {dataExample.league.name}
-                    small
-                />
-            </Container>
+            
         </>
     );
 }

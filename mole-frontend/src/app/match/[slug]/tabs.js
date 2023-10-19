@@ -10,6 +10,8 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
+import StandingTable from '@/components/standingTable';
+
 
 
 export default function MatchTabs(props) {
@@ -22,9 +24,10 @@ export default function MatchTabs(props) {
   return (
     <Box sx={{ margin: '10px' }}>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-        <Tabs value={value} onChange={handleChange} aria-label="tab rose">
+        <Tabs value={value} onChange={handleChange} aria-label="tab rose" variant="scrollable" scrollButtons="auto">
           <Tab label={"Rosa " + props.teamA.name} {...a11yProps(0)} />
           <Tab label={"Rosa " + props.teamB.name} {...a11yProps(1)} />
+          <Tab label={props.league.name} {...a11yProps(2)} />
         </Tabs>
       </Box>
       <CustomTabPanel value={value} index={0}>
@@ -32,6 +35,9 @@ export default function MatchTabs(props) {
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
         <PlayerList playerList={props.teamB.playerList} />
+      </CustomTabPanel>
+      <CustomTabPanel value={value} index={2}>
+        <StandingTable title={props.league.name} />
       </CustomTabPanel>
     </Box>
   );
@@ -57,7 +63,7 @@ function CustomTabPanel(props) {
     >
       {value === index && (
         <Box>
-          { children }
+          {children}
         </Box>
       )}
     </div>
