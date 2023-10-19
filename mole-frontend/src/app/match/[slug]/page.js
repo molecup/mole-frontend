@@ -1,4 +1,5 @@
 import MatchHeader from '@/components/matchHeader';
+import PlayerList from '@/components/playerList';
 
 const dataExample = {
     teamA : {
