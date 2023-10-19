@@ -62,6 +62,7 @@ export default function MatchPage({params}){
             <Container>
                 <StandingTable
                     title = {dataExample.league.name}
+                    small
                 />
             </Container>
         </>
