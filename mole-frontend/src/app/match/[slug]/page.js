@@ -1,5 +1,7 @@
 import MatchHeader from '@/components/matchHeader';
 import MatchTabs from './tabs';
+import StandingTable from '@/components/standingTable';
+import Container from '@mui/material/Container';
 
 const playerList = [
     {firstName: "Giacomo", lastName: "Rossi", number: 10, img: null},
@@ -33,7 +35,9 @@ const dataExample = {
     score : [0, 1],
     time : "20:30",
     date : "20 ottobre 2023",
-    league : "girone a"
+    league : {
+        name: "Girone A",
+    }
 }
 
 export default function MatchPage({params}){
@@ -47,13 +51,19 @@ export default function MatchPage({params}){
                 teamA = {dataExample.teamA}
                 teamB = {dataExample.teamB}
                 scoreText = {scoreText}
-                league = {dataExample.league}
+                league = {dataExample.league.name}
                 date = {dataExample.date}
             />
             <MatchTabs
                 teamA = {dataExample.teamA}
                 teamB = {dataExample.teamB}
+                league = {dataExample.league}
             />
+            <Container>
+                <StandingTable
+                    title = {dataExample.league.name}
+                />
+            </Container>
         </>
     );
 }

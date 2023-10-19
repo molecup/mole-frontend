@@ -10,7 +10,6 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import Paper from '@mui/material/Paper';
 
 
 export default function MatchTabs(props) {
@@ -23,7 +22,7 @@ export default function MatchTabs(props) {
   return (
     <Box sx={{ margin: '10px' }}>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-        <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
+        <Tabs value={value} onChange={handleChange} aria-label="tab rose" variant="scrollable" scrollButtons='auto'>
           <Tab label={"Rosa " + props.teamA.name} {...a11yProps(0)} />
           <Tab label={"Rosa " + props.teamB.name} {...a11yProps(1)} />
         </Tabs>
@@ -41,7 +40,7 @@ export default function MatchTabs(props) {
 function a11yProps(index) {
   return {
     id: `simple-tab-${index}`,
-    'aria-controls': `simple-tabpanel-${index}`,
+    'aria-controls': `pannello tab-${index}`,
   };
 }
 

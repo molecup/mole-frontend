@@ -10,7 +10,7 @@ import Typography from '@mui/material/Typography';
 export default function PlayerList(props) {
     const { playerList } = props;
     return (
-        <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
+        <List sx={{ width: '100%', bgcolor: 'background.paper' }}>
             {playerList.sort((entry) => entry.number).map((player, i) =>
                 <Fragment key={i}>
                     <ListItem alignItems="flex-start">
