@@ -42,7 +42,7 @@ const matches = [
 
 const firstTeam = Math.round(teams.length / 2) - 2;
 
-export default function Home() {
+export default function MoleCup() {
   return (
     <>
       <CardSlider>
@@ -54,17 +54,6 @@ export default function Home() {
             initial={i === firstTeam}
             name={team.name}
             noTitle
-          />
-        )}
-      </CardSlider>
-      <CardSlider>
-        {teams.map((team, i) =>
-          <TeamCard
-            key={team.id}
-            img={team.img}
-            url={'/team/' + team.id}
-            initial={i === firstTeam}
-            name={team.name}
           />
         )}
       </CardSlider>
@@ -87,7 +76,7 @@ export default function Home() {
         )}
       </CardSlider>
       <Container sx={{ marginTop: "10px", marginBottom: "10px" }}>
-        <StandingTable title="Girone A" small />
+        <StandingTable title="Girone A" />
         <StandingTable title="Girone B" />
         <StandingTable title="Girone C" />
       </Container>
