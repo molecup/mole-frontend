@@ -14,6 +14,7 @@ import Chip from '@mui/material/Chip';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import Avatar from '@mui/material/Avatar';
 
+
 /*
 import VideocamIcon from '@mui/icons-material/Videocam';
 import PhotoCameraIcon from '@mui/icons-material/PhotoCamera';
@@ -46,7 +47,8 @@ export default function MatchCard(props) {
         <CardContent>
           <Stack direction='row' spacing={1} sx={{ justifyContent: "center", alignItems: "end" }}>
             <Typography variant="h4" color="textPrimary" textTransform="uppercase">{props.teamA.short}</Typography>
-            <Typography variant="h5" color="textPrimary">{props.scoreText}</Typography>
+            
+            <Chip color="primary" label={<Typography variant="h7">{props.scoreText}</Typography>} />
             <Typography variant="h4" color="textPrimary" textTransform="uppercase">{props.teamB.short}</Typography>
           </Stack>
           <Stack>
