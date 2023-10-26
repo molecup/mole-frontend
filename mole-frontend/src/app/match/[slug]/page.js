@@ -21,12 +21,14 @@ const playerList = [
 
 const dataExample = {
     teamA : {
+        id: "Alf",
         name : "Alfieri",
         short : "alf",
         img : "/alfieri.png",
         playerList: playerList,
     },
     teamB : {
+        id: "Alf",
         name : "Cattaneo",
         short : "cat",
         img : "/cattaneo.png",
