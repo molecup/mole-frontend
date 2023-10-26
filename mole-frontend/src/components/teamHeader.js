@@ -12,7 +12,7 @@ export default function TeamHeader(props) {
     return (
         <Paper sx={{ margin: "10px", padding: "10px" }}>
             <Stack sx={{ alignItems: 'center' }}>
-            <Avatar sx={{ width: 57, height: 57 }} alt={"logo " + props.name} src={props.img} />
+            <Avatar sx={{ width: 80, height: 80 }} alt={"logo " + props.name} src={props.img} />
             <Typography variant="h2">{props.name}</Typography>
             </Stack>
         </Paper>
