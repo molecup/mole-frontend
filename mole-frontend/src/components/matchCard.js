@@ -45,10 +45,9 @@ export default function MatchCard(props) {
           </div>
         </CardMedia>
         <CardContent>
-          <Stack direction='row' spacing={1} sx={{ justifyContent: "center", alignItems: "end" }}>
+          <Stack direction='row' spacing={1} sx={{ justifyContent: "center", alignItems: "center" }}>
             <Typography variant="h4" color="textPrimary" textTransform="uppercase">{props.teamA.short}</Typography>
-            
-            <Chip color="primary" label={<Typography variant="h7">{props.scoreText}</Typography>} />
+            <Chip label={<Typography variant="button">{props.scoreText}</Typography>} />
             <Typography variant="h4" color="textPrimary" textTransform="uppercase">{props.teamB.short}</Typography>
           </Stack>
           <Stack>
