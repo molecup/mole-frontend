@@ -71,7 +71,7 @@ export default function MoleCup() {
             date={match.date}
             time={match.time}
             league={match.league}
-            scoreText={match.score ? match.score[0] + " - " + match.score[1] : "-"}
+            scoreText={match.score ? match.score[0] + " - " + match.score[1] : match.time}
           />
         )}
       </CardSlider>
