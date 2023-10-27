@@ -2,6 +2,10 @@ import MatchHeader from '@/components/matchHeader';
 import MatchTabs from './tabs';
 import StandingTable from '@/components/standingTable';
 import Container from '@mui/material/Container';
+import TabLayout from '@/components/tabLayout';
+import Typography from '@mui/material/Typography';
+import PlayerList from '@/components/playerList';
+
 
 const playerList = [
     {firstName: "Giacomo", lastName: "Rossi", number: 10, img: null},
@@ -56,11 +60,13 @@ export default function MatchPage({params}){
                 league = {dataExample.league.name}
                 date = {dataExample.date}
             />
-            <MatchTabs
-                teamA = {dataExample.teamA}
-                teamB = {dataExample.teamB}
-                league = {dataExample.league}
-            />
+            <TabLayout 
+                labels = {[dataExample.teamA.name, dataExample.teamB.name, dataExample.league.name]}
+            >   
+                <PlayerList playerList={playerList} />
+                <PlayerList playerList={playerList} />
+                <StandingTable title={dataExample.league.name} />
+            </TabLayout>
             
         </>
     );
