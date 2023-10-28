@@ -1,3 +1,7 @@
+/*
+    source: https://www.w3schools.com/howto/howto_css_hero_image.asp
+*/
+
 import Box from '@mui/material/Box';
 
 export default function HeroHeader(props){
