@@ -86,7 +86,7 @@ export default function MoleCup() {
         )}
       </CardSlider>
       <Typography variant="h2" align="center" gutterBottom>Il torneo</Typography>
-      <Grid container sx={marginBottom} spacing={1}>
+      <Grid container sx={{...marginBottom, padding:"10px"}} spacing={1}>
         <StandingGrid>
           <StandingTable title="Girone A" />
         </StandingGrid>
