@@ -1,5 +1,4 @@
 import MatchHeader from '@/components/matchHeader';
-import MatchTabs from './tabs';
 import StandingTable from '@/components/standingTable';
 import Container from '@mui/material/Container';
 import TabLayout from '@/components/tabLayout';

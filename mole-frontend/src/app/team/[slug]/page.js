@@ -5,7 +5,7 @@ import TeamHeader from '@/components/teamHeader';
 import CardSlider from '@/components/cardSlider';
 import MatchCard from '@/components/matchCard';
 import StandingTable from '@/components/standingTable';
-import TeamTabs from './tabs';
+import TabLayout from '@/components/tabLayout';
 
 import matchImg from "@/components/static_media/match_placeholder.jpg";
 import alfieriImg from '@/components/static_media/alfieri.png';
@@ -77,10 +77,13 @@ export default function TeamPage({params}){
                 />
             )}
             </CardSlider>
-            <TeamTabs 
-                playerList = {playerList}
-                league = {{name: "Giorne A"}}
-            />
+            <TabLayout 
+                labels = {["Torneo", "Rosa giocatori", "News"]}
+            >
+                <StandingTable title="Girone A" />
+                <PlayerList playerList={playerList} />
+                <Typography variant="h3">News</Typography>
+            </TabLayout>
         </>
     );
 }
