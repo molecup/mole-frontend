@@ -1,11 +1,13 @@
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import PlayerList from '@/components/playerList';
-import TeamHeader from '@/components/teamHeader';
 import CardSlider from '@/components/cardSlider';
 import MatchCard from '@/components/matchCard';
 import StandingTable from '@/components/standingTable';
 import TabLayout from '@/components/tabLayout';
+import Stack from '@mui/system/Stack';
+import Avatar from '@mui/material/Avatar';
+import HeroHeader from '@/components/heroHeader';
 
 import matchImg from "@/components/static_media/match_placeholder.jpg";
 import alfieriImg from '@/components/static_media/alfieri.png';
@@ -85,5 +87,16 @@ export default function TeamPage({params}){
                 <Typography variant="h3">News</Typography>
             </TabLayout>
         </>
+    );
+}
+
+function TeamHeader(props) {
+    return (
+        <HeroHeader sx={{padding: "10px" }} src="/DSC_0618-1.jpg">
+            <Stack sx={{ alignItems: 'center' }}>
+            <Avatar sx={{ width: 80, height: 80 }} alt={"logo " + props.name} src={props.img} />
+            <Typography variant="h1" color="white">{props.name}</Typography>
+            </Stack>
+        </HeroHeader>
     );
 }
