@@ -3,6 +3,8 @@
 */
 
 import Box from '@mui/material/Box';
+import Stack from '@mui/system/Stack';
+
 
 export default function HeroHeader(props){
     const {children, sx, src, ...otherProps} = props;
@@ -12,16 +14,23 @@ export default function HeroHeader(props){
 
         /* Set a specific height */
         height: "50%",
+        minHeight: "200px",
 
         /* Position and center the image to scale nicely on all screens */
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat",
         backgroundSize: "cover",
         position: "relative",
+
+        display:"flex",
+        alignItems: "center",
+        justifyContent:"center",
     }
     return(
         <Box sx={{...style, ...sx}} {...otherProps}>
+            <Stack sx={{alignItems:"center"}}>
             {children}
+            </Stack>
         </Box>
     );
 }

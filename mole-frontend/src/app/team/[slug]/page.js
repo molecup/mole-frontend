@@ -92,11 +92,11 @@ export default function TeamPage({params}){
 
 function TeamHeader(props) {
     return (
-        <HeroHeader sx={{padding: "10px" }} src="/DSC_0618-1.jpg">
-            <Stack sx={{ alignItems: 'center' }}>
-            <Avatar sx={{ width: 80, height: 80 }} alt={"logo " + props.name} src={props.img} />
-            <Typography variant="h1" color="white">{props.name}</Typography>
-            </Stack>
-        </HeroHeader>
+        <>
+            <HeroHeader sx={{padding: "10px"}} src="/DSC_0618-1.jpg">
+                <Typography variant="h1" color="white">{props.name}</Typography>
+                <Avatar sx={{ width: 80, height: 80 }} alt={"logo " + props.name} src={props.img} variant="rounded" />
+            </HeroHeader>
+        </> 
     );
 }
