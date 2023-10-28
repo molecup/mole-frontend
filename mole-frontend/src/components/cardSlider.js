@@ -12,7 +12,7 @@ import ArrowBackIosRoundedIcon from '@mui/icons-material/ArrowBackIosRounded';
 import Box from '@mui/system/Box';
 
 export default function CardSlider(props){
-  const { children } = props;
+  const { children, sx, ...otherProps } = props;
   const ref = useRef();
 
   const isVisible = (node, container) => {
@@ -134,7 +134,7 @@ export default function CardSlider(props){
   };
 
   return(
-    <Box sx={{position: 'relative', height:'auto', width: '100%'}}>
+    <Box sx={{position: 'relative', height:'auto', width: '100%', ...sx}} {...otherProps}>
       <Stack 
         direction="row" 
         spacing={1.5} 
