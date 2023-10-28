@@ -8,6 +8,7 @@ import TabLayout from '@/components/tabLayout';
 import Stack from '@mui/system/Stack';
 import Avatar from '@mui/material/Avatar';
 import HeroHeader from '@/components/heroHeader';
+import CircularStatistics from '@/components/circularStatistics';
 
 import matchImg from "@/components/static_media/match_placeholder.jpg";
 import alfieriImg from '@/components/static_media/alfieri.png';
@@ -55,6 +56,7 @@ const matches = [
     { id: "5", teamA: teams[0], teamB: teams[1], score: null, description: "Questo è un esempio di partita. Bal bla bla bla", date: "02/11", time: "21:30", league: "Girone B", img: matchImg, initial: false },
   ];
 
+
 export default function TeamPage({params}){
     return(
         <>
@@ -62,6 +64,16 @@ export default function TeamPage({params}){
                 name = "Alfieri"
                 img = "/alfieri.png"
             />
+            <Container sx={{padding:"10px"}}>
+                <CircularStatistics 
+                    statistics={[
+                        {title: "Edizioni", value:4, tot:4},
+                        {title: "vittorie", value:23, tot:30, color:"success"},
+                        {title: "Tifosi", value: 1500, tot:50000, hideTot:true}
+                    ]}
+                />
+            </Container>
+            
             <CardSlider>
             {matches.map((match, i) =>
                 <MatchCard
