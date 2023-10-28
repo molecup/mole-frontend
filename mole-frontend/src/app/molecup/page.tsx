@@ -4,6 +4,8 @@ import TeamCard from '@/components/teamCard';
 import Typography from '@mui/material/Typography';
 import StandingTable from '@/components/standingTable';
 import Container from '@mui/material/Container';
+import HeroHeader from '@/components/heroHeader';
+import Grid from '@mui/material/Unstable_Grid2';
 
 import matchImg from "@/components/static_media/match_placeholder.jpg";
 import alfieriImg from '@/components/static_media/alfieri.png';
@@ -42,10 +44,18 @@ const matches = [
 
 const firstTeam = Math.round(teams.length / 2) - 2;
 
+const marginBottom = {
+  marginBottom: "20px",
+}
+
 export default function MoleCup() {
   return (
     <>
-      <CardSlider>
+      <HeroHeader src="/DSC_0666-3.jpg">
+        <Typography variant="h1" color="white" textTransform="uppercase">Mole Cup</Typography>
+        <Typography variant="h6" color="white">Dodici squadre, un solo campione</Typography>
+      </HeroHeader>
+      <CardSlider sx={marginBottom}>
         {teams.map((team, i) =>
           <TeamCard
             key={team.id}
@@ -58,7 +68,7 @@ export default function MoleCup() {
         )}
       </CardSlider>
       <Typography variant='h2' align='center' gutterBottom>Le partite</Typography>
-      <CardSlider>
+      <CardSlider sx={marginBottom}>
         {matches.map((match, i) =>
           <MatchCard
             key={match.id}
@@ -75,11 +85,27 @@ export default function MoleCup() {
           />
         )}
       </CardSlider>
-      <Container sx={{ marginTop: "10px", marginBottom: "10px" }}>
-        <StandingTable title="Girone A" />
-        <StandingTable title="Girone B" />
-        <StandingTable title="Girone C" />
-      </Container>
+      <Typography variant="h2" align="center" gutterBottom>Il torneo</Typography>
+      <Grid container sx={marginBottom} spacing={1}>
+        <StandingGrid>
+          <StandingTable title="Girone A" />
+        </StandingGrid>
+        <StandingGrid>
+          <StandingTable title="Girone B" />
+        </StandingGrid>
+        <StandingGrid>
+          <StandingTable title="Girone C" />
+        </StandingGrid>
+      </Grid>
     </>
+  )
+}
+
+function StandingGrid(props: any){
+  const {children, ...otherProps} = props;
+  return(
+    <Grid xs={12} sm={6} lg={4} {...otherProps}>
+      {children}
+    </Grid>
   )
 }
