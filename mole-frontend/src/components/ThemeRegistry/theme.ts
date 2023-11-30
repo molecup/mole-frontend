@@ -1,4 +1,4 @@
-import {Cabin, Roboto } from 'next/font/google';
+import {Antonio, Cabin, Roboto } from 'next/font/google';
 import { createTheme, responsiveFontSizes } from '@mui/material/styles';
 
 const roboto = Roboto({
@@ -13,10 +13,18 @@ const cabin = Cabin({
   display: 'swap',
 })
 
+const antonio = Antonio({
+  weight: ['400', '500', '600', '700'],
+  subsets: ['latin'],
+  display: 'swap',
+});
+
 const theme = responsiveFontSizes(createTheme({
   palette: {
     primary: {
-      main: '#4963F4',
+      // main: '#4963F4',
+      // main : '#EC1E4E',
+      main: '#EB1E4D',
     },
     secondary: {
       main: "#4B4E59",
@@ -24,7 +32,7 @@ const theme = responsiveFontSizes(createTheme({
     mode: 'light',
   },
   typography: {
-    fontFamily: cabin.style.fontFamily,
+    fontFamily: antonio.style.fontFamily,
   },
   components: {
     MuiAlert: {
