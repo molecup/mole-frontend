@@ -23,8 +23,8 @@ const theme = responsiveFontSizes(createTheme({
   palette: {
     primary: {
       // main: '#4963F4',
-      // main : '#EC1E4E',
-      main: '#EB1E4D',
+      main : '#EC1E4E',
+      //main: '#EB1E4D',
     },
     secondary: {
       main: "#4B4E59",
