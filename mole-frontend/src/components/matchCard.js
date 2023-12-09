@@ -13,6 +13,8 @@ import Link from "next/link";
 import Chip from '@mui/material/Chip';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import Avatar from '@mui/material/Avatar';
+import defaultImg from "@/components/static_media/match_placeholder.jpg";
+
 
 
 /*
@@ -25,6 +27,7 @@ import Stack from '@mui/material/Stack';
 
 
 export default function MatchCard(props) {
+  const imgUrl = props.img ? process.env.NEXT_PUBLIC_MEDIA_URL + props.img.data.attributes.formats.medium.url : defaultImg;
   return (
     <Card sx={{
       MaxWidth: 200,
@@ -41,7 +44,7 @@ export default function MatchCard(props) {
           title="Match_placeholder"
         >
           <div style={{ position: 'relative', width: '100%', height: '100%', opacity: 0.9 }}>
-            <Image alt="Image placeholder" src={props.img} fill='true' style={{ objectFit: "cover" }} sizes="(max-width: 768px) 50vw, (max-width: 1200px) 25vw, 12vw" />
+            <Image alt="Image placeholder" src={imgUrl} fill='true' style={{ objectFit: "cover" }} sizes="(max-width: 768px) 50vw, (max-width: 1200px) 25vw, 12vw" />
           </div>
         </CardMedia>
         <CardContent>

@@ -1,3 +1,4 @@
+import publicFetch from '@/lib/publicFetch';
 import CardSlider from '@/components/cardSlider';
 import MatchCard from '@/components/matchCard';
 import TeamCard from '@/components/teamCard';
@@ -48,41 +49,70 @@ const marginBottom = {
   marginBottom: "20px",
 }
 
-export default function MoleCup() {
+async function getStandingTables(){
+  const path = "/api/league-standings/mole-cup";
+  const res  = await publicFetch(path);
+  return res.data;
+}
+
+async function getMatches(){
+  const path = "/api/matches-report";
+  const res  = await publicFetch(path);
+  return res.data;
+}
+
+async function getTournamentInfo(){
+  const SLUG = "mole-cup";
+  const path = `/api/tournaments?filter[slug]=${SLUG}&populate[teams][populate]=logo&populate[article_tags]=1&fields[0]=name&fields[1]=year`;
+  const res  = await publicFetch(path);
+  return res.data;
+}
+
+export default async function MoleCup() {
+  const [tournamentInfo, standingTables1, matches] =  await Promise.all([getTournamentInfo(), getStandingTables(), getMatches()]);
+  const tournament = tournamentInfo[0].attributes;
+  const teams = tournament.teams.data;
+  //console.log(matches);
   return (
     <>
       <HeroHeader src="/DSC_0666-3.jpg">
-        <Typography variant="h1" color="white" textTransform="uppercase">Mole Cup</Typography>
+        <Typography variant="h1" color="white" textTransform="uppercase">{tournament.name}</Typography>
         <Typography variant="h6" color="white">Dodici squadre, un solo campione</Typography>
       </HeroHeader>
       <CardSlider sx={marginBottom}>
-        {teams.map((team, i) =>
+        {teams.map((team : any, i : number) =>
           <TeamCard
             key={team.id}
-            img={team.img}
-            url={'/team/' + team.id}
+            img={team.attributes.logo}
+            url={'/team/' + team.attributes.slug} 
             initial={i === firstTeam}
-            name={team.name}
+            name={team.attributes.name}
             noTitle
           />
         )}
       </CardSlider>
       <Typography variant='h2' align='center' gutterBottom>Le partite</Typography>
       <CardSlider sx={marginBottom}>
-        {matches.map((match, i) =>
-          <MatchCard
-            key={match.id}
-            img={match.img}
-            url={'/match/' + match.id}
-            initial={match.initial}
-            teamA={match.teamA}
-            teamB={match.teamB}
-            description={match.description}
-            date={match.date}
-            time={match.time}
-            league={match.league}
-            scoreText={match.score ? match.score[0] + " - " + match.score[1] : match.time}
-          />
+        {matches.map((match : any, i : number) => {
+          const date = new Date(match.date);
+          const time = `${("00" + date.getHours()).slice(-2)}:${("00" + date.getMinutes()).slice(-2)}`
+          console.log(match);
+          return(
+            <MatchCard
+              key={match.id}
+              img={match.cover}
+              url={'/match/' + match.id}
+              initial={match.status === "finished"}
+              teamA={match.teamA}
+              teamB={match.teamB}
+              date={`${date.getDate()}/${date.getMonth()}`}
+              time={time}
+              league={match.league.name}
+              scoreText={match.status === "finished" ? match.score[0] + " - " + match.score[1] : time}
+            />
+          );
+        }
+          
         )}
       </CardSlider>
       <Typography variant="h2" align="center" gutterBottom>Il torneo</Typography>

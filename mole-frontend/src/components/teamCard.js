@@ -8,6 +8,7 @@ import Link from "next/link";
 
 
 export default function TeamCard(props){
+    const imgUrl = process.env.NEXT_PUBLIC_MEDIA_URL + props.img.data.attributes.formats.small.url;
     return(
         <Card sx={{
             MaxWidth: props.noTitle? 140 : 180,
@@ -24,7 +25,7 @@ export default function TeamCard(props){
                     title="Match_placeholder"
                 >
                     <div style={{ position: 'relative', width: '100%', height: '100%'}}>
-                        <Image alt="Image placeholder" src={props.img}  fill='true' style={{objectFit: "fill"}} sizes="(max-width: 768px) 50vw, (max-width: 1200px) 25vw, 12vw"/>
+                        <Image alt="Image placeholder" src={imgUrl}  fill='true' style={{objectFit: "fill"}} sizes="(max-width: 768px) 50vw, (max-width: 1200px) 25vw, 12vw"/>
                     </div>
                     
                 </CardMedia>
