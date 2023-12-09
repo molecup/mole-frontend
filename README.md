@@ -1,5 +1,5 @@
-# Mole Fronted
-Repository for a NextJS react frontend
+# Mole Fronted demo
+Repository for a NextJS react frontend. This branch is a discontinued frontend version with no connection to API and dev data
 
 ## Project creation and deployment
 The ReactJS project has been created with NextJS using Typescript support, ESLint and NextJS App router. Please refer to https://nextjs.org/docs for the extensive documentation.
