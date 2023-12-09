@@ -8,7 +8,7 @@ import Link from "next/link";
 
 
 export default function TeamCard(props){
-    const imgUrl = process.env.NEXT_PUBLIC_MEDIA_URL + props.img.data.attributes.formats.small.url;
+    const imgUrl = process.env.NEXT_PUBLIC_MEDIA_URL + props.img.formats.small.url;
     return(
         <Card sx={{
             MaxWidth: props.noTitle? 140 : 180,

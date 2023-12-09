@@ -27,7 +27,7 @@ import Stack from '@mui/material/Stack';
 
 
 export default function MatchCard(props) {
-  const imgUrl = props.img ? process.env.NEXT_PUBLIC_MEDIA_URL + props.img.data.attributes.formats.medium.url : defaultImg;
+  const imgUrl = props.img ? process.env.NEXT_PUBLIC_MEDIA_URL + props.img.formats.medium.url : defaultImg;
   return (
     <Card sx={{
       MaxWidth: 200,

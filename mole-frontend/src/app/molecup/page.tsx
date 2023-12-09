@@ -71,7 +71,7 @@ async function getTournamentInfo(){
 }
 
 export default async function MoleCup() {
-  const [tournamentInfo, standingTables1, matches] =  await Promise.all([getTournamentInfo(), getStandingTables(), getMatches()]);
+  const [tournamentInfo, standingTables, matches] =  await Promise.all([getTournamentInfo(), getStandingTables(), getMatches()]);
   const tournament = tournamentInfo[0].attributes;
   const teams = tournament.teams.data;
   const firstTeam = Math.round(teams.length / 2) - 2;
@@ -86,7 +86,7 @@ export default async function MoleCup() {
         {teams.map((team : any, i : number) =>
           <TeamCard
             key={team.id}
-            img={team.attributes.logo}
+            img={team.attributes.logo.data.attributes}
             url={'/team/' + team.attributes.slug} 
             initial={i === firstTeam}
             name={team.attributes.name}

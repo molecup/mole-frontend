@@ -9,7 +9,8 @@ export default async function publicFetch(path : string){
     const request = process.env.API_URL + path;
     const token = process.env.API_TOKEN;
     const res = await fetch(request, {
-        headers: {Authorization: `Bearer ${token}`}
+        headers: {Authorization: `Bearer ${token}`},
+        next: { revalidate: 60 }
     });
     if (!res.ok) {
     // This will activate the closest `error.js` Error Boundary
