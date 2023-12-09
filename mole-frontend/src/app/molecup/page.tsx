@@ -8,6 +8,7 @@ import Container from '@mui/material/Container';
 import HeroHeader from '@/components/heroHeader';
 import Grid from '@mui/material/Unstable_Grid2';
 
+/*
 import matchImg from "@/components/static_media/match_placeholder.jpg";
 import alfieriImg from '@/components/static_media/alfieri.png';
 import gobettiImg from '@/components/static_media/gobetti.png';
@@ -18,7 +19,10 @@ import cavourImg from '@/components/static_media/cavour.png';
 import convittoImg from '@/components/static_media/convitto.jpeg';
 import dazeImg from '@/components/static_media/dazeglio.png';
 import majoImg from '@/components/static_media/majo.png';
+*/
 
+//hard-coded dev data
+/*
 const teams = [
   { id: "alf", name: "Alfieri", short: "Alf", img: alfieriImg },
   { id: "gob", name: "Gobetti", short: "Gob", img: gobettiImg },
@@ -41,9 +45,7 @@ const matches = [
   { id: "7", teamA: teams[6], teamB: teams[2], score: null, description: "Questo è un esempio di partita. Bal bla bla bla", date: "09/11", time: "21:30", league: "Girone C", img: matchImg, initial: false },
 
 ];
-
-
-const firstTeam = Math.round(teams.length / 2) - 2;
+*/
 
 const marginBottom = {
   marginBottom: "20px",
@@ -72,7 +74,8 @@ export default async function MoleCup() {
   const [tournamentInfo, standingTables1, matches] =  await Promise.all([getTournamentInfo(), getStandingTables(), getMatches()]);
   const tournament = tournamentInfo[0].attributes;
   const teams = tournament.teams.data;
-  //console.log(matches);
+  const firstTeam = Math.round(teams.length / 2) - 2;
+  console.log(matches);
   return (
     <>
       <HeroHeader src="/DSC_0666-3.jpg">
@@ -95,8 +98,8 @@ export default async function MoleCup() {
       <CardSlider sx={marginBottom}>
         {matches.map((match : any, i : number) => {
           const date = new Date(match.date);
-          const time = `${("00" + date.getHours()).slice(-2)}:${("00" + date.getMinutes()).slice(-2)}`
-          console.log(match);
+          const time = `${("00" + date.getHours()).slice(-2)}:${("00" + date.getMinutes()).slice(-2)}`;
+          //console.log(match)
           return(
             <MatchCard
               key={match.id}
@@ -112,7 +115,6 @@ export default async function MoleCup() {
             />
           );
         }
-          
         )}
       </CardSlider>
       <Typography variant="h2" align="center" gutterBottom>Il torneo</Typography>
