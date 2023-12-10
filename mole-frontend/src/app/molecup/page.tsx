@@ -7,6 +7,7 @@ import StandingTable from '@/components/standingTable';
 import Container from '@mui/material/Container';
 import HeroHeader from '@/components/heroHeader';
 import Grid from '@mui/material/Unstable_Grid2';
+import { teamRank } from '@/lib/commonInterfaces';
 
 /*
 import matchImg from "@/components/static_media/match_placeholder.jpg";
@@ -120,13 +121,12 @@ export default async function MoleCup() {
       <Typography variant="h2" align="center" gutterBottom>Il torneo</Typography>
       <Grid container sx={{...marginBottom, padding:"10px"}} spacing={1}>
         <StandingGrid>
-          <StandingTable title="Girone A" />
-        </StandingGrid>
-        <StandingGrid>
-          <StandingTable title="Girone B" />
-        </StandingGrid>
-        <StandingGrid>
-          <StandingTable title="Girone C" />
+          {standingTables.map((table : {teams : teamRank[], name : string}, i : number) => 
+            <StandingTable 
+              title = {table.name}
+              teamRanks = {table.teams}
+            />
+          )}
         </StandingGrid>
       </Grid>
     </>
