@@ -71,7 +71,7 @@ async function getTeamData(slug : string){
 }
 
 async function getTeamMatches(slug : string){
-    const path = `/api/matches-report/${slug}`;
+    const path = `/api/matches-report/team/${slug}`;
     const res  = await publicFetch(path);
     return res.data; 
 }

@@ -8,6 +8,10 @@ import Stack from '@mui/system/Stack';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Link from 'next/link';
+import { teamInterface } from '@/lib/commonInterfaces';
+import outImg from '@/lib/outImg';
+import publicFetch from '@/lib/publicFetch';
+import { Warning } from '@mui/icons-material';
 
 
 const playerList = [
@@ -49,26 +53,49 @@ const dataExample = {
     }
 }
 
-export default function MatchPage({params}){
-    let scoreText = dataExample.time;
-    if (dataExample.score !== undefined){
-        scoreText = dataExample.score[0] + " - " + dataExample.score[1];
+async function getMatchInfo(id : number){
+    const path = "/api/matches-report/" + id;
+    const res  = await publicFetch(path);
+    if(!Array.isArray(res.data) || res.data.length !== 1){
+        throw new Error("Partita non trovata");
     }
+    return res.data[0];
+}
+
+async function getStandingTable(leagueId : number){
+    const path = "/api/league-standings/" + leagueId;
+    const res  = await publicFetch(path);
+    if(!Array.isArray(res.data) || res.data.length !== 1){
+        console.log("ERROR. Standing table not found")
+        return null;
+    }
+    return res.data[0];
+}
+
+export default async function MatchPage({params} : {params : {slug : number}}){
+    const matchInfo = await getMatchInfo(params.slug);
+    const standingTable = await getStandingTable(matchInfo.league.id);
+    const date = new Date(matchInfo.date);
+    const time = `${("00" + date.getHours()).slice(-2)}:${("00" + date.getMinutes()).slice(-2)}`;
+    const scoreText = matchInfo.score ? dataExample.score[0] + " - " + dataExample.score[1] : time;
     return(
         <>
             <MatchHeader 
-                teamA = {dataExample.teamA}
-                teamB = {dataExample.teamB}
+                teamA = {matchInfo.teamA}
+                teamB = {matchInfo.teamB}
                 scoreText = {scoreText}
-                league = {dataExample.league.name}
-                date = {dataExample.date}
+                league = {matchInfo.league.name}
+                date = {`${date.getDate()}/${date.getMonth()}`}
             />
             <TabLayout 
-                labels = {[dataExample.teamA.name, dataExample.teamB.name, dataExample.league.name]}
+                labels = {[matchInfo.teamA.name, matchInfo.teamB.name, matchInfo.league.name]}
             >   
                 <PlayerList playerList={playerList} />
                 <PlayerList playerList={playerList} />
-                <StandingTable title={dataExample.league.name} />
+                {standingTable && <StandingTable 
+                    title={standingTable.name} 
+                    teamRanks={standingTable.teams}
+                /> }
             </TabLayout>
             
         </>
@@ -80,18 +107,29 @@ const capitalizeStyle = {
     textDecoration: "none",
 }
 
-function MatchHeader(props) {
-    const teamALink = "/team/" + props.teamA.id;
-    const teamBLink = "/team/" + props.teamB.id;
+interface matchHeaderInterface{
+    teamA : teamInterface,
+    teamB : teamInterface,
+    scoreText : string,
+    league : string,
+    date : string,
+}
+
+function MatchHeader(props : matchHeaderInterface) {
+    const teamALink = "/team/" + props.teamA.slug;
+    const teamBLink = "/team/" + props.teamB.slug;
+    const imgA = outImg(props.teamA.logo?.formats.thumbnail.url);
+    const imgB = outImg(props.teamB.logo?.formats.thumbnail.url);
+
     return (
         <Paper sx={{ margin: "10px", padding: "10px" }}>
             <Stack sx={{ alignItems: 'center' }}>
                 <Stack direction="row" sx={{ justifyContent: "center", alignItems: "center" }} spacing={2}>
-                    <Avatar sx={{ width: 57, height: 57 }} href={teamALink} component={Link} alt={"logo " + props.teamA.name} src={props.teamA.img}/>
+                    <Avatar sx={{ width: 57, height: 57 }} href={teamALink} component={Link} alt={"logo " + props.teamA.name} src={imgA}/>
                     <Typography variant="h2" color="primary" sx={capitalizeStyle} href={teamALink} component={Link}>{props.teamA.short}</Typography>
                     <Typography variant="h3">{props.scoreText}</Typography>
                     <Typography variant="h2" color="primary" sx={capitalizeStyle} href={teamBLink} component={Link}>{props.teamB.short}</Typography>
-                    <Avatar sx={{ width: 57, height: 57 }} href={teamBLink} component={Link} alt={"logo " + props.teamB.name} src={props.teamB.img} />
+                    <Avatar sx={{ width: 57, height: 57 }} href={teamBLink} component={Link} alt={"logo " + props.teamB.name} src={imgB} />
                 </Stack>
                 <Typography variant="overline" sx={{ textAlign: "center" }}>{props.league}</Typography>
                 <Typography variant="h5" sx={{ textAlign: "center", ...capitalizeStyle }} gutterBottom>{props.date}</Typography>

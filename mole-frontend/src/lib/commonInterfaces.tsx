@@ -19,10 +19,11 @@ export interface imgFormatsInterface{
 }
 
 export interface teamInterface {
-    id : string, 
+    id : number, 
     name : string, 
     short: string,
     slug : string,
+    logo: imgFormatsInterface | null,
 }
 
 export type teamRankInterface  = {
@@ -34,5 +35,5 @@ export type teamRankInterface  = {
     w: number,
     t: number,
     l: number,
-    logo: imgFormatsInterface | null,
+    
 } & teamInterface;
