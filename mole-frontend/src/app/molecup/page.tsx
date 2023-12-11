@@ -123,6 +123,7 @@ export default async function MoleCup() {
         <StandingGrid>
           {standingTables.map((table : {teams : teamRankInterface[], name : string}, i : number) => 
             <StandingTable 
+              key = {i}
               title = {table.name}
               teamRanks = {table.teams}
             />
