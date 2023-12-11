@@ -64,6 +64,9 @@ const matches = [
 async function getTeamData(slug : string){
     const path = `/api/teams?filters[slug][$eq]=${slug}&populate[logo]=1&populate[cover]=1`;
     const res  = await publicFetch(path);
+    if(!Array.isArray(res.data) || res.data.length === 0){
+        throw new Error('Squadra non trovata');
+    }
     return res.data[0];
 }
 
