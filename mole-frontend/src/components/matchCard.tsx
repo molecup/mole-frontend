@@ -26,7 +26,7 @@ import CheckIcon from '@mui/icons-material/Check';
 */
 import Stack from '@mui/material/Stack';
 
-interface matchCardProps {
+export interface matchCardProps {
   url : string,
   teamA : teamInterface,
   teamB : teamInterface,
