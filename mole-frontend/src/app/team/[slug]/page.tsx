@@ -9,6 +9,9 @@ import Stack from '@mui/system/Stack';
 import Avatar from '@mui/material/Avatar';
 import HeroHeader from '@/components/heroHeader';
 import CircularStatistics from '@/components/circularStatistics';
+import publicFetch from '@/lib/publicFetch';
+import outImg from '@/lib/outImg';
+import { imgFormatsInterface, teamRankInterface } from '@/lib/commonInterfaces';
 
 import matchImg from "@/components/static_media/match_placeholder.jpg";
 import alfieriImg from '@/components/static_media/alfieri.png';
@@ -38,6 +41,7 @@ const playerList = [
 
 ];
 
+/*
 const teams = [
     { id: "alf", name: "Alfieri", short: "Alf", img: alfieriImg },
     { id: "gob", name: "Gobetti", short: "Gob", img: gobettiImg },
@@ -55,14 +59,33 @@ const matches = [
     { id: "4", teamA: teams[7], teamB: teams[0], score: null, description: "Questo è un esempio di partita. Prima partita  ", date: "27/10", time: "20:00", league: "Girone A", img: matchImg, initial: true },
     { id: "5", teamA: teams[0], teamB: teams[1], score: null, description: "Questo è un esempio di partita. Bal bla bla bla", date: "02/11", time: "21:30", league: "Girone B", img: matchImg, initial: false },
   ];
+  */
 
+async function getTeamData(slug : string){
+    const path = `/api/teams?filters[slug][$eq]=${slug}&populate[logo]=1&populate[cover]=1`;
+    const res  = await publicFetch(path);
+    return res.data[0];
+}
 
-export default function TeamPage({params}){
+async function getTeamMatches(slug : string){
+    const path = `/api/matches-report/${slug}`;
+    const res  = await publicFetch(path);
+    return res.data; 
+}
+
+async function getTeamLeagues(slug : string){
+    const path = `/api/league-standings/team/${slug}`;
+    const res  = await publicFetch(path);
+    return res.data; 
+}
+
+export default async function TeamPage({params} : {params : {slug : string}}){
+    const [teamData, teamMatches, teamLeagues] = await Promise.all([getTeamData(params.slug), getTeamMatches(params.slug), getTeamLeagues(params.slug)]);
     return(
         <>
             <TeamHeader
-                name = "Alfieri"
-                img = "/alfieri.png"
+                name = {teamData.attributes.name}
+                img = {teamData.attributes.logo.data.attributes}
             />
             <Container sx={{padding:"10px"}}>
                 <CircularStatistics 
@@ -75,26 +98,39 @@ export default function TeamPage({params}){
             </Container>
             
             <CardSlider>
-            {matches.map((match, i) =>
-                <MatchCard
-                    key={match.id}
-                    img={match.img}
-                    url={'/match/' + match.id}
-                    initial={match.initial}
-                    teamA={match.teamA}
-                    teamB={match.teamB}
-                    description={match.description}
-                    date={match.date}
-                    time={match.time}
-                    league={match.league}
-                    scoreText={match.score ? match.score[0] + " - " + match.score[1] : match.time}
-                />
+            {teamMatches && Array.isArray(teamMatches) && teamMatches.map((match : any, i : number) => {
+                    const date = new Date(match.date);
+                    const time = `${("00" + date.getHours()).slice(-2)}:${("00" + date.getMinutes()).slice(-2)}`;
+                    return(
+                        <MatchCard
+                            key={match.id}
+                            img={match.cover}
+                            url={'/match/' + match.id}
+                            initial={match.initial}
+                            teamA={match.teamA}
+                            teamB={match.teamB}
+                            date={`${date.getDate()}/${date.getMonth()}`}
+                            time={time}
+                            league={match.league.name}
+                            scoreText={match.status === "finished" ? match.score[0] + " - " + match.score[1] : time}
+                        />
+                    );
+                }
             )}
             </CardSlider>
             <TabLayout 
                 labels = {["Torneo", "Rosa giocatori", "News"]}
             >
-                <StandingTable title="Girone A" />
+                <>
+                    {teamLeagues && Array.isArray(teamLeagues) && teamLeagues.map((table : {teams : teamRankInterface[], name : string}, i : number) => 
+                        <StandingTable 
+                        key = {i}
+                        title = {table.name}
+                        teamRanks = {table.teams}
+                        small
+                        />
+                    )}
+                </>
                 <PlayerList playerList={playerList} />
                 <Typography variant="h3">News</Typography>
             </TabLayout>
@@ -102,12 +138,18 @@ export default function TeamPage({params}){
     );
 }
 
-function TeamHeader(props) {
+interface teamHeaderProps {
+    name : string,
+    img : imgFormatsInterface
+}
+
+function TeamHeader(props : teamHeaderProps) {
+    const imgUrl = outImg(props.img.formats.medium.url);
     return (
         <>
             <HeroHeader sx={{padding: "10px"}} src="/DSC_0618-1.jpg">
                 <Typography variant="h1" color="white">{props.name}</Typography>
-                <Avatar sx={{ width: 80, height: 80 }} alt={"logo " + props.name} src={props.img} variant="rounded" />
+                <Avatar sx={{ width: 80, height: 80 }} alt={"logo " + props.name} src={imgUrl} variant="rounded" />
             </HeroHeader>
         </> 
     );

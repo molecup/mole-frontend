@@ -97,7 +97,7 @@ export default async function MoleCup() {
       </CardSlider>
       <Typography variant='h2' align='center' gutterBottom>Le partite</Typography>
       <CardSlider sx={marginBottom}>
-        {matches.map((match : any, i : number) => {
+        {matches && Array.isArray(matches) && matches.map((match : any, i : number) => {
           const date = new Date(match.date);
           const time = `${("00" + date.getHours()).slice(-2)}:${("00" + date.getMinutes()).slice(-2)}`;
           //console.log(match)
@@ -121,7 +121,7 @@ export default async function MoleCup() {
       <Typography variant="h2" align="center" gutterBottom>Il torneo</Typography>
       <Grid container sx={{...marginBottom, padding:"10px"}} spacing={1}>
         <StandingGrid>
-          {standingTables.map((table : {teams : teamRankInterface[], name : string}, i : number) => 
+          {standingTables && Array.isArray(standingTables) && standingTables.map((table : {teams : teamRankInterface[], name : string}, i : number) => 
             <StandingTable 
               key = {i}
               title = {table.name}

@@ -9,7 +9,11 @@ export default async function publicFetch(path : string){
     const request = process.env.API_URL + path;
     const token = process.env.API_TOKEN;
     const res = await fetch(request, {
-        headers: {Authorization: `Bearer ${token}`},
+        method: "GET",
+        headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json'
+        },
         next: { revalidate: 60 }
     });
     if (!res.ok) {
