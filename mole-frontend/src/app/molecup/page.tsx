@@ -53,13 +53,13 @@ const marginBottom = {
 }
 
 async function getStandingTables(){
-  const path = "/api/league-standings/mole-cup";
+  const path = "/api/league-standings/tournament/mole-cup";
   const res  = await publicFetch(path);
   return res.data;
 }
 
 async function getMatches(){
-  const path = "/api/matches-report/";
+  const path = "/api/matches-report/tournament/mole-cup";
   const res  = await publicFetch(path);
   return res.data;
 }
@@ -83,7 +83,7 @@ export default async function MoleCup() {
         <Typography variant="h6" color="white">Dodici squadre, un solo campione</Typography>
       </HeroHeader>
       <CardSlider sx={marginBottom}>
-        {teams.map((team : any, i : number) =>
+        {teams && Array.isArray(teams) && teams.map((team : any, i : number) =>
           <TeamCard
             key={team.id}
             img={team.attributes.logo.data.attributes}
@@ -129,7 +129,7 @@ export default async function MoleCup() {
               teamRanks = {table.teams}
             />
           ) :
-            <Typography>Nessuna partita trovata</Typography>
+            <Typography>Nessun girone trovato</Typography>
           }
         </StandingGrid>
       </Grid>
