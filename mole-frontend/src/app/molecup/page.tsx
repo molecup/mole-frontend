@@ -76,7 +76,6 @@ export default async function MoleCup() {
   const tournament = tournamentInfo[0].attributes;
   const teams = tournament.teams.data;
   const firstTeam = Math.round(teams.length / 2) - 2;
-  console.log(matches);
   return (
     <>
       <HeroHeader src="/DSC_0666-3.jpg">
