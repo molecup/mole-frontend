@@ -10,7 +10,7 @@ import Typography from '@mui/material/Typography';
 import Avatar from '@mui/material/Avatar';
 import Stack from '@mui/system/Stack';
 import Link from 'next/link';
-import { imgFormatsInterface, teamRank } from '@/lib/commonInterfaces';
+import { imgFormatsInterface, teamRankInterface } from '@/lib/commonInterfaces';
 import outImg from '@/lib/outImg';
 
 /*
@@ -31,7 +31,7 @@ const stickyColBorderStyle = {
 
 
 
-export default function StandingTable({title, teamRanks, ...props} : {title : string, teamRanks : teamRank[], small? : boolean }){
+export default function StandingTable({title, teamRanks, ...props} : {title : string, teamRanks : teamRankInterface[], small? : boolean }){
     return(
         <TableContainer component={Paper} sx={{ maxWidth:700, marginTop: '10px', marginBottom: '10px' }}>
             <Toolbar sx={stickyColStyle}>
@@ -54,7 +54,7 @@ export default function StandingTable({title, teamRanks, ...props} : {title : st
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                {teamRanks.sort((entry : teamRank) => entry.pts).map((entry : teamRank, i : number) =>
+                {teamRanks.sort((entry : teamRankInterface) => entry.pts).map((entry : teamRankInterface, i : number) =>
                     <TableRow
                         key={entry.id}
                         sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
@@ -77,7 +77,7 @@ export default function StandingTable({title, teamRanks, ...props} : {title : st
 
                     </TableRow>
                 )}
-                {(teamRanks.length == 0) && <TableCell align="center" colSpan={4}>Nessuna squadra presente</TableCell>}
+                {(teamRanks.length == 0) && <TableRow><TableCell align="center" colSpan={4}>Nessuna squadra presente</TableCell></TableRow>}
                 </TableBody>
                 
             </Table>

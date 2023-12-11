@@ -14,6 +14,8 @@ import Chip from '@mui/material/Chip';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import Avatar from '@mui/material/Avatar';
 import defaultImg from "@/components/static_media/match_placeholder.jpg";
+import { imgFormatsInterface, teamInterface } from "@/lib/commonInterfaces";
+import outImg from "@/lib/outImg";
 
 
 
@@ -24,10 +26,20 @@ import CheckIcon from '@mui/icons-material/Check';
 */
 import Stack from '@mui/material/Stack';
 
+interface matchCardProps {
+  url : string,
+  teamA : teamInterface,
+  teamB : teamInterface,
+  league : string,
+  date : string,
+  time : string,
+  scoreText : string,
+  initial? : boolean,
+  img : imgFormatsInterface | null,
+}
 
-
-export default function MatchCard(props) {
-  const imgUrl = props.img ? process.env.NEXT_PUBLIC_MEDIA_URL + props.img.formats.medium.url : defaultImg;
+export default function MatchCard(props : matchCardProps) {
+  const imgUrl = outImg(props.img?.formats.medium.url, defaultImg);
   return (
     <Card sx={{
       MaxWidth: 200,
@@ -35,7 +47,7 @@ export default function MatchCard(props) {
       transition: "transform 0.15s ease-in-out",
       "&:hover": { transform: "scale3d(0.98, 0.98, 1)" }
     }}
-      id={props.initial ? 'initial' : null}
+      id={props.initial ? 'initial' : undefined}
       elevation={3}
     >
       <CardActionArea LinkComponent={Link} href={props.url}>
@@ -44,7 +56,7 @@ export default function MatchCard(props) {
           title="Match_placeholder"
         >
           <div style={{ position: 'relative', width: '100%', height: '100%', opacity: 0.9 }}>
-            <Image alt="Image placeholder" src={imgUrl} fill='true' style={{ objectFit: "cover" }} sizes="(max-width: 768px) 50vw, (max-width: 1200px) 25vw, 12vw" />
+            <Image alt="Image placeholder" src={imgUrl} fill={true} style={{ objectFit: "cover" }} sizes="(max-width: 768px) 50vw, (max-width: 1200px) 25vw, 12vw" />
           </div>
         </CardMedia>
         <CardContent>
