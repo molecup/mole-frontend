@@ -8,6 +8,7 @@ import Container from '@mui/material/Container';
 import HeroHeader from '@/components/heroHeader';
 import Grid from '@mui/material/Unstable_Grid2';
 import { teamRankInterface } from '@/lib/commonInterfaces';
+import dateTimeText from '@/lib/dateTimeText';
 
 /*
 import matchImg from "@/components/static_media/match_placeholder.jpg";
@@ -97,8 +98,7 @@ export default async function MoleCup() {
       <Typography variant='h2' align='center' gutterBottom>Le partite</Typography>
       <CardSlider sx={marginBottom}>
         {matches && Array.isArray(matches) ? matches.map((match : any, i : number) => {
-          const date = new Date(match.date);
-          const time = `${("00" + date.getHours()).slice(-2)}:${("00" + date.getMinutes()).slice(-2)}`;
+          const [date, time] = dateTimeText(new Date(match.date));
           //console.log(match)
           return(
             <MatchCard
@@ -108,7 +108,7 @@ export default async function MoleCup() {
               initial={match.status === "finished"}
               teamA={match.teamA}
               teamB={match.teamB}
-              date={`${date.getDate()}/${date.getMonth()}`}
+              date={date}
               time={time}
               league={match.league.name}
               scoreText={match.status === "finished" ? match.score[0] + " - " + match.score[1] : time}

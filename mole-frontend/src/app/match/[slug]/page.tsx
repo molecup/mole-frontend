@@ -12,6 +12,7 @@ import { teamInterface } from '@/lib/commonInterfaces';
 import outImg from '@/lib/outImg';
 import publicFetch from '@/lib/publicFetch';
 import { Warning } from '@mui/icons-material';
+import dateTimeText from '@/lib/dateTimeText';
 
 
 const playerList = [
@@ -75,8 +76,7 @@ async function getStandingTable(leagueId : number){
 export default async function MatchPage({params} : {params : {slug : number}}){
     const matchInfo = await getMatchInfo(params.slug);
     const standingTable = await getStandingTable(matchInfo.league.id);
-    const date = new Date(matchInfo.date);
-    const time = `${("00" + date.getHours()).slice(-2)}:${("00" + date.getMinutes()).slice(-2)}`;
+    const [date, time] = dateTimeText(new Date(matchInfo.date));
     const scoreText = matchInfo.score ? dataExample.score[0] + " - " + dataExample.score[1] : time;
     return(
         <>
@@ -85,7 +85,7 @@ export default async function MatchPage({params} : {params : {slug : number}}){
                 teamB = {matchInfo.teamB}
                 scoreText = {scoreText}
                 league = {matchInfo.league.name}
-                date = {`${date.getDate()}/${date.getMonth()}`}
+                date = {date}
             />
             <TabLayout 
                 labels = {[matchInfo.teamA.name, matchInfo.teamB.name, matchInfo.league.name]}

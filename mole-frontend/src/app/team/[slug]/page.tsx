@@ -23,6 +23,7 @@ import cavourImg from '@/components/static_media/cavour.png';
 import convittoImg from '@/components/static_media/convitto.jpeg';
 import dazeImg from '@/components/static_media/dazeglio.png';
 import majoImg from '@/components/static_media/majo.png';
+import dateTimeText from '@/lib/dateTimeText';
 
 const playerList = [
     {firstName: "Giacomo", lastName: "Rossi", number: 10, img: null},
@@ -102,8 +103,7 @@ export default async function TeamPage({params} : {params : {slug : string}}){
             
             <CardSlider>
             {teamMatches && Array.isArray(teamMatches) && teamMatches.map((match : any, i : number) => {
-                    const date = new Date(match.date);
-                    const time = `${("00" + date.getHours()).slice(-2)}:${("00" + date.getMinutes()).slice(-2)}`;
+                    const [date, time] = dateTimeText(new Date(match.date));
                     return(
                         <MatchCard
                             key={match.id}
@@ -112,7 +112,7 @@ export default async function TeamPage({params} : {params : {slug : string}}){
                             initial={match.initial}
                             teamA={match.teamA}
                             teamB={match.teamB}
-                            date={`${date.getDate()}/${date.getMonth()}`}
+                            date={date}
                             time={time}
                             league={match.league.name}
                             scoreText={match.status === "finished" ? match.score[0] + " - " + match.score[1] : time}
