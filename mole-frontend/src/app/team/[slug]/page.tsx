@@ -12,7 +12,10 @@ import CircularStatistics from '@/components/circularStatistics';
 import publicFetch from '@/lib/publicFetch';
 import outImg from '@/lib/outImg';
 import { imgFormatsInterface, teamRankInterface } from '@/lib/commonInterfaces';
+import dateTimeText from '@/lib/dateTimeText';
+import NewsCard, { newsCardInterface } from '@/components/newsCard';
 
+/*
 import matchImg from "@/components/static_media/match_placeholder.jpg";
 import alfieriImg from '@/components/static_media/alfieri.png';
 import gobettiImg from '@/components/static_media/gobetti.png';
@@ -23,7 +26,7 @@ import cavourImg from '@/components/static_media/cavour.png';
 import convittoImg from '@/components/static_media/convitto.jpeg';
 import dazeImg from '@/components/static_media/dazeglio.png';
 import majoImg from '@/components/static_media/majo.png';
-import dateTimeText from '@/lib/dateTimeText';
+*/
 
 const playerList = [
     {firstName: "Giacomo", lastName: "Rossi", number: 10, img: null},
@@ -63,7 +66,7 @@ const matches = [
   */
 
 async function getTeamData(slug : string){
-    const path = `/api/teams?filters[slug][$eq]=${slug}&populate[logo]=1&populate[cover]=1`;
+    const path = `/api/teams?filters[slug][$eq]=${slug}&populate[logo]=1&populate[cover]=1&populate[article_tags][fields]=id`;
     const res  = await publicFetch(path);
     if(!Array.isArray(res.data) || res.data.length === 0){
         throw new Error('Squadra non trovata');
@@ -83,8 +86,23 @@ async function getTeamLeagues(slug : string){
     return res.data; 
 }
 
+async function getTeamNews(tags : {id : number}[]){
+    if(tags.length === 0){
+        return [];
+    }
+    const idsFilter = "".concat(...tags.map((tag : {id : number}, i : number) : string => {
+        return `&filters[article_tags][id][$in][${i}]=${tag.id}`;
+    }));
+    const path = `/api/articles?sort[0]=date:desc${idsFilter}&populate[cover]=1&populate[article_tags][fields][0]=id&populate[article_tags][fields][1]=name&fields[0]=title&fields[1]=author&fields[2]=date&fields[3]=abstract&fields[4]=slug`;
+    const res  = await publicFetch(path);
+    return res.data;
+}
+
 export default async function TeamPage({params} : {params : {slug : string}}){
     const [teamData, teamMatches, teamLeagues] = await Promise.all([getTeamData(params.slug), getTeamMatches(params.slug), getTeamLeagues(params.slug)]);
+    const articles = await getTeamNews(teamData.attributes.article_tags.data);
+    //console.log(articles);
+
     return(
         <>
             <TeamHeader
@@ -135,10 +153,28 @@ export default async function TeamPage({params} : {params : {slug : string}}){
                     )}
                 </>
                 <PlayerList playerList={playerList} />
-                <Typography variant="h3">News</Typography>
+                <NewsTab articles = {articles}/>
             </TabLayout>
         </>
     );
+}
+
+function NewsTab(props : {articles : any}){
+    return(<>
+        <CardSlider>
+            {props.articles.map((article : any, i : number) => 
+                <NewsCard
+                    title = {article.attributes.title}
+                    author = {article.attributes.author}
+                    abstract = {article.attributes.abstract}
+                    date = {new Date(article.attributes.date)}
+                    url = {"/news/"+article.attributes.slug}
+                    initial = {i === 0}
+                    img= {article.attributes.cover.data?.attributes}
+                />
+            )}
+        </CardSlider>
+    </>);
 }
 
 interface teamHeaderProps {

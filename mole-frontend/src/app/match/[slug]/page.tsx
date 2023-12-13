@@ -83,7 +83,7 @@ export default async function MatchPage({params} : {params : {slug : number}}){
             <MatchHeader 
                 teamA = {matchInfo.teamA}
                 teamB = {matchInfo.teamB}
-                scoreText = {scoreText}
+                scoreText = {matchInfo.status === "finished" ? matchInfo.score[0] + " - " + matchInfo.score[1] : time}
                 league = {matchInfo.league.name}
                 date = {date}
             />
