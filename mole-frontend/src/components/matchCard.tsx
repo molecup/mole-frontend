@@ -2,7 +2,7 @@
   using next/image component inside media card: https://stackoverflow.com/questions/68721497/how-to-use-next-js-image-inside-material-ui-card-media
 */
 
-import React from "react";
+//import React from "react";
 import Card from "@mui/material/Card";
 import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
@@ -16,6 +16,8 @@ import Avatar from '@mui/material/Avatar';
 import defaultImg from "@/components/static_media/match_placeholder.jpg";
 import { imgFormatsInterface, teamInterface } from "@/lib/commonInterfaces";
 import outImg from "@/lib/outImg";
+import Stack from '@mui/material/Stack';
+
 
 
 
@@ -24,7 +26,6 @@ import VideocamIcon from '@mui/icons-material/Videocam';
 import PhotoCameraIcon from '@mui/icons-material/PhotoCamera';
 import CheckIcon from '@mui/icons-material/Check';
 */
-import Stack from '@mui/material/Stack';
 
 export interface matchCardProps {
   url : string,
