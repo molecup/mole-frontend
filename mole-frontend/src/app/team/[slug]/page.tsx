@@ -152,7 +152,7 @@ function TeamHeader(props : teamHeaderProps) {
         <>
             <HeroHeader sx={{padding: "10px"}} src="/DSC_0618-1.jpg">
                 <Typography variant="h1" color="white">{props.name}</Typography>
-                <Avatar sx={{ width: 80, height: 80 }} alt={"logo " + props.name} src={imgUrl} variant="rounded" />
+                <Avatar sx={{ width: 80, height: 80 }} alt={props.name + "logo"} src={imgUrl} variant="rounded" />
             </HeroHeader>
         </> 
     );
