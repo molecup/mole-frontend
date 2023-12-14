@@ -1,0 +1,60 @@
+import publicFetch from "@/lib/publicFetch";
+import CardSlider from "./cardSlider";
+import NewsCard from "./newsCard";
+import { imgFormatsInterface } from "@/lib/commonInterfaces";
+
+export interface relatedArticleInterface {
+    id : number,
+    attributes : {
+        date: string,
+        title: string,
+        author: string,
+        abstract: string,
+        slug: string,
+        cover: {
+            data? : {
+                id : number,
+                attributes : imgFormatsInterface
+            }
+        }
+        article_tags : {
+            data: {
+                id: number,
+                attributes: {
+                    name: string
+                }
+            }[]
+        }
+    }
+}
+
+export async function getRelatedArticles(tags : {id : number}[]) : Promise<relatedArticleInterface[]>{
+    if(tags.length === 0){
+        return [];
+    }
+    const idsFilter = "".concat(...tags.map((tag : {id : number}, i : number) : string => {
+        return `&filters[article_tags][id][$in][${i}]=${tag.id}`;
+    }));
+    const path = `/api/articles?sort[0]=date:desc${idsFilter}&populate[cover]=1&populate[article_tags][fields][0]=id&populate[article_tags][fields][1]=name&fields[0]=title&fields[1]=author&fields[2]=date&fields[3]=abstract&fields[4]=slug`;
+    const res  = await publicFetch(path);
+    return res.data;
+}
+
+export default function RelatedArticles(props : {articles: relatedArticleInterface[]}){
+    return(<>
+        <CardSlider>
+            {props.articles.map((article : relatedArticleInterface, i : number) => 
+                <NewsCard
+                    key={i}
+                    title = {article.attributes.title}
+                    author = {article.attributes.author}
+                    abstract = {article.attributes.abstract}
+                    date = {new Date(article.attributes.date)}
+                    url = {"/news/"+article.attributes.slug}
+                    initial = {i === 0}
+                    img= {article.attributes.cover.data?.attributes}
+                />
+            )}
+        </CardSlider>
+    </>);
+}

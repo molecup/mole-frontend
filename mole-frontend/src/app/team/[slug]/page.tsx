@@ -14,6 +14,7 @@ import outImg from '@/lib/outImg';
 import { imgFormatsInterface, teamRankInterface } from '@/lib/commonInterfaces';
 import dateTimeText from '@/lib/dateTimeText';
 import NewsCard, { newsCardInterface } from '@/components/newsCard';
+import RelatedArticles, { getRelatedArticles } from '@/components/relatedArticles';
 
 /*
 import matchImg from "@/components/static_media/match_placeholder.jpg";
@@ -86,21 +87,9 @@ async function getTeamLeagues(slug : string){
     return res.data; 
 }
 
-async function getTeamNews(tags : {id : number}[]){
-    if(tags.length === 0){
-        return [];
-    }
-    const idsFilter = "".concat(...tags.map((tag : {id : number}, i : number) : string => {
-        return `&filters[article_tags][id][$in][${i}]=${tag.id}`;
-    }));
-    const path = `/api/articles?sort[0]=date:desc${idsFilter}&populate[cover]=1&populate[article_tags][fields][0]=id&populate[article_tags][fields][1]=name&fields[0]=title&fields[1]=author&fields[2]=date&fields[3]=abstract&fields[4]=slug`;
-    const res  = await publicFetch(path);
-    return res.data;
-}
-
 export default async function TeamPage({params} : {params : {slug : string}}){
     const [teamData, teamMatches, teamLeagues] = await Promise.all([getTeamData(params.slug), getTeamMatches(params.slug), getTeamLeagues(params.slug)]);
-    const articles = await getTeamNews(teamData.attributes.article_tags.data);
+    const articles = await getRelatedArticles(teamData.attributes.article_tags.data);
     //console.log(articles);
 
     return(
@@ -153,29 +142,10 @@ export default async function TeamPage({params} : {params : {slug : string}}){
                     )}
                 </>
                 <PlayerList playerList={playerList} />
-                <NewsTab articles = {articles}/>
+                <RelatedArticles articles = {articles}/>
             </TabLayout>
         </>
     );
-}
-
-function NewsTab(props : {articles : any}){
-    return(<>
-        <CardSlider>
-            {props.articles.map((article : any, i : number) => 
-                <NewsCard
-                    key={i}
-                    title = {article.attributes.title}
-                    author = {article.attributes.author}
-                    abstract = {article.attributes.abstract}
-                    date = {new Date(article.attributes.date)}
-                    url = {"/news/"+article.attributes.slug}
-                    initial = {i === 0}
-                    img= {article.attributes.cover.data?.attributes}
-                />
-            )}
-        </CardSlider>
-    </>);
 }
 
 interface teamHeaderProps {
