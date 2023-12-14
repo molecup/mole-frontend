@@ -96,7 +96,8 @@ export default async function TeamPage({params} : {params : {slug : string}}){
         <>
             <TeamHeader
                 name = {teamData.attributes.name}
-                img = {teamData.attributes.logo.data.attributes}
+                logo = {teamData.attributes.logo.data?.attributes}
+                cover = {teamData.attributes.cover.data?.attributes}
             />
             <Container sx={{padding:"10px"}}>
                 <CircularStatistics 
@@ -150,16 +151,18 @@ export default async function TeamPage({params} : {params : {slug : string}}){
 
 interface teamHeaderProps {
     name : string,
-    img : imgFormatsInterface
+    logo? : imgFormatsInterface,
+    cover?: imgFormatsInterface
 }
 
 function TeamHeader(props : teamHeaderProps) {
-    const imgUrl = outImg(props.img.formats.medium.url);
+    const logoUrl = outImg(props.logo?.formats.medium.url);
+    const coverUrl = outImg(props.cover?.formats.medium.url, "/match_placeholder.jpg");
     return (
         <>
-            <HeroHeader sx={{padding: "10px"}} src="/DSC_0618-1.jpg">
+            <HeroHeader sx={{padding: "10px"}} src={coverUrl}>
                 <Typography variant="h1" color="white">{props.name}</Typography>
-                <Avatar sx={{ width: 80, height: 80 }} alt={props.name + "logo"} src={imgUrl} variant="rounded" />
+                <Avatar sx={{ width: 80, height: 80 }} alt={props.name + "logo"} src={logoUrl} variant="rounded" />
             </HeroHeader>
         </> 
     );
