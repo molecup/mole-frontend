@@ -164,6 +164,7 @@ function NewsTab(props : {articles : any}){
         <CardSlider>
             {props.articles.map((article : any, i : number) => 
                 <NewsCard
+                    key={i}
                     title = {article.attributes.title}
                     author = {article.attributes.author}
                     abstract = {article.attributes.abstract}
