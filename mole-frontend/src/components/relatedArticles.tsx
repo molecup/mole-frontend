@@ -40,10 +40,10 @@ export async function getRelatedArticles(tags : {id : number}[]) : Promise<relat
     return res.data;
 }
 
-export default function RelatedArticles(props : {articles: relatedArticleInterface[]}){
+export default function RelatedArticles({articles, ...otherProps} : {articles: relatedArticleInterface[], [index: string]: any}){
     return(<>
-        <CardSlider>
-            {props.articles.map((article : relatedArticleInterface, i : number) => 
+        <CardSlider {...otherProps}>
+            {articles.map((article : relatedArticleInterface, i : number) => 
                 <NewsCard
                     key={i}
                     title = {article.attributes.title}

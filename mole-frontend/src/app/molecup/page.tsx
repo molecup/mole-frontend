@@ -9,6 +9,7 @@ import HeroHeader from '@/components/heroHeader';
 import Grid from '@mui/material/Unstable_Grid2';
 import { teamRankInterface } from '@/lib/commonInterfaces';
 import dateTimeText from '@/lib/dateTimeText';
+import RelatedArticles, { getRelatedArticles } from '@/components/relatedArticles';
 
 /*
 import matchImg from "@/components/static_media/match_placeholder.jpg";
@@ -69,12 +70,16 @@ async function getTournamentInfo(){
   const SLUG = "mole-cup";
   const path = `/api/tournaments?filter[slug]=${SLUG}&populate[teams][populate]=logo&populate[article_tags]=1&fields[0]=name&fields[1]=year`;
   const res  = await publicFetch(path);
-  return res.data;
+  if(!Array.isArray(res.data) || res.data.length===0){
+    throw new Error("Pagina non trovata!");
+  }
+  return res.data[0];
 }
 
 export default async function MoleCup() {
   const [tournamentInfo, standingTables, matches] =  await Promise.all([getTournamentInfo(), getStandingTables(), getMatches()]);
-  const tournament = tournamentInfo[0].attributes;
+  const tournament = tournamentInfo.attributes;
+  const news = await getRelatedArticles(tournament.article_tags.data);
   const teams = tournament.teams.data;
   const firstTeam = Math.round(teams.length / 2) - 2;
   return (
@@ -95,6 +100,7 @@ export default async function MoleCup() {
           />
         )}
       </CardSlider>
+
       <Typography variant='h2' align='center' gutterBottom>Le partite</Typography>
       <CardSlider sx={marginBottom}>
         {matches && Array.isArray(matches) ? matches.map((match : any, i : number) => {
@@ -119,6 +125,10 @@ export default async function MoleCup() {
           <Typography>Nessuna squadra trovata</Typography>
         }
       </CardSlider>
+
+      <Typography variant="h2" align="center" gutterBottom>Notizie</Typography>
+      <RelatedArticles articles={news} sx={marginBottom} />
+
       <Typography variant="h2" align="center" gutterBottom>Il torneo</Typography>
       <Grid container sx={{...marginBottom, padding:"10px"}} spacing={1}>
         <StandingGrid>
