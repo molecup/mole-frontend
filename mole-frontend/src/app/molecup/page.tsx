@@ -132,7 +132,7 @@ export default async function MoleCup() {
       <Typography variant="h2" align="center" gutterBottom>Il torneo</Typography>
       <Grid container sx={{...marginBottom, padding:"10px"}} spacing={1}>
         <StandingGrid>
-          {standingTables && Array.isArray(standingTables) ? standingTables.map((table : {teams : teamRankInterface[], name : string}, i : number) => 
+          {standingTables && Array.isArray(standingTables) ? standingTables.sort((a, b) => a.name.localeCompare(b.name)).map((table : {teams : teamRankInterface[], name : string}, i : number) => 
             <StandingTable 
               key = {i}
               title = {table.name}
