@@ -14,21 +14,21 @@ import publicFetch from '@/lib/publicFetch';
 import { Warning } from '@mui/icons-material';
 import dateTimeText from '@/lib/dateTimeText';
 
-
+/*
 const playerList = [
-    {firstName: "Giacomo", lastName: "Rossi", number: 10, img: null},
-    {firstName: "Giacomo", lastName: "Rossi", number: 2, img: null},
-    {firstName: "Giacomo", lastName: "Rossi", number: 7, img: null},
-    {firstName: "Giacomo", lastName: "Rossi", number: 4, img: null},
-    {firstName: "Giacomo", lastName: "Rossi", number: 9, img: null},
-    {firstName: "Gianferdinando", lastName: "Verdi", number: 12, img: null},
-    {firstName: "Giacomo", lastName: "Rossi", number: 1, img: null},
-    {firstName: "Giacomo", lastName: "Rossi", number: 22, img: null},
-    {firstName: "Giacomo", lastName: "Rossi", number: 74, img: null},
-    {firstName: "Giacomo", lastName: "Rossi", number: 20, img: null},
-    {firstName: "Giacomo", lastName: "Rossi", number: 11, img: null},
-    {firstName: "Giacomo", lastName: "Rossi", number: 17, img: null},
-    {firstName: "Giacomo", lastName: "Rossi", number: 19, img: null},
+    {firstName: "Giacomo", lastName: "Rossi", shirtNumber: 10, img: null},
+    {firstName: "Giacomo", lastName: "Rossi", shirtNumber: 2, img: null},
+    {firstName: "Giacomo", lastName: "Rossi", shirtNumber: 7, img: null},
+    {firstName: "Giacomo", lastName: "Rossi", shirtNumber: 4, img: null},
+    {firstName: "Giacomo", lastName: "Rossi", shirtNumber: 9, img: null},
+    {firstName: "Gianferdinando", lastName: "Verdi", shirtNumber: 12, img: null},
+    {firstName: "Giacomo", lastName: "Rossi", shirtNumber: 1, img: null},
+    {firstName: "Giacomo", lastName: "Rossi", shirtNumber: 22, img: null},
+    {firstName: "Giacomo", lastName: "Rossi", shirtNumber: 74, img: null},
+    {firstName: "Giacomo", lastName: "Rossi", shirtNumber: 20, img: null},
+    {firstName: "Giacomo", lastName: "Rossi", shirtNumber: 11, img: null},
+    {firstName: "Giacomo", lastName: "Rossi", shirtNumber: 17, img: null},
+    {firstName: "Giacomo", lastName: "Rossi", shirtNumber: 19, img: null},
 ];
 
 const dataExample = {
@@ -53,6 +53,7 @@ const dataExample = {
         name: "Girone A",
     }
 }
+*/
 
 async function getMatchInfo(id : number){
     const path = "/api/matches-report/" + id;
@@ -73,25 +74,32 @@ async function getStandingTable(leagueId : number){
     return res.data[0];
 }
 
+async function getPlayerList(teamId : number){
+    const path = `/api/teams/${teamId}?populate[playerList]=1`;
+    const res  = await publicFetch(path);
+    return res.data;
+}
+
 export default async function MatchPage({params} : {params : {slug : number}}){
     const matchInfo = await getMatchInfo(params.slug);
     const standingTable = await getStandingTable(matchInfo.league.id);
+    const [playerListA, playerListB] = await Promise.all([getPlayerList(matchInfo.teamA.id), getPlayerList(matchInfo.teamB.id)]);
     const [date, time] = dateTimeText(new Date(matchInfo.date));
-    const scoreText = matchInfo.score ? dataExample.score[0] + " - " + dataExample.score[1] : time;
+    const status = matchInfo.status === "finished" || matchInfo.status === "live";
     return(
         <>
             <MatchHeader 
                 teamA = {matchInfo.teamA}
                 teamB = {matchInfo.teamB}
-                scoreText = {matchInfo.status === "finished" ? matchInfo.score[0] + " - " + matchInfo.score[1] : time}
+                scoreText = {status ? matchInfo.score[0] + " - " + matchInfo.score[1] : date}
                 league = {matchInfo.league.name}
-                date = {date}
+                date = {status? date : time}
             />
             <TabLayout 
                 labels = {[matchInfo.teamA.name, matchInfo.teamB.name, matchInfo.league.name]}
             >   
-                <PlayerList playerList={playerList} />
-                <PlayerList playerList={playerList} />
+                <PlayerList playerList={playerListA.attributes.playerList} />
+                <PlayerList playerList={playerListB.attributes.playerList} />
                 {standingTable && <StandingTable 
                     title={standingTable.name} 
                     teamRanks={standingTable.teams}

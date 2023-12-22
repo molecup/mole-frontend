@@ -67,7 +67,7 @@ const matches = [
   */
 
 async function getTeamData(slug : string){
-    const path = `/api/teams?filters[slug][$eq]=${slug}&populate[logo]=1&populate[cover]=1&populate[article_tags][fields]=id`;
+    const path = `/api/teams?filters[slug][$eq]=${slug}&populate[logo]=1&populate[cover]=1&populate[article_tags][fields]=id&populate[playerList]=1`;
     const res  = await publicFetch(path);
     if(!Array.isArray(res.data) || res.data.length === 0){
         throw new Error('Squadra non trovata');
@@ -90,7 +90,6 @@ async function getTeamLeagues(slug : string){
 export default async function TeamPage({params} : {params : {slug : string}}){
     const [teamData, teamMatches, teamLeagues] = await Promise.all([getTeamData(params.slug), getTeamMatches(params.slug), getTeamLeagues(params.slug)]);
     const articles = await getRelatedArticles(teamData.attributes.article_tags.data);
-    //console.log(articles);
 
     return(
         <>
@@ -142,7 +141,7 @@ export default async function TeamPage({params} : {params : {slug : string}}){
                         />
                     )}
                 </>
-                <PlayerList playerList={playerList} />
+                <PlayerList playerList={teamData.attributes.playerList} />
                 <RelatedArticles articles = {articles}/>
             </TabLayout>
         </>
