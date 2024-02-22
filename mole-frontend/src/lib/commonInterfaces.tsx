@@ -37,3 +37,11 @@ export type teamRankInterface  = {
     l: number,
     
 } & teamInterface;
+
+/*export interface matchInfo {
+    teamA: teamInterface,
+    teamB: teamInterface,
+    score: [number, number],
+    status: boolean,
+    
+}*/

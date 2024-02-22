@@ -58,6 +58,16 @@ const theme = responsiveFontSizes(createTheme({
           }
         })
       }
+    },
+    MuiPaper:{
+      styleOverrides: {
+        root: () => ({
+          "& .MuiToolbar-root": {
+            backgroundColor: theme.palette.primary.main,
+            color : theme.palette.primary.contrastText,
+          }
+        })
+      }
     }
   },
   

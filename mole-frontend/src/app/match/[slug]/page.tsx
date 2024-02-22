@@ -13,6 +13,11 @@ import outImg from '@/lib/outImg';
 import publicFetch from '@/lib/publicFetch';
 import { Warning } from '@mui/icons-material';
 import dateTimeText from '@/lib/dateTimeText';
+import Grid from '@mui/material/Unstable_Grid2';
+import Box from '@mui/material/Box';
+import Toolbar from '@mui/material/Toolbar';
+
+
 
 /*
 const playerList = [
@@ -86,8 +91,66 @@ export default async function MatchPage({params} : {params : {slug : number}}){
     const [playerListA, playerListB] = await Promise.all([getPlayerList(matchInfo.teamA.id), getPlayerList(matchInfo.teamB.id)]);
     const [date, time] = dateTimeText(new Date(matchInfo.date));
     const status = matchInfo.status === "finished" || matchInfo.status === "live";
+    const layoutProps = {
+        playerList : [playerListA, playerListB],
+        matchInfo : matchInfo,
+        standingTable : standingTable,
+        status : status,
+        date : date,
+        time : time,
+    }
     return(
         <>
+            <SmallLayout
+                sx={{display: { xs: 'block', md: 'none' }}}
+                {...layoutProps}
+            />
+            <BigLayout
+                sx={{display: { xs: 'none', md: 'block' }}}
+                {...layoutProps}
+            />
+        </>
+    );
+}
+
+interface layoutInterface {
+    sx : any,
+    playerList : any[2], 
+    matchInfo: any, 
+    standingTable:any, 
+    status:boolean, 
+    date:string, 
+    time:string
+}
+
+function SmallLayout({playerList, matchInfo, standingTable, status, date, time, sx} : layoutInterface){
+    return(
+        <Box sx={sx}>
+        <MatchHeader 
+            teamA = {matchInfo.teamA}
+            teamB = {matchInfo.teamB}
+            scoreText = {status ? matchInfo.score[0] + " - " + matchInfo.score[1] : date}
+            league = {matchInfo.league.name}
+            date = {status? date : time}
+        />
+        <TabLayout 
+            labels = {[matchInfo.teamA.name, matchInfo.teamB.name, matchInfo.league.name]}
+        >   
+            <PlayerList playerList={playerList[0].attributes.playerList} />
+            <PlayerList playerList={playerList[1].attributes.playerList} />
+            {standingTable && <StandingTable 
+                title={standingTable.name} 
+                teamRanks={standingTable.teams}
+            /> }
+        </TabLayout>
+        </Box>
+    )
+}
+
+function BigLayout({playerList, matchInfo, standingTable, status, date, time, sx} : layoutInterface){
+    return(
+        <Box sx={sx}> 
+        <Container>
             <MatchHeader 
                 teamA = {matchInfo.teamA}
                 teamB = {matchInfo.teamB}
@@ -95,17 +158,49 @@ export default async function MatchPage({params} : {params : {slug : number}}){
                 league = {matchInfo.league.name}
                 date = {status? date : time}
             />
-            <TabLayout 
-                labels = {[matchInfo.teamA.name, matchInfo.teamB.name, matchInfo.league.name]}
-            >   
-                <PlayerList playerList={playerListA.attributes.playerList} />
-                <PlayerList playerList={playerListB.attributes.playerList} />
-                {standingTable && <StandingTable 
-                    title={standingTable.name} 
-                    teamRanks={standingTable.teams}
-                /> }
-            </TabLayout>
-            
+            <Grid container spacing={1}>
+                <PlayerBig 
+                    playerList = {playerList}
+                    teams = {[matchInfo.teamA, matchInfo.teamB]}
+                />
+                <StandingTableBig
+                    standingTable = {standingTable}
+                />
+            </Grid>
+        </Container>
+        </Box>
+        
+    );
+}
+
+function StandingTableBig({standingTable} : {standingTable: any}){
+    return(
+        <>
+        <Grid md={4}>
+            {standingTable && 
+                <StandingTable 
+                title={standingTable.name} 
+                teamRanks={standingTable.teams}
+                /> 
+            }
+        </Grid>
+        </>
+    );
+}
+
+function PlayerBig({playerList, teams} : {playerList : [any, any], teams:[teamInterface, teamInterface]}){
+    return(
+        <>
+            {playerList.map((pl, idx) => 
+                <Grid md={4} key={idx}>
+                    <Paper>
+                        <Toolbar sx={{borderRadius: "4px 4px 0 0"}}>
+                            <Typography variant='h5'>Rosa {teams[idx].name}</Typography>
+                        </Toolbar>
+                        <PlayerList playerList={pl.attributes.playerList} />
+                    </Paper>
+                </Grid>
+            )}
         </>
     );
 }
