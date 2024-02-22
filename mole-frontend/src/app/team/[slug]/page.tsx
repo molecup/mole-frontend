@@ -163,8 +163,9 @@ function SmallLayout({teamData, teamLeagues, articles, teamMatches, sx} : layout
         )}
         </CardSlider>
         <TabLayout 
-            labels = {["Torneo", "Rosa giocatori", "News"]}
+            labels = {["Rosa giocatori", "Torneo", "News"]}
         >
+            <PlayerList playerList={teamData.attributes.playerList} />
             <>
                 {teamLeagues && Array.isArray(teamLeagues) && teamLeagues.map((table : {teams : teamRankInterface[], name : string}, i : number) => 
                     <StandingTable 
@@ -175,7 +176,6 @@ function SmallLayout({teamData, teamLeagues, articles, teamMatches, sx} : layout
                     />
                 )}
             </>
-            <PlayerList playerList={teamData.attributes.playerList} />
             <RelatedArticles articles = {articles}/>
         </TabLayout>
         </Box>

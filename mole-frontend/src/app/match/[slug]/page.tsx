@@ -192,7 +192,7 @@ function PlayerBig({playerList, teams} : {playerList : [any, any], teams:[teamIn
     return(
         <>
             {playerList.map((pl, idx) => 
-                <Grid md={4} key={idx}>
+                <Grid md={4} key={idx} sx={{marginTop: "10px"}}>
                     <Paper>
                         <Toolbar sx={{borderRadius: "4px 4px 0 0"}}>
                             <Typography variant='h5'>Rosa {teams[idx].name}</Typography>
