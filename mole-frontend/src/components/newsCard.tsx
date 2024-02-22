@@ -23,9 +23,10 @@ export interface newsCardInterface {
     abstract: string,
     url : string,
     initial? : boolean,
+    elevation? : number
 }
 
-export default  function NewsCard(props : newsCardInterface){
+export default  function NewsCard({elevation=3, ...props} : newsCardInterface){
     const imgUrl = outImg(props.img?.formats.medium.url, defaultImg);
     const [date, time] = dateTimeText(props.date);
   return (
@@ -36,7 +37,7 @@ export default  function NewsCard(props : newsCardInterface){
       "&:hover": { transform: "scale3d(0.98, 0.98, 1)" },
     }}
       id={props.initial ? 'initial' : undefined}
-      elevation={3}
+      elevation={elevation}
     >
       <CardActionArea LinkComponent={Link} href={props.url} >
         <CardMedia

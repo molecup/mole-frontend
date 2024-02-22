@@ -2,6 +2,8 @@ import publicFetch from "@/lib/publicFetch";
 import CardSlider from "./cardSlider";
 import NewsCard from "./newsCard";
 import { imgFormatsInterface } from "@/lib/commonInterfaces";
+import Grid from '@mui/material/Unstable_Grid2';
+
 
 export interface relatedArticleInterface {
     id : number,
@@ -41,7 +43,8 @@ export async function getRelatedArticles(tags : {id : number}[]) : Promise<relat
 }
 
 export default function RelatedArticles({articles, ...otherProps} : {articles: relatedArticleInterface[], [index: string]: any}){
-    return(<>
+    return(
+        <>
         <CardSlider {...otherProps}>
             {articles.map((article : relatedArticleInterface, i : number) => 
                 <NewsCard
@@ -56,5 +59,30 @@ export default function RelatedArticles({articles, ...otherProps} : {articles: r
                 />
             )}
         </CardSlider>
-    </>);
+        </>
+    );
+}
+
+export function RelatedArticlesGrid({articles, ...otherProps} : {articles: relatedArticleInterface[], [index: string]: any}){
+    return(
+        <div>
+            <Grid container spacing={1} sx={{padding:"5px"}}>
+            {articles.map((article : relatedArticleInterface, i : number) => 
+                <Grid md={6}>
+                    <NewsCard
+                        key={i}
+                        title = {article.attributes.title}
+                        author = {article.attributes.author}
+                        abstract = {article.attributes.abstract}
+                        date = {new Date(article.attributes.date)}
+                        url = {"/news/"+article.attributes.slug}
+                        initial = {i === 0}
+                        img= {article.attributes.cover.data?.attributes}
+                        elevation={0}
+                    />
+                </Grid>
+            )}
+            </Grid>
+        </div>
+    );
 }

@@ -14,7 +14,13 @@ import outImg from '@/lib/outImg';
 import { imgFormatsInterface, teamRankInterface } from '@/lib/commonInterfaces';
 import dateTimeText from '@/lib/dateTimeText';
 import NewsCard, { newsCardInterface } from '@/components/newsCard';
-import RelatedArticles, { getRelatedArticles } from '@/components/relatedArticles';
+import RelatedArticles, { getRelatedArticles, RelatedArticlesGrid } from '@/components/relatedArticles';
+import Box from '@mui/material/Box';
+import Grid from '@mui/material/Unstable_Grid2';
+import Toolbar from '@mui/material/Toolbar';
+import Paper from '@mui/material/Paper';
+
+
 
 /*
 import matchImg from "@/components/static_media/match_placeholder.jpg";
@@ -90,7 +96,12 @@ async function getTeamLeagues(slug : string){
 export default async function TeamPage({params} : {params : {slug : string}}){
     const [teamData, teamMatches, teamLeagues] = await Promise.all([getTeamData(params.slug), getTeamMatches(params.slug), getTeamLeagues(params.slug)]);
     const articles = await getRelatedArticles(teamData.attributes.article_tags.data);
-
+    const layoutProps = {
+        teamData: teamData,
+        teamLeagues: teamLeagues,
+        articles: articles,
+        teamMatches: teamMatches
+    }
     return(
         <>
             <TeamHeader
@@ -98,6 +109,82 @@ export default async function TeamPage({params} : {params : {slug : string}}){
                 logo = {teamData.attributes.logo.data?.attributes}
                 cover = {teamData.attributes.cover.data?.attributes}
             />
+            <SmallLayout
+                sx={{display: { xs: 'block', md: 'none' }}}
+                {...layoutProps}
+            />
+            <BigLayout
+                sx={{display: { xs: 'none', md: 'block' }}}
+                {...layoutProps}
+            />
+        </>
+    );
+}
+
+interface layoutInterface {
+    teamData: any, 
+    teamLeagues: any, 
+    articles: any, 
+    teamMatches: any,
+    sx: any
+}
+
+function SmallLayout({teamData, teamLeagues, articles, teamMatches, sx} : layoutInterface){
+    return(
+        <Box sx={sx}>
+        <Container sx={{padding:"10px"}}>
+            <CircularStatistics 
+                statistics={[
+                    {title: "Edizioni", value:4, tot:4},
+                    {title: "vittorie", value:23, tot:30, color:"success"},
+                    {title: "Tifosi", value: 1500, tot:50000, hideTot:true}
+                ]}
+            />
+        </Container>
+        
+        <CardSlider>
+        {teamMatches && Array.isArray(teamMatches) && teamMatches.map((match : any, i : number) => {
+                const [date, time] = dateTimeText(new Date(match.date));
+                return(
+                    <MatchCard
+                        key={match.id}
+                        img={match.cover}
+                        url={'/match/' + match.id}
+                        initial={match.initial}
+                        teamA={match.teamA}
+                        teamB={match.teamB}
+                        date={date}
+                        time={time}
+                        league={match.league.name}
+                        scoreText={match.status === "finished" ? match.score[0] + " - " + match.score[1] : time}
+                    />
+                );
+            }
+        )}
+        </CardSlider>
+        <TabLayout 
+            labels = {["Torneo", "Rosa giocatori", "News"]}
+        >
+            <>
+                {teamLeagues && Array.isArray(teamLeagues) && teamLeagues.map((table : {teams : teamRankInterface[], name : string}, i : number) => 
+                    <StandingTable 
+                    key = {i}
+                    title = {table.name}
+                    teamRanks = {table.teams}
+                    small
+                    />
+                )}
+            </>
+            <PlayerList playerList={teamData.attributes.playerList} />
+            <RelatedArticles articles = {articles}/>
+        </TabLayout>
+        </Box>
+    );
+}
+
+function BigLayout({teamData, teamLeagues, articles, teamMatches, sx} : layoutInterface){
+    return(
+        <Box sx={sx}>
             <Container sx={{padding:"10px"}}>
                 <CircularStatistics 
                     statistics={[
@@ -106,45 +193,54 @@ export default async function TeamPage({params} : {params : {slug : string}}){
                         {title: "Tifosi", value: 1500, tot:50000, hideTot:true}
                     ]}
                 />
+                <CardSlider>
+                {teamMatches && Array.isArray(teamMatches) && teamMatches.map((match : any, i : number) => {
+                        const [date, time] = dateTimeText(new Date(match.date));
+                        return(
+                            <MatchCard
+                                key={match.id}
+                                img={match.cover}
+                                url={'/match/' + match.id}
+                                initial={match.initial}
+                                teamA={match.teamA}
+                                teamB={match.teamB}
+                                date={date}
+                                time={time}
+                                league={match.league.name}
+                                scoreText={match.status === "finished" ? match.score[0] + " - " + match.score[1] : time}
+                            />
+                        );
+                    }
+                )}
+                </CardSlider>
+                <Grid container spacing={1} >
+                    <Grid md={5} sx={{marginTop: "10px"}}>
+                        <Paper>
+                            <Toolbar sx={{borderRadius: "4px 4px 0 0"}}>
+                                <Typography variant='h5'>Rosa giocatori</Typography>
+                            </Toolbar>
+                            <PlayerList playerList={teamData.attributes.playerList} />
+                        </Paper>
+                    </Grid>
+                    <Grid md={7}>
+                        {teamLeagues && Array.isArray(teamLeagues) && teamLeagues.map((table : {teams : teamRankInterface[], name : string}, i : number) => 
+                            <StandingTable 
+                            key = {i}
+                            title = {table.name}
+                            teamRanks = {table.teams}
+                            small
+                            />
+                        )}
+                        <Paper>
+                            <Toolbar sx={{borderRadius: "4px 4px 0 0", marginBottom: "10px"}}>
+                                <Typography variant='h5'>Ultimi articoli</Typography>
+                            </Toolbar>
+                            <RelatedArticlesGrid articles = {articles}/>
+                        </Paper>
+                    </Grid>
+                </Grid>
             </Container>
-            
-            <CardSlider>
-            {teamMatches && Array.isArray(teamMatches) && teamMatches.map((match : any, i : number) => {
-                    const [date, time] = dateTimeText(new Date(match.date));
-                    return(
-                        <MatchCard
-                            key={match.id}
-                            img={match.cover}
-                            url={'/match/' + match.id}
-                            initial={match.initial}
-                            teamA={match.teamA}
-                            teamB={match.teamB}
-                            date={date}
-                            time={time}
-                            league={match.league.name}
-                            scoreText={match.status === "finished" ? match.score[0] + " - " + match.score[1] : time}
-                        />
-                    );
-                }
-            )}
-            </CardSlider>
-            <TabLayout 
-                labels = {["Torneo", "Rosa giocatori", "News"]}
-            >
-                <>
-                    {teamLeagues && Array.isArray(teamLeagues) && teamLeagues.map((table : {teams : teamRankInterface[], name : string}, i : number) => 
-                        <StandingTable 
-                        key = {i}
-                        title = {table.name}
-                        teamRanks = {table.teams}
-                        small
-                        />
-                    )}
-                </>
-                <PlayerList playerList={teamData.attributes.playerList} />
-                <RelatedArticles articles = {articles}/>
-            </TabLayout>
-        </>
+        </Box>
     );
 }
 
