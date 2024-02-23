@@ -17,7 +17,7 @@ export default function TabLayout(props){
     };
 
     return(
-        <Box sx={{ margin: '10px' }}>
+        <Box sx={{ margin: '10px', display:"flex", flexDirection: 'column', minHeight: '50vh', }}>
             <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                 <Tabs value={value} onChange={handleChange} aria-label="tab squadra" variant="scrollable" scrollButtons="auto">
                     {labels.map((label, i) => 
