@@ -132,6 +132,7 @@ function SmallLayout({playerList, matchInfo, standingTable, status, date, time, 
             scoreText = {status ? matchInfo.score[0] + " - " + matchInfo.score[1] : date}
             league = {matchInfo.league.name}
             date = {status? date : time}
+            sx={{margin: "10px"}}
         />
         <TabLayout 
             labels = {[matchInfo.teamA.name, matchInfo.teamB.name, matchInfo.league.name]}
@@ -157,6 +158,7 @@ function BigLayout({playerList, matchInfo, standingTable, status, date, time, sx
                 scoreText = {status ? matchInfo.score[0] + " - " + matchInfo.score[1] : date}
                 league = {matchInfo.league.name}
                 date = {status? date : time}
+                sx={{marginTop: "10px"}}
             />
             <Grid container spacing={1}>
                 <PlayerBig 
@@ -218,14 +220,14 @@ interface matchHeaderInterface{
     date : string,
 }
 
-function MatchHeader(props : matchHeaderInterface) {
+function MatchHeader(props : matchHeaderInterface & {sx?: any}) {
     const teamALink = "/team/" + props.teamA.slug;
     const teamBLink = "/team/" + props.teamB.slug;
     const imgA = outImg(props.teamA.logo?.formats.thumbnail.url);
     const imgB = outImg(props.teamB.logo?.formats.thumbnail.url);
 
     return (
-        <Paper sx={{ margin: "10px", padding: "10px" }}>
+        <Paper sx={{ padding: "10px", ...props.sx }}>
             <Stack sx={{ alignItems: 'center' }}>
                 <Stack direction="row" sx={{ justifyContent: "center", alignItems: "center" }} spacing={2}>
                     <Avatar sx={{ width: 57, height: 57 }} href={teamALink} component={Link} alt={"logo " + props.teamA.name} src={imgA}/>
