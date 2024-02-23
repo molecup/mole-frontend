@@ -2,6 +2,9 @@ import Markdown from "markdown-to-jsx";
 import Typography from "@mui/material/Typography";
 import Link from "next/link";
 import Image from "next/image";
+import Stack from "@mui/material/Stack";
+import Box from "@mui/material/Box";
+import Paper from "@mui/material/Paper";
 
 export default function({children}){
     return(
@@ -85,8 +88,11 @@ const typographyOverides = {
 
 function NextImage(props){
     return(
-        <div style={{ position: 'relative', height: '200px', marginTop: "10px", marginBottom: "10px"}}>
-            <Image {...props} fill={true}  sx={{objectFit : "fill"}} sizes="(max-width: 768px) 100vw, (max-width: 1200px) 70vw, 50vw" />
-        </div>
+        <Box align="center">
+            <Paper sx={{ position: 'relative', height: {sm: "280px", md:"350px", lg:"400px"}, maxWidth:{sm:"500px", md:"600px", lg:"800px"}, marginTop: "10px", marginBottom: "10px"}}>
+                <Image {...props} fill={true}  sx={{objectFit : "fill"}} sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 60vw" />
+            </Paper>
+        </Box>
+        
     );
 }

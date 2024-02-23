@@ -7,7 +7,8 @@ import outImg from "@/lib/outImg";
 import { imgFormatsInterface } from "@/lib/commonInterfaces";
 import HeroHeader from "@/components/heroHeader";
 import defaultImg from "@/components/static_media/match_placeholder.jpg";
-import RelatedArticles, { getRelatedArticles, relatedArticleInterface } from "@/components/relatedArticles";
+import RelatedArticles, { RelatedArticlesGrid, getRelatedArticles, relatedArticleInterface } from "@/components/relatedArticles";
+import Box from "@mui/material/Box";
 
 async function getArticleData(slug : string){
     const path=`/api/articles?filters[slug]=${slug}&populate=*`;
@@ -37,7 +38,12 @@ export default async function NewsArticlePage({params} : {params : {slug : strin
         </Container>
         <Container>
             <Typography variant="h2">Articoli correlati</Typography>
-            <RelatedArticles articles={relatedNews} />
+            <Box sx={{display: { xs: 'block', sm: 'none' }}}>
+                <RelatedArticles articles={relatedNews} />
+            </Box>
+            <Box sx={{display: { xs: 'none', sm: 'block' }}}>
+                <RelatedArticlesGrid articles={relatedNews} lg={3} md={4} sm={6} />
+            </Box>
         </Container>
         </>
     )
