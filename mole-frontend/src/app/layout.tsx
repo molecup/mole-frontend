@@ -2,8 +2,8 @@ import NavBar from '@/components/navBar';
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import ThemeRegistry from '@/components/ThemeRegistry/ThemeRegistry';
-import Container from '@mui/system/Container';
 import Box from '@mui/system/Box';
+import Footer from '@/components/footer';
 
 
 //const inter = Inter({ subsets: ['latin'] })
@@ -23,9 +23,13 @@ export default function RootLayout({
       <body>
       <ThemeRegistry>
         <NavBar>
-          <Box sx={{padding : 0}}>
-            {children}
+          <Box sx={{display: 'flex', flexDirection: 'column', minHeight: '130vh',}}>
+            <Box sx={{padding : 0}}>
+              {children}
+            </Box>
+            <Footer/>
           </Box>
+          
         </NavBar>
       </ThemeRegistry>
       </body>
