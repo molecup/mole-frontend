@@ -17,6 +17,7 @@ export default function Footer() {
         py: 3,
         px: 2,
         mt: 'auto',
+        marginTop: "20px"
       }}
     >
       <Container maxWidth="lg">
