@@ -74,9 +74,8 @@ export function RelatedArticlesGrid({articles, xs=12, sm=6, md=6, lg=6, ...other
         <div>
             <Grid container spacing={1} sx={{padding:"5px"}}>
             {articles.map((article : relatedArticleInterface, i : number) => 
-                <Grid lg={lg} md={md} sm={sm} xs={xs}>
+                <Grid lg={lg} md={md} sm={sm} xs={xs} key={i}>
                     <NewsCard
-                        key={i}
                         title = {article.attributes.title}
                         author = {article.attributes.author}
                         abstract = {article.attributes.abstract}
