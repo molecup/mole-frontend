@@ -16,6 +16,10 @@ Material-ui's integration into NextJS server-side routing has been done accordin
 
 Read MUI's official documentation about NextJS routing [here](https://material-ui.com/guides/server-rendering/#nextjs).
 
+## Integration with google maps
+Via npn module @googlemaps/js-api-loader
+
+For guide refer to [medium](https://lonare.medium.com/how-to-integrate-google-maps-with-marker-on-my-react-next-js-website-with-address-4741d69e6324).
 
 
 
