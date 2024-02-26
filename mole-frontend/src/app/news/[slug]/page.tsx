@@ -22,7 +22,6 @@ async function getArticleData(slug : string){
 
 export default async function NewsArticlePage({params} : {params : {slug : string}}){
     const articleData = await getArticleData(params.slug);
-    console.log(articleData)
     const relatedNews = (await getRelatedArticles(articleData.attributes.article_tags.data))
         .filter((x : relatedArticleInterface) => x.id != articleData.id);
     return(
@@ -57,7 +56,7 @@ function NewsHeader(props : {title:string, author:string, date:Date, img?: imgFo
     return (
         <>
             <HeroHeader sx={{padding: "10px"}} src={imgUrl}>
-                <Typography variant="h1" color="white">{props.title}</Typography>
+                <Typography variant="h1" color="white" align="center">{props.title}</Typography>
                 <Typography variant="h5" sx={{fontStyle: "italic"}} color="white">{props.author}</Typography>
                 <Typography variant="subtitle1" color="white">{dateText}</Typography>
             </HeroHeader>

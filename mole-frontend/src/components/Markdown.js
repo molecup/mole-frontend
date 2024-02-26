@@ -13,10 +13,16 @@ export default function({children}){
                 wrapper : 'article',
                 overrides: {
                     a:{
-                        component: Link
+                        component: TypographyLink,
                     },
                     img:{
                         component: NextImage
+                    },
+                    p: {
+                        component: P,
+                        props: {
+                            variant: 'body1'
+                        }
                     },
                     ...typographyOverides
                 }
@@ -78,18 +84,60 @@ const typographyOverides = {
             ...marginBottom()
         },
     },
-    p: {
-        component: Typography,
-        props: {
-            variant: 'body1'
+}
+
+function P({children, ...props}){
+    var renderList = [];
+    var renderElement = [];
+    children.forEach((element, idx) => {
+        renderElement.push(element);
+        if(element.type === NextImage){
+            renderList.push(renderElement);
+            renderElement = [];
         }
+        if(children.length === idx+1){
+            renderList.push(renderElement);
+        }
+    })
+    return(
+        <>
+        {renderList.map((element, idx) =>
+            <RenderP {...props} key={idx}>
+                {element}
+            </RenderP>
+        )}
+        </>
+    )
+}
+
+function RenderP({children, ...props}){
+    if(children.some(x => x.type === NextImage)){
+        // image detected
+        return(
+            <Box>
+                {children}
+            </Box>
+        );
     }
+    return(
+        <Typography {...props}>
+            {children}
+        </Typography>
+    );
+}
+
+function TypographyLink({children, ...props}){
+    return(
+        <Typography component={Link} sx= {{color: "primary.main", textDecoration: "underline", textDecorationColor: "primary.main"}} {...props}>
+            {children}
+        </Typography>
+    );
 }
 
 function NextImage(props){
     return(
         <Box align="center">
-            <Paper sx={{ position: 'relative', height: {sm: "280px", md:"350px", lg:"400px"}, maxWidth:{sm:"500px", md:"600px", lg:"800px"}, marginTop: "10px", marginBottom: "10px"}}>
+            <Paper sx={{ position: 'relative', height: {xs: "200px", sm: "280px", md:"350px", lg:"400px"}, maxWidth:{xs:"400px", sm:"500px", md:"600px", lg:"800px"}, marginTop: "10px", marginBottom: "10px"}}>
                 <Image {...props} fill={true}  sx={{objectFit : "fill"}} sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 60vw" />
             </Paper>
         </Box>
