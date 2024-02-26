@@ -8,7 +8,6 @@ import HeroHeader from "@/components/heroHeader";
 
 export default async function News(){
     const news = await getAllArticles();
-    console.log(news);
     return(
         <>
         <HeroHeader src="/DSC_0666-3.jpg">

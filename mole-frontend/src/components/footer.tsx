@@ -1,11 +1,9 @@
-
-import * as React from "react";
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
 import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import { Facebook, Instagram, Twitter } from "@mui/icons-material";
-import { Box } from "@mui/material";
+import Box from "@mui/material/Box";
 
 export default function Footer() {
   return (
@@ -26,7 +24,7 @@ export default function Footer() {
             <Typography variant="h6" color="secondary.contrastText" gutterBottom>
               Chi siamo
             </Typography>
-            <Typography variant="body2" color="text.secondary">
+            <Typography variant="body2" color="secondary.text">
               We are XYZ company, dedicated to providing the best service to our
               customers.
             </Typography>
@@ -35,13 +33,13 @@ export default function Footer() {
             <Typography variant="h6" color="secondary.contrastText" gutterBottom>
               Contatti
             </Typography>
-            <Typography variant="body2" color="text.secondary">
+            <Typography variant="body2" color="secondary.text">
               123 Main Street, Anytown, USA
             </Typography>
-            <Typography variant="body2" color="text.secondary">
+            <Typography variant="body2" color="secondary.text">
               Email: info@example.com
             </Typography>
-            <Typography variant="body2" color="text.secondary">
+            <Typography variant="body2" color="secondary.text">
               Phone: +1 234 567 8901
             </Typography>
           </Grid>
