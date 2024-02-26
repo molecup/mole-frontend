@@ -191,7 +191,7 @@ function LocationMapSmall({address} : {address?:string}){
                 <Typography variant='h5'>Il campo</Typography>
             </Toolbar>
             <Map address={address} mapHeight="250px" id="mapSmall"/>
-            <Typography sx={{margin: "5px"}} variant="h6" component="a" href={generateGoogleMapsLink(address)}>{address}</Typography>
+            <Typography sx={{margin: "5px"}} color="text.secondary" variant="h6" component="a" href={generateGoogleMapsLink(address)}>{address}</Typography>
         </Paper>
     );
 }
@@ -207,7 +207,7 @@ function LocationMapBig({address} : {address?:string}){
                 <Typography variant='h5'>Il campo</Typography>
             </Toolbar>
             <Map address={address} mapHeight="300px" id="mapBig"/>
-            <Typography sx={{margin:"5px"}} variant="h6" component="a" href={generateGoogleMapsLink(address)}>{address}</Typography>
+            <Typography sx={{margin:"5px"}} color="text.secondary" variant="h6" component="a" href={generateGoogleMapsLink(address)}>{address}</Typography>
         </Paper>
         </Grid>
     );

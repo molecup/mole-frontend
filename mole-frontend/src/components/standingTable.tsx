@@ -63,7 +63,7 @@ export default function StandingTable({title, teamRanks, ...props} : {title : st
                             <Stack direction="row" spacing={1}>
                                 <p>{i + 1}</p>
                                 <Avatar href={"/team/"+entry.slug} component={Link} sx={{ width: 24, height: 24 }} alt={entry.name + " icon"} src={outImg(entry.logo?.formats.thumbnail.url)} />
-                                <Link href={"/team/"+entry.slug}>{entry.name}</Link>
+                                <Link href={"/team/"+entry.slug}><Typography color="primary.main" sx={{textDecoration: "underline", textDecorationColor: "primary.main"}}>{entry.name}</Typography></Link>
                             </Stack>
                         </TableCell>
                         <TableCell align="right">{entry.pts}</TableCell>
