@@ -7,6 +7,7 @@ import Box from '@mui/material/Box';
 
 import { useState, useEffect } from 'react';
 import loader from '@/lib/googleMapsLoader';
+import generateGoogleMapsLink from '@/lib/generateGoggleMapsLink';
 
 const Map = ({ address, mapHeight="400px", id="map", ...props }) => {
     const [map, setMap] = useState(null);
@@ -25,7 +26,11 @@ const Map = ({ address, mapHeight="400px", id="map", ...props }) => {
             );
             const marker = new window.google.maps.Marker({
               position: results[0].geometry.location,
+              url: generateGoogleMapsLink(address),
               map: newMap,
+            });
+            google.maps.event.addListener(marker, 'click', function() {
+              window.location.href = this.url;
             });
             setMap(newMap);
           }

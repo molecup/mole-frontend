@@ -17,6 +17,7 @@ import Grid from '@mui/material/Unstable_Grid2';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Map from '@/components/map';
+import generateGoogleMapsLink from '@/lib/generateGoggleMapsLink';
 
 
 
@@ -180,7 +181,7 @@ function BigLayout({playerList, matchInfo, standingTable, status, date, time, sx
     );
 }
 
-function LocationMapSmall({address} : {address?:String}){
+function LocationMapSmall({address} : {address?:string}){
     if(!address){
         return(null);
     }
@@ -189,7 +190,8 @@ function LocationMapSmall({address} : {address?:String}){
             <Toolbar sx={{borderRadius: "4px 4px 0 0"}}>
                 <Typography variant='h5'>Il campo</Typography>
             </Toolbar>
-            <Map address={address} mapHeight="200px" id="mapSmall"/>
+            <Map address={address} mapHeight="250px" id="mapSmall"/>
+            <Typography sx={{margin: "5px"}} variant="h6" component="a" href={generateGoogleMapsLink(address)}>{address}</Typography>
         </Paper>
     );
 }
@@ -205,6 +207,7 @@ function LocationMapBig({address} : {address?:string}){
                 <Typography variant='h5'>Il campo</Typography>
             </Toolbar>
             <Map address={address} mapHeight="300px" id="mapBig"/>
+            <Typography sx={{margin:"5px"}} variant="h6" component="a" href={generateGoogleMapsLink(address)}>{address}</Typography>
         </Paper>
         </Grid>
     );
