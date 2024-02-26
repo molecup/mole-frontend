@@ -16,6 +16,7 @@ import dateTimeText from '@/lib/dateTimeText';
 import Grid from '@mui/material/Unstable_Grid2';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
+import Map from '@/components/map';
 
 
 
@@ -134,6 +135,7 @@ function SmallLayout({playerList, matchInfo, standingTable, status, date, time, 
             date = {status? date : time}
             sx={{margin: "10px"}}
         />
+        {!status && <LocationMapSmall address={matchInfo.stadium?.location.description} />}
         <TabLayout 
             labels = {[matchInfo.teamA.name, matchInfo.teamB.name, matchInfo.league.name]}
         >   
@@ -144,6 +146,7 @@ function SmallLayout({playerList, matchInfo, standingTable, status, date, time, 
                 teamRanks={standingTable.teams}
             /> }
         </TabLayout>
+        {status && <LocationMapSmall address={matchInfo.stadium?.location.description} />}
         </Box>
     )
 }
@@ -160,7 +163,8 @@ function BigLayout({playerList, matchInfo, standingTable, status, date, time, sx
                 date = {status? date : time}
                 sx={{marginTop: "10px"}}
             />
-            <Grid container spacing={1}>
+            <Grid container spacing={1} sx={{marginTop:"10px"}}>
+                {!status && <LocationMapBig address={matchInfo.stadium?.location.description} />}
                 <PlayerBig 
                     playerList = {playerList}
                     teams = {[matchInfo.teamA, matchInfo.teamB]}
@@ -168,10 +172,41 @@ function BigLayout({playerList, matchInfo, standingTable, status, date, time, sx
                 <StandingTableBig
                     standingTable = {standingTable}
                 />
+                {status && <LocationMapBig address={matchInfo.stadium?.location.description} />}
             </Grid>
         </Container>
         </Box>
         
+    );
+}
+
+function LocationMapSmall({address} : {address?:String}){
+    if(!address){
+        return(null);
+    }
+    return(
+        <Paper sx={{margin: "10px"}}>
+            <Toolbar sx={{borderRadius: "4px 4px 0 0"}}>
+                <Typography variant='h5'>Il campo</Typography>
+            </Toolbar>
+            <Map address={address} mapHeight="200px" id="mapSmall"/>
+        </Paper>
+    );
+}
+
+function LocationMapBig({address} : {address?:string}){
+    if(!address){
+        return(null);
+    }
+    return(
+        <Grid md={12}>
+        <Paper>
+            <Toolbar sx={{borderRadius: "4px 4px 0 0"}}>
+                <Typography variant='h5'>Il campo</Typography>
+            </Toolbar>
+            <Map address={address} mapHeight="300px" id="mapBig"/>
+        </Paper>
+        </Grid>
     );
 }
 
