@@ -19,6 +19,7 @@ import Box from '@mui/material/Box';
 import Grid from '@mui/material/Unstable_Grid2';
 import Toolbar from '@mui/material/Toolbar';
 import Paper from '@mui/material/Paper';
+import { notFound } from 'next/navigation'
 
 
 
@@ -76,7 +77,7 @@ async function getTeamData(slug : string){
     const path = `/api/teams?filters[slug][$eq]=${slug}&populate[logo]=1&populate[cover]=1&populate[article_tags][fields]=id&populate[playerList]=1`;
     const res  = await publicFetch(path);
     if(!Array.isArray(res.data) || res.data.length === 0){
-        throw new Error('Squadra non trovata');
+        notFound();
     }
     return res.data[0];
 }

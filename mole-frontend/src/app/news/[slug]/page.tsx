@@ -9,18 +9,20 @@ import HeroHeader from "@/components/heroHeader";
 import defaultImg from "@/components/static_media/match_placeholder.jpg";
 import RelatedArticles, { RelatedArticlesGrid, getRelatedArticles, relatedArticleInterface } from "@/components/relatedArticles";
 import Box from "@mui/material/Box";
+import { notFound } from 'next/navigation'
 
 async function getArticleData(slug : string){
     const path=`/api/articles?filters[slug]=${slug}&populate=*`;
     const res  = await publicFetch(path);
-    if(Array.isArray(res) || res.length === 0){
-        throw new Error("Pagina non trovata");
+    if(!Array.isArray(res.data) || res.data.length === 0){
+        notFound();
     }
     return res.data[0]; 
 }
 
 export default async function NewsArticlePage({params} : {params : {slug : string}}){
     const articleData = await getArticleData(params.slug);
+    console.log(articleData)
     const relatedNews = (await getRelatedArticles(articleData.attributes.article_tags.data))
         .filter((x : relatedArticleInterface) => x.id != articleData.id);
     return(

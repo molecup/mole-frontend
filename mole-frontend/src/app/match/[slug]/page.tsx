@@ -11,7 +11,7 @@ import Link from 'next/link';
 import { teamInterface } from '@/lib/commonInterfaces';
 import outImg from '@/lib/outImg';
 import publicFetch from '@/lib/publicFetch';
-import { Warning } from '@mui/icons-material';
+import { notFound } from 'next/navigation'
 import dateTimeText from '@/lib/dateTimeText';
 import Grid from '@mui/material/Unstable_Grid2';
 import Box from '@mui/material/Box';
@@ -66,7 +66,7 @@ async function getMatchInfo(id : number){
     const path = "/api/matches-report/" + id;
     const res  = await publicFetch(path);
     if(!Array.isArray(res.data) || res.data.length !== 1){
-        throw new Error("Partita non trovata");
+        notFound();
     }
     return res.data[0];
 }
