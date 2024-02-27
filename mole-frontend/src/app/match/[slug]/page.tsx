@@ -18,7 +18,7 @@ import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Map from '@/components/map';
 import generateGoogleMapsLink from '@/lib/generateGoggleMapsLink';
-
+import generatePlayerMapEvent, { mapEventType } from '@/lib/generatePlayerMapEvent';
 
 
 /*
@@ -93,6 +93,7 @@ export default async function MatchPage({params} : {params : {slug : number}}){
     const [playerListA, playerListB] = await Promise.all([getPlayerList(matchInfo.teamA.id), getPlayerList(matchInfo.teamB.id)]);
     const [date, time] = dateTimeText(new Date(matchInfo.date));
     const status = matchInfo.status === "finished" || matchInfo.status === "live";
+    const mapEvents = generatePlayerMapEvent(matchInfo.matchEvents);
     const layoutProps = {
         playerList : [playerListA, playerListB],
         matchInfo : matchInfo,
@@ -100,6 +101,7 @@ export default async function MatchPage({params} : {params : {slug : number}}){
         status : status,
         date : date,
         time : time,
+        mapEvents : mapEvents,
     }
     return(
         <>
@@ -122,10 +124,11 @@ interface layoutInterface {
     standingTable:any, 
     status:boolean, 
     date:string, 
-    time:string
+    time:string,
+    mapEvents: [mapEventType, mapEventType],
 }
 
-function SmallLayout({playerList, matchInfo, standingTable, status, date, time, sx} : layoutInterface){
+function SmallLayout({playerList, matchInfo, standingTable, status, date, time, mapEvents, sx} : layoutInterface){
     return(
         <Box sx={sx}>
         <MatchHeader 
@@ -140,8 +143,8 @@ function SmallLayout({playerList, matchInfo, standingTable, status, date, time, 
         <TabLayout 
             labels = {[matchInfo.teamA.name, matchInfo.teamB.name, matchInfo.league.name]}
         >   
-            <PlayerList playerList={playerList[0].attributes.playerList} />
-            <PlayerList playerList={playerList[1].attributes.playerList} />
+            <PlayerList playerList={playerList[0].attributes.playerList} mapEvent={mapEvents[0]}/>
+            <PlayerList playerList={playerList[1].attributes.playerList} mapEvent={mapEvents[1]}/>
             {standingTable && <StandingTable 
                 title={standingTable.name} 
                 teamRanks={standingTable.teams}
@@ -152,7 +155,7 @@ function SmallLayout({playerList, matchInfo, standingTable, status, date, time, 
     )
 }
 
-function BigLayout({playerList, matchInfo, standingTable, status, date, time, sx} : layoutInterface){
+function BigLayout({playerList, matchInfo, standingTable, status, date, time, mapEvents, sx} : layoutInterface){
     return(
         <Box sx={sx}> 
         <Container>
@@ -169,6 +172,7 @@ function BigLayout({playerList, matchInfo, standingTable, status, date, time, sx
                 <PlayerBig 
                     playerList = {playerList}
                     teams = {[matchInfo.teamA, matchInfo.teamB]}
+                    mapEvents={mapEvents}
                 />
                 <StandingTableBig
                     standingTable = {standingTable}
@@ -228,7 +232,7 @@ function StandingTableBig({standingTable} : {standingTable: any}){
     );
 }
 
-function PlayerBig({playerList, teams} : {playerList : [any, any], teams:[teamInterface, teamInterface]}){
+function PlayerBig({playerList, teams, mapEvents} : {playerList : [any, any], teams:[teamInterface, teamInterface], mapEvents: [mapEventType, mapEventType]}){
     return(
         <>
             {playerList.map((pl, idx) => 
@@ -237,7 +241,7 @@ function PlayerBig({playerList, teams} : {playerList : [any, any], teams:[teamIn
                         <Toolbar sx={{borderRadius: "4px 4px 0 0"}}>
                             <Typography variant='h5'>Rosa {teams[idx].name}</Typography>
                         </Toolbar>
-                        <PlayerList playerList={pl.attributes.playerList} />
+                        <PlayerList playerList={pl.attributes.playerList} mapEvent={mapEvents[idx]} />
                     </Paper>
                 </Grid>
             )}
