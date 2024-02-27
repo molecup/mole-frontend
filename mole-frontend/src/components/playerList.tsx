@@ -51,6 +51,7 @@ export default function PlayerList({ playerList, mapEvent } : {playerList : play
                             <Avatar alt={player.lastName + " image"} src={imgUrl} />
                          </ListItemAvatar>
                         <ListItemText
+                            disableTypography={true}
                             primary={
                             <>
                                 <Typography variant="h5" color="textPrimary" textTransform="uppercase">{player.shirtNumber + " " + player.lastName}</Typography>
