@@ -178,10 +178,12 @@ function BigLayout({playerList, matchInfo, standingTable, status, date, time, ma
                     teams = {[matchInfo.teamA, matchInfo.teamB]}
                     mapEvents={mapEvents}
                 />
-                <StandingTableBig
-                    standingTable = {standingTable}
-                />
-                {status && <LocationMapBig address={matchInfo.stadium?.location.description} />}
+                <Grid md={4}>
+                    <StandingTableBig
+                        standingTable = {standingTable}
+                    />
+                    {status && <LocationMapBig address={matchInfo.stadium?.location.description} md={4} />}
+                </Grid>
             </Grid>
         </Container>
         </Box>
@@ -212,12 +214,12 @@ function LocationMapSmall({address} : {address?:string}){
     );
 }
 
-function LocationMapBig({address} : {address?:string}){
+function LocationMapBig({address, md=12} : {address?:string, md?:number}){
     if(!address){
         return(null);
     }
     return(
-        <Grid md={12}>
+        <Grid md={md}>
         <Paper>
             <Toolbar sx={{borderRadius: "4px 4px 0 0"}}>
                 <Typography variant='h5'>Il campo</Typography>
