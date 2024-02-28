@@ -53,10 +53,10 @@ function EventLabel({teams, teamIdx, label}: {teams:[teamInterface, teamInterfac
     const colors = ["primary.light", "secondary.light"];
     return(
         <Paper sx={{bgcolor: colors[teamIdx], paddingBottom: "5px"}}>
-        <Stack direction="column" sx={{alignItems: "center", marginTop: "-10px"}}>
-            <Avatar sx={{ width: 40, height: 40, marginTop: "5px", paddingLeft: "5px", paddingRight: "5px" }} alt={"logo " + teams[teamIdx].name} src={img}/>
-            <Typography color="primary.contrastText">{label}</Typography>
-        </Stack>
+            <Stack direction="column" sx={{alignItems: "center", marginTop: "-10px"}}>
+                <Avatar sx={{ width: 40, height: 40, marginTop: "5px", paddingLeft: "5px", paddingRight: "5px" }} alt={"logo " + teams[teamIdx].name} src={img}/>
+                <Typography color="primary.contrastText">{label}</Typography>
+            </Stack>
         </Paper>
     )
 }
