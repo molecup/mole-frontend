@@ -95,7 +95,6 @@ export default async function MatchPage({params} : {params : {slug : number}}){
     const [date, time] = dateTimeText(new Date(matchInfo.date));
     const status = matchInfo.status === "finished" || matchInfo.status === "live";
     const mapEvents = generatePlayerMapEvent(matchInfo.matchEvents);
-    console.log(matchInfo)
     const layoutProps = {
         playerList : [playerListA, playerListB],
         matchInfo : matchInfo,
