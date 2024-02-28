@@ -19,6 +19,7 @@ import Toolbar from '@mui/material/Toolbar';
 import Map from '@/components/map';
 import generateGoogleMapsLink from '@/lib/generateGoggleMapsLink';
 import generatePlayerMapEvent, { mapEventType } from '@/lib/generatePlayerMapEvent';
+import MatchTimeline from '@/components/matchTimeline';
 
 
 /*
@@ -94,6 +95,7 @@ export default async function MatchPage({params} : {params : {slug : number}}){
     const [date, time] = dateTimeText(new Date(matchInfo.date));
     const status = matchInfo.status === "finished" || matchInfo.status === "live";
     const mapEvents = generatePlayerMapEvent(matchInfo.matchEvents);
+    console.log(matchInfo)
     const layoutProps = {
         playerList : [playerListA, playerListB],
         matchInfo : matchInfo,
@@ -139,6 +141,7 @@ function SmallLayout({playerList, matchInfo, standingTable, status, date, time, 
             date = {status? date : time}
             sx={{margin: "10px"}}
         />
+        {Array.isArray(matchInfo.matchEvents) && matchInfo.matchEvents.length > 0 && <MatchTimeline matchEvents={matchInfo.matchEvents} teams={[matchInfo.teamA, matchInfo.teamB]}/>}
         {!status && <LocationMapSmall address={matchInfo.stadium?.location.description} />}
         <TabLayout 
             labels = {[matchInfo.teamA.name, matchInfo.teamB.name, matchInfo.league.name]}
@@ -168,6 +171,7 @@ function BigLayout({playerList, matchInfo, standingTable, status, date, time, ma
                 sx={{marginTop: "10px"}}
             />
             <Grid container spacing={1} sx={{marginTop:"10px"}}>
+                {Array.isArray(matchInfo.matchEvents) && matchInfo.matchEvents.length > 0 && <TimeLineBig matchInfo={matchInfo}/>}
                 {!status && <LocationMapBig address={matchInfo.stadium?.location.description} />}
                 <PlayerBig 
                     playerList = {playerList}
@@ -182,6 +186,14 @@ function BigLayout({playerList, matchInfo, standingTable, status, date, time, ma
         </Container>
         </Box>
         
+    );
+}
+
+function TimeLineBig({matchInfo} : {matchInfo : any}){
+    return(
+        <Grid md={12} sx={{marginBottom: "10px", marginTop: "10px"}}>
+            <MatchTimeline matchEvents={matchInfo.matchEvents} teams={[matchInfo.teamA, matchInfo.teamB]}/>
+        </Grid>
     );
 }
 
