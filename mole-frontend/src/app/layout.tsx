@@ -4,6 +4,7 @@ import { Inter } from 'next/font/google'
 import ThemeRegistry from '@/components/ThemeRegistry/ThemeRegistry';
 import Box from '@mui/system/Box';
 import Footer from '@/components/footer';
+import CookiesSnackbar from '@/components/cookiesSnackbar';
 
 
 //const inter = Inter({ subsets: ['latin'] })
@@ -31,6 +32,7 @@ export default function RootLayout({
           </Box>
           
         </NavBar>
+        <CookiesSnackbar/>
       </ThemeRegistry>
       </body>
     </html>
