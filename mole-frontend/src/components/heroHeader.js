@@ -27,7 +27,7 @@ export default function HeroHeader(props){
         justifyContent:"center",
     }
     return(
-        <Box sx={{...style, ...sx}} {...otherProps}>
+        <Box component="header" sx={{...style, ...sx}} {...otherProps}>
             <Stack sx={{alignItems:"center"}}>
             {children}
             </Stack>

@@ -282,7 +282,7 @@ function MatchHeader(props : matchHeaderInterface & {sx?: any}) {
     const imgB = outImg(props.teamB.logo?.formats.thumbnail.url);
 
     return (
-        <Paper sx={{ padding: "10px", ...props.sx }}>
+        <Paper component="header" sx={{ padding: "10px", ...props.sx }}>
             <Stack sx={{ alignItems: 'center' }}>
                 <Stack direction="row" sx={{ justifyContent: "center", alignItems: "center" }} spacing={2}>
                     <Avatar sx={{ width: 57, height: 57 }} href={teamALink} component={Link} alt={"logo " + props.teamA.name} src={imgA}/>
