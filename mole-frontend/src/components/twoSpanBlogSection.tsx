@@ -12,7 +12,7 @@ import Grid from '@mui/material/Unstable_Grid2';
         variant: "contentRight" | "contentLeft". Whether to put the content side on the right or on the left
         sx: style prop. Applied to the root Grid element. Declare height attribute to change the height of the section (default 200px)
 */
-export default function TwoSpanBlogSection({src, children, variant="contentRight", sx}: {src?:String, children?:JSX.Element[], variant?:"contentRight" | "contentLeft", sx?: {[key: string] : string} }){
+export default function TwoSpanBlogSection({src, children, variant="contentRight", sx}: {src?:String, children?:JSX.Element[], variant?:"contentRight" | "contentLeft", sx?: {[key: string] : any} }){
     var polygon = null;
     var margin = null;
     if(variant === "contentRight"){

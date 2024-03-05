@@ -25,8 +25,7 @@ export default function Footer() {
               Chi siamo
             </Typography>
             <Typography variant="body2" color="secondary.text">
-              We are XYZ company, dedicated to providing the best service to our
-              customers.
+            Mole Cup è un'associazione nata nel 2017 con l'obbiettivo di creare un torneo di calcio innovativo e coinvolgente tra le scuole superiori di Torino
             </Typography>
           </Grid>
           <Grid item xs={12} sm={4}>
