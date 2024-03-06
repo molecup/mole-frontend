@@ -98,7 +98,7 @@ function FeaturesSection(){
         {
             Icon :  WhereToVoteRoundedIcon,
             title: "Unico",
-            text: "Un format unico e coinvolgente, costruito appositamente per attirare un vasto pubblico all'interno delle scuole, indipendentemente dai loro meriti sportivi"
+            text: "Siamo il primo torneo in Italia specificamente rivolto alle scuole superiori"
         },
         {
             Icon :  Diversity1RoundedIcon,
