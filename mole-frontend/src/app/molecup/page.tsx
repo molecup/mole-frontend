@@ -13,6 +13,7 @@ import RelatedArticles, { RelatedArticlesGrid, getRelatedArticles } from '@/comp
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Toolbar from '@mui/material/Toolbar';
+import Stack from '@mui/material/Stack';
 
 /*
 import matchImg from "@/components/static_media/match_placeholder.jpg";
@@ -94,9 +95,11 @@ export default async function MoleCup() {
   }
   return (
     <>
-      <HeroHeader src="/DSC_0666-3.jpg">
-        <Typography variant="h1" color="white" textTransform="uppercase">{tournament.name}</Typography>
-        <Typography variant="h6" color="white">Dodici squadre, un solo campione</Typography>
+      <HeroHeader src="/DSC_0666-3.jpg" sx={{height: "300px"}}>
+        <Stack alignItems="center" spacing={2}>
+          <Typography variant="h1" color="white" textTransform="uppercase">{tournament.name}</Typography>
+          <Typography variant="h3" color="primary.main" fontWeight={700} textTransform="capitalize">{"Reale mutua"}</Typography>
+        </Stack>
       </HeroHeader>
 
       <SmallLayout
