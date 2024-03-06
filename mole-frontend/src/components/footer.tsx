@@ -50,7 +50,7 @@ export default function Footer() {
               <Facebook />
             </Link>
             <Link
-              href="https://www.instagram.com/"
+              href="https://www.instagram.com/molecup_torino/"
               color="inherit"
               sx={{ pl: 1, pr: 1 }}
             >
