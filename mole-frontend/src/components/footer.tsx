@@ -25,7 +25,7 @@ export default function Footer() {
               Chi siamo
             </Typography>
             <Typography variant="body2" color="secondary.text">
-            Mole Cup è un'associazione nata nel 2017 con l'obbiettivo di creare un torneo di calcio innovativo e coinvolgente tra le scuole superiori di Torino
+            {"Mole Cup è un'associazione nata nel 2017 con l'obbiettivo di creare un torneo di calcio innovativo e coinvolgente tra le scuole superiori di Torino"}
             </Typography>
           </Grid>
           <Grid item xs={12} sm={4}>

@@ -38,8 +38,8 @@ export default function CookiesSnackbar(){
     const message = (
         <>
         <Typography variant="body1">
-        Questo sito utilizza cookies, anche di terze parti, per migliorare il servizio offerto. 
-        Proseguendo nella navigazione del sito, acconsenti alle modalità d'uso dei cookie.
+        {"Questo sito utilizza cookies, anche di terze parti, per migliorare il servizio offerto. \
+        Proseguendo nella navigazione del sito, acconsenti alle modalità d'uso dei cookie."}
         <Typography sx={{marginLeft: "2pt"}} component="a" href="/cookie-policy" variant="body2" color="secondary.contrastText">Ulteriori informazioni</Typography>
         </Typography>
         </>

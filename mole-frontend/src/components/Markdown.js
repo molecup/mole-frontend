@@ -1,4 +1,4 @@
-import Markdown from "markdown-to-jsx";
+import MarkdownJSX from "markdown-to-jsx" ;
 import Typography from "@mui/material/Typography";
 import Link from "next/link";
 import Image from "next/image";
@@ -6,9 +6,9 @@ import Stack from "@mui/material/Stack";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 
-export default function({children}){
+export default function Markdown({children}){
     return(
-        <Markdown
+        <MarkdownJSX
             options = {{
                 wrapper : 'article',
                 overrides: {
@@ -29,7 +29,7 @@ export default function({children}){
             }}
         >
             {children}
-        </Markdown>
+        </MarkdownJSX>
     )
 }
 
@@ -138,7 +138,7 @@ function NextImage(props){
     return(
         <Box align="center">
             <Paper sx={{ position: 'relative', height: {xs: "200px", sm: "280px", md:"350px", lg:"400px"}, maxWidth:{xs:"400px", sm:"500px", md:"600px", lg:"800px"}, marginTop: "10px", marginBottom: "10px"}}>
-                <Image {...props} fill={true}  sx={{objectFit : "fill"}} sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 60vw" />
+                <Image {...props} fill={true}  sx={{objectFit : "fill"}} sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 60vw" alt="" />
             </Paper>
         </Box>
         

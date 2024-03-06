@@ -38,7 +38,7 @@ const Map = ({ address, mapHeight="400px", id="map", ...props }) => {
         }
       });
     });
-  }, [address]);
+  }, [address, id]);
   return <Box id={id} ref={googlemap} sx={{ height: mapHeight, ...props.sx }}></Box>;
 };
   export default Map;

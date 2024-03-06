@@ -64,7 +64,7 @@ function CircularStatistic(props){
         return () => {
           clearInterval(timer);
         };
-      }, []);
+      }, [value]);
 
     const style = { 
         [`& .${circularProgressClasses.circle}`]: {

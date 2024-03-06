@@ -16,13 +16,13 @@ export default function Home(){
     return(
         <>
             <HeroHeader src="/DSC_0666-3.jpg">
-                <Typography variant="h1" color="white" textTransform="uppercase">Mole cup</Typography>
-                <Typography variant="h3" color="primary.main" textTransform="capitalize">Reale mutua</Typography>
+                <Typography variant="h1" color="white" textTransform="uppercase">{"Mole cup"}</Typography>
+                <Typography variant="h3" color="primary.main" textTransform="capitalize">{"Reale mutua"}</Typography>
             </HeroHeader>
             <TwoSpanBlogSection src="/DSC_0666-3.jpg" sx={{height: {xs:"400px", sm:"300px", md:"300px"}}}>
-                <Typography variant="h2" color="primary.main" fontWeight={500}>Chi siamo</Typography>
-                <Typography variant="body1">Mole Cup è un'associazione nata nel 2017 con l'obbiettivo di creare un torneo di calcio innovativo e coinvolgente tra le scuole superiori di Torino</Typography>
-                <Typography variant="body1">Dal 2025 la Molecup si espanderà in tutta Italia, con l'obbiettivo di creare un campionato nazionale che abbia un torneo in ogni grande città italiana, a partire da Torino, Firenze e Milano</Typography>
+                <Typography variant="h2" color="primary.main" fontWeight={500}>{"Chi siamo"}</Typography>
+                <Typography variant="body1">{"Mole Cup è un'associazione nata nel 2017 con l'obbiettivo di creare un torneo di calcio innovativo e coinvolgente tra le scuole superiori di Torino"}</Typography>
+                <Typography variant="body1">{"Dal 2025 la Molecup si espanderà in tutta Italia, con l'obbiettivo di creare un campionato nazionale che abbia un torneo in ogni grande città italiana, a partire da Torino, Firenze e Milano"}</Typography>
             </TwoSpanBlogSection>
             
             <FeaturesSection/>
@@ -69,8 +69,8 @@ function FeaturesSection(){
                 <Grid container sx={{textAlign:"center"}} spacing={3}>
                     <Grid xs={12}>
                         <Stack direction="column" spacing={2}>
-                            <Typography variant="h2" color="primary.main" fontWeight={500}>L'Evento</Typography>
-                            <Typography variant="body1">Un format unico e coinvolgente, costruito appositamente per attirare un vasto pubblico all'interno delle scuole, indipendentemente dai loro meriti sportivi</Typography>
+                            <Typography variant="h2" color="primary.main" fontWeight={500}>{"L'Evento"}</Typography>
+                            <Typography variant="body1">{"Un format unico e coinvolgente, costruito appositamente per attirare un vasto pubblico all'interno delle scuole, indipendentemente dai loro meriti sportivi"}</Typography>
                         </Stack>
                     </Grid>
                     {features.map((featureItem, idx) => 
