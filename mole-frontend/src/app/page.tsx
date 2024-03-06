@@ -13,16 +13,19 @@ import WhereToVoteRoundedIcon from '@mui/icons-material/WhereToVoteRounded';
 import Paper from '@mui/material/Paper';
 import FormatQuoteRoundedIcon from '@mui/icons-material/FormatQuoteRounded';
 import ChangeHistoryRoundedIcon from '@mui/icons-material/ChangeHistoryRounded';
+import Button from '@mui/material/Button';
+import Link from 'next/link';
 
 
 export default function Home(){
     return(
         <>
-            <HeroHeader src="/DSC_0666-3.jpg" sx={{height: "66vh"}}>
+            <HeroHeader src="/DSC_0666-3.jpg" sx={{height: "70vh"}}>
                 <Stack alignItems="center" spacing={2}>
                     <Typography variant="h1" color="white" textTransform="uppercase">{"Mole cup"}</Typography>
                     <Typography variant="h3" color="primary.main" fontWeight={700} textTransform="capitalize">{"Reale mutua"}</Typography>
                     <Typography variant="h6" color="secondary.contrastText" sx={{pt: "20px", textAlign:"center"}}>{"Dai banchi di scuola ai campi da calcio: il teatro del torneo più atteso dagli studenti"}</Typography>
+                    <Button variant="contained" LinkComponent={Link} href="/molecup" sx={{padding: "10px 20px 10px 20px", mt: "20px"}}>Vai al torneo</Button>
                 </Stack>
             </HeroHeader>
             <TwoSpanBlogSection src="/static/DSCF6614-Migliorato-NR.jpg" sx={{height: {xs:"400px", sm:"300px", md:"300px"}}}>
