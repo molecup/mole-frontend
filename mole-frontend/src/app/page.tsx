@@ -15,6 +15,19 @@ import FormatQuoteRoundedIcon from '@mui/icons-material/FormatQuoteRounded';
 import ChangeHistoryRoundedIcon from '@mui/icons-material/ChangeHistoryRounded';
 import Button from '@mui/material/Button';
 import Link from 'next/link';
+import LanRoundedIcon from '@mui/icons-material/LanRounded';
+import EmojiEventsRoundedIcon from '@mui/icons-material/EmojiEventsRounded';
+import SportsSoccerRoundedIcon from '@mui/icons-material/SportsSoccerRounded';
+import StarRoundedIcon from '@mui/icons-material/StarRounded';
+
+import Timeline from '@mui/lab/Timeline';
+import TimelineItem, { timelineItemClasses } from '@mui/lab/TimelineItem';
+import TimelineSeparator from '@mui/lab/TimelineSeparator';
+import TimelineConnector from '@mui/lab/TimelineConnector';
+import TimelineContent from '@mui/lab/TimelineContent';
+import TimelineDot, { TimelineDotProps } from '@mui/lab/TimelineDot';
+import TimelineOppositeContent from '@mui/lab/TimelineOppositeContent';
+import Quote from '@/components/quote';
 
 
 export default function Home(){
@@ -39,11 +52,110 @@ export default function Home(){
                     <Typography variant="body1">{"Dal 2025 la Molecup si espanderà in tutta Italia, con l'obbiettivo di creare un campionato nazionale che abbia un torneo in ogni grande città italiana, a partire da Torino, Firenze e Milano"}</Typography>
                 </Stack>
             </TwoSpanBlogSection>
+
+            <HowDoesItWork />
+
+            <ValuesSection />
             
             <FeaturesSection/>
 
             <PromoterSection />
         </>
+    );
+}
+
+function HowDoesItWork(){
+    const phases : {color: TimelineDotProps["color"], title:string, description:string, Icon:any}[] = [
+        {
+            title: "Fase a gironi",
+            description: "Le squadre si affrontano in tre gironi da quattro squadre",
+            Icon: SportsSoccerRoundedIcon,
+            color: "secondary",
+        },
+        {
+            title: "Eliminazione diretta",
+            description: "Le prime due squadre di ogni girone e le due migliori terze procedono alla fase ad eliminazione diretta",
+            Icon: EmojiEventsRoundedIcon,
+            color: "primary",
+        },
+        {
+            title: "Rappresentativa Mole Cup vs pro clubs",
+            description: "Stay tuned",
+            Icon: StarRoundedIcon,
+            color: "warning",
+        },
+    ];
+
+    return(
+        <Box component="section">
+            <Container sx={{textAlign: "center", mt:5, mb:10}}>
+                <Typography variant="h2" color="primary.main" fontWeight={500}>Come funziona</Typography>
+                <Timeline position="alternate-reverse" >
+                    {phases.map((phase, idx) => 
+                        <TimelineItem key={idx}>
+                            <TimelineSeparator>
+                            <TimelineDot color={phase.color}>
+                                <phase.Icon/>
+                            </TimelineDot>
+                            {idx < phases.length-1 && <TimelineConnector />}
+                            </TimelineSeparator>
+                            <TimelineContent>
+                                <Typography variant="h6" textTransform="uppercase">{phase.title}</Typography>
+                                <Typography variant="body2">{phase.description}</Typography>
+                            </TimelineContent>
+                        </TimelineItem>
+                    )}
+                </Timeline>
+                <Box sx={{mt:5, mb:5}}>
+                    <Typography variant="h6" textTransform="uppercase" color="primary">Halftime challenges</Typography>
+                    <Stack>
+                        <Typography variant="body2">Ogni partita offre una sfida diversa durante l'intervallo</Typography>
+                        <Typography variant="body2">I tifosi possono partecipare per vincere premi individuali e collettivi</Typography>
+                    </Stack>
+                </Box>
+                <Button variant="contained" LinkComponent={Link} href="/molecup">Vai al torneo</Button>
+            </Container>
+        </Box>
+    );
+}
+
+function ValuesSection(){
+    const values = [
+        {
+            title: "Alternanza scuola lavoro",
+            description: 
+                <Typography variant="body2">
+                    Offriamo progetti di alternanza scuola lavoro (riprese e montaggio, giornalismo, sicurezza)
+                </Typography>
+        },
+        {
+            title: "Cause benefiche",
+            description: 
+                <Typography variant="body2">
+                    Sosteniamo cause benefiche come <b> ONG Interos </b>, <b>Just the woman I am</b>, <b>Onlus</b>, <b>African Impact</b>, <b>FFF</b>
+                </Typography>
+        },
+        {
+            title: "Donazioni",
+            description: 
+                <Typography variant="body2">
+                    Abbiamo donato oltre 3000&euro; per l'emergenza Covid e oltre 500&euro; all'associazione <b>Genova nel cuore</b>
+                </Typography>
+        },
+    ]
+    return(
+        <TwoSpanBlogSection variant="contentLeft" src="/static/DSCF6576-Migliorato-NR.jpg" sx={{height: {xs:"600px", sm:"450px", md:"450px"}}}>
+            <Typography variant="h2" color="primary.main" fontWeight={500}>I nostri valori</Typography>
+            <Quote>{"Lo sport nei giovani può avere un impatto sulla formazione del futuro"}</Quote>
+            <Stack spacing={3} sx={{pt: 5}}>
+                {values.map((item, idx) => 
+                    <Box component="span" key={idx}>
+                    <Typography variant="h6" textTransform="uppercase" color="primary">{item.title}</Typography>
+                    {item.description}
+                </Box>
+                )}
+            </Stack>
+        </TwoSpanBlogSection>
     );
 }
 
@@ -77,11 +189,7 @@ function PromoterSection(){
                                         <Avatar src={promoter.img} alt={promoter.name} sx={{ width: 70, height: 70 }}/>
                                         <Typography variant="h4" color="text.primary" textTransform="uppercase">{promoter.name}</Typography>
                                         <Typography variant="caption" textTransform="uppercase" color="primary.main">{promoter.description}</Typography>
-                                        <Stack direction="row" spacing={2}>
-                                            <FormatQuoteRoundedIcon sx={{color: "text.secondary", display:"inline-block"}}/>
-                                            <Typography variant="body1" color="text.secondary" sx={{display:"inline-block"}}>{promoter.quote}</Typography>
-                                            <FormatQuoteRoundedIcon sx={{color: "text.secondary", display:"inline-block"}}/>
-                                        </Stack>
+                                        <Quote>{promoter.quote}</Quote>
                                     </Stack>
                                 </Box>
                             </Grid>
