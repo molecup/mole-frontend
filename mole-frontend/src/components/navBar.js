@@ -34,11 +34,14 @@ const pages=[
   { name: 'Molecup', url: '/molecup' },
   { name:'News', url: '/news' },
 ];
+
+
 const settings = [
   { name:'Profile', url:"/" },
   { name:'Account', url:"/" },
   { name:'Logout', url:"/" },
 ];
+
 
 function HideOnScroll(props) {
   const { children } = props;
@@ -179,7 +182,8 @@ function NavBar(props) {
             </Box>
             
             {/*profile settings*/}
-            <Box sx={{ flexGrow: 0 }}>
+            {/* REMOVE 'DIPLAY NONE' FROM BELOW TO SHOW ACCOUNT SETTING */}
+            <Box sx={{ flexGrow: 0, display:"none" }}>
               <Tooltip title="Open settings">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                   <Avatar alt="Remy Sharp">
@@ -188,7 +192,7 @@ function NavBar(props) {
                 </IconButton>
               </Tooltip>
               <Menu
-                sx={{ mt: '45px' }}
+                sx={{ mt: '45px'}}
                 id="menu-appbar"
                 anchorEl={anchorElUser}
                 anchorOrigin={{
