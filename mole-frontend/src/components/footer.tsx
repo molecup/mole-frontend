@@ -33,12 +33,12 @@ export default function Footer() {
               Contatti
             </Typography>
             <Typography variant="body2" color="secondary.text">
-              123 Main Street, Anytown, USA
+              Via Don Giovanni Minzoni 14, Torino, 10121
             </Typography>
             <Typography variant="body2" color="secondary.text">
-              Email: info@example.com
+              Email: molecup@gmail.com
             </Typography>
-            <Typography variant="body2" color="secondary.text">
+            <Typography variant="body2" color="secondary.text" sx={{display: "none"}}>
               Phone: +1 234 567 8901
             </Typography>
           </Grid>
@@ -46,18 +46,11 @@ export default function Footer() {
             <Typography variant="h6" color="secondary.contrastText" gutterBottom>
               Seguici
             </Typography>
-            <Link href="https://www.facebook.com/" color="inherit">
-              <Facebook />
-            </Link>
             <Link
               href="https://www.instagram.com/molecup_torino/"
               color="inherit"
-              sx={{ pl: 1, pr: 1 }}
             >
               <Instagram />
-            </Link>
-            <Link href="https://www.twitter.com/" color="inherit">
-              <Twitter />
             </Link>
           </Grid>
         </Grid>
