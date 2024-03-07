@@ -16,6 +16,9 @@ const nextConfig = {
         },
       ],
     },
+    publicRuntimeConfig: {
+      buildDate: new Date().toISOString(),
+    },
   };
 
 module.exports = nextConfig
