@@ -37,14 +37,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     }));
 
     /*@ts-ignore*/
-    const lastUpdatedArticle = new Date(Math.max.apply(null, articleSlugs.map(function(e) {
+    const lastUpdatedArticle = Array.isArray(articleSlugs) && articleSlugs.length > 0 ? new Date(Math.max.apply(null, articleSlugs.map(function(e) {
         return new Date(e.updatedAt);
-      })));
+      }))) : buildDate;
 
     /*@ts-ignore*/
-    const lastUpdatedMatch = new Date(Math.max.apply(null, matchIds.map(function(e) {
+    const lastUpdatedMatch = Array.isArray(matchIds) && matchIds.length > 0 ? new Date(Math.max.apply(null, matchIds.map(function(e) {
     return new Date(e.updatedAt);
-    })));
+    }))) : buildDate;
 
     const staticPages : MetadataRoute.Sitemap = [
         {
