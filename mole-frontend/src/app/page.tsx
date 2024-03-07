@@ -109,7 +109,7 @@ function HowDoesItWork(){
                 <Box sx={{mt:5, mb:5}}>
                     <Typography variant="h6" textTransform="uppercase" color="primary">Halftime challenges</Typography>
                     <Stack>
-                        <Typography variant="body2">Ogni partita offre una sfida diversa durante l'intervallo</Typography>
+                        <Typography variant="body2">{"Ogni partita offre una sfida diversa durante l'intervallo"}</Typography>
                         <Typography variant="body2">I tifosi possono partecipare per vincere premi individuali e collettivi</Typography>
                     </Stack>
                 </Box>
@@ -139,7 +139,7 @@ function ValuesSection(){
             title: "Donazioni",
             description: 
                 <Typography variant="body2">
-                    Abbiamo donato oltre 3000&euro; per l'emergenza Covid e oltre 500&euro; all'associazione <b>Genova nel cuore</b>
+                    Abbiamo donato oltre 3000&euro; per l&apos;emergenza Covid e oltre 500&euro; all&apos;associazione <b>Genova nel cuore</b>
                 </Typography>
         },
     ]
