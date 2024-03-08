@@ -12,7 +12,7 @@ const nextConfig = {
         {
           protocol: process.env.MEDIA_PROTOCOL,
           hostname: process.env.MEDIA_HOSTNAME,
-          port: process.env.MEDIA_PORT,
+          port: process.env.MEDIA_POPRT,
         },
       ],
     },
