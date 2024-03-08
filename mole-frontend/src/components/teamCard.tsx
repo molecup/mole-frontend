@@ -19,7 +19,7 @@ export interface teamCardProps {
 }
 
 export default function TeamCard(props : teamCardProps){
-    const imgUrl = outImg(props.img?.formats.medium.url);
+    const imgUrl = outImg(props.img?.formats.medium?.url, "/match_placeholder.jpg");
     return(
         <Card sx={{
             MaxWidth: props.noTitle? 140 : 180,
