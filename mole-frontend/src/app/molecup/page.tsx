@@ -14,7 +14,7 @@ import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Toolbar from '@mui/material/Toolbar';
 import Stack from '@mui/material/Stack';
-import { isArray } from 'util';
+import type { Metadata } from 'next'
 
 /*
 import matchImg from "@/components/static_media/match_placeholder.jpg";
@@ -54,6 +54,11 @@ const matches = [
 
 ];
 */
+
+export const metadata: Metadata = {
+  title: 'Mole cup Reale Mutua - Il torneo',
+  description: 'Le ultime novità della Mole Cup Reale Mutua',
+}
 
 const marginBottom = {
   marginBottom: "20px",
@@ -163,14 +168,12 @@ function BigLayout({teams, firstTeam, matches, standingTables, news, sx}: layout
                 <MatchSliderSection matches={matches} />
               </Paper>
 
-              {Array.isArray(news) && news.length > 0 &&
               <Paper>
                 <Toolbar sx={{borderRadius: "4px 4px 0 0"}}>
                     <Typography variant='h5'>Ultime notizie</Typography>
                 </Toolbar>
                 <RelatedArticlesGrid articles = {news}/>
-              </Paper>
-              }             
+              </Paper>        
             </Grid>
             <Grid md={4}>
               <StandingTableSection standingTables={standingTables}/>
