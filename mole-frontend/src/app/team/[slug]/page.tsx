@@ -10,7 +10,7 @@ import Avatar from '@mui/material/Avatar';
 import HeroHeader from '@/components/heroHeader';
 import CircularStatistics from '@/components/circularStatistics';
 import publicFetch from '@/lib/publicFetch';
-import outImg from '@/lib/outImg';
+import { stableImg } from '@/lib/outImg';
 import { imgFormatsInterface, teamRankInterface } from '@/lib/commonInterfaces';
 import dateTimeText from '@/lib/dateTimeText';
 import NewsCard, { newsCardInterface } from '@/components/newsCard';
@@ -252,8 +252,8 @@ interface teamHeaderProps {
 }
 
 function TeamHeader(props : teamHeaderProps) {
-    const logoUrl = outImg(props.logo?.formats.medium.url);
-    const coverUrl = outImg(props.cover?.formats.medium.url, "/match_placeholder.jpg");
+    const logoUrl = stableImg(props.logo, "small");
+    const coverUrl = stableImg(props.cover, "medium", "/match_placeholder.jpg");
     return (
         <>
             <HeroHeader sx={{padding: "10px"}} src={coverUrl}>

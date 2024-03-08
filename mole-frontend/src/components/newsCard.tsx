@@ -10,7 +10,7 @@ import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import Avatar from '@mui/material/Avatar';
 import defaultImg from "@/components/static_media/match_placeholder.jpg";
 import { imgFormatsInterface, teamInterface } from "@/lib/commonInterfaces";
-import outImg from "@/lib/outImg";
+import outImg, { stableImg } from "@/lib/outImg";
 import Stack from '@mui/material/Stack';
 import dateTimeText from '@/lib/dateTimeText';
 
@@ -27,7 +27,7 @@ export interface newsCardInterface {
 }
 
 export default  function NewsCard({elevation=3, ...props} : newsCardInterface){
-    const imgUrl = outImg(props.img?.formats.medium.url, defaultImg);
+    const imgUrl = stableImg(props.img, "small", defaultImg);
     const [date, time] = dateTimeText(props.date);
   return (
     <Card sx={{

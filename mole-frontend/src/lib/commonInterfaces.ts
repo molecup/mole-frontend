@@ -7,9 +7,9 @@ export interface imgInterface{
 
 export interface imgFormatsInterface{
     formats: {
-        large : imgInterface,
-        medium : imgInterface,
-        small : imgInterface,
+        large? : imgInterface,
+        medium? : imgInterface,
+        small? : imgInterface,
         thumbnail : imgInterface,
     },
     caption : string | null,

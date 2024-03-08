@@ -6,7 +6,7 @@ import Typography from "@mui/material/Typography";
 import Image from "next/image";
 import Link from "next/link";
 import { imgFormatsInterface } from "@/lib/commonInterfaces";
-import outImg from "@/lib/outImg";
+import outImg, { stableImg } from "@/lib/outImg";
 
 
 export interface teamCardProps {
@@ -19,7 +19,7 @@ export interface teamCardProps {
 }
 
 export default function TeamCard(props : teamCardProps){
-    const imgUrl = outImg(props.img?.formats.medium?.url, "/match_placeholder.jpg");
+    const imgUrl = stableImg(props.img, "medium", "/match_placeholder.jpg");
     return(
         <Card sx={{
             MaxWidth: props.noTitle? 140 : 180,

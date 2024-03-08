@@ -3,7 +3,7 @@ import Container from "@mui/material/Container";
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
 import Markdown from "@/components/Markdown";
-import outImg from "@/lib/outImg";
+import { stableImg } from "@/lib/outImg";
 import { imgFormatsInterface } from "@/lib/commonInterfaces";
 import HeroHeader from "@/components/heroHeader";
 import defaultImg from "@/components/static_media/match_placeholder.jpg";
@@ -51,7 +51,7 @@ export default async function NewsArticlePage({params} : {params : {slug : strin
 }
 
 function NewsHeader(props : {title:string, author:string, date:Date, img?: imgFormatsInterface}){
-    const imgUrl = outImg(props.img?.formats.medium.url, "/match_placeholder.jpg");
+    const imgUrl = stableImg(props.img, "medium", "/match_placeholder.jpg");
     const dateText = props.date.toLocaleDateString();
     return (
         <>

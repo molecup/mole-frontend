@@ -9,7 +9,7 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Link from 'next/link';
 import { teamInterface } from '@/lib/commonInterfaces';
-import outImg from '@/lib/outImg';
+import { stableImg } from '@/lib/outImg';
 import publicFetch from '@/lib/publicFetch';
 import { notFound } from 'next/navigation'
 import dateTimeText from '@/lib/dateTimeText';
@@ -278,8 +278,8 @@ interface matchHeaderInterface{
 function MatchHeader(props : matchHeaderInterface & {sx?: any}) {
     const teamALink = "/team/" + props.teamA.slug;
     const teamBLink = "/team/" + props.teamB.slug;
-    const imgA = outImg(props.teamA.logo?.formats.thumbnail.url);
-    const imgB = outImg(props.teamB.logo?.formats.thumbnail.url);
+    const imgA = stableImg(props.teamA.logo, "thumbnail");
+    const imgB = stableImg(props.teamB.logo, "thumbnail");
 
     return (
         <Paper component="header" sx={{ padding: "10px", ...props.sx }}>
