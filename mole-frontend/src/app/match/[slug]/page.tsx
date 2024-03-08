@@ -141,7 +141,7 @@ function SmallLayout({playerList, matchInfo, standingTable, status, date, time, 
             sx={{margin: "10px"}}
         />
         {Array.isArray(matchInfo.matchEvents) && matchInfo.matchEvents.length > 0 && <MatchTimeline matchEvents={matchInfo.matchEvents} teams={[matchInfo.teamA, matchInfo.teamB]}/>}
-        {!status && <LocationMapSmall address={matchInfo.stadium?.location.description} />}
+        {!status && <LocationMapSmall address={matchInfo.stadium?.location?.description} />}
         <TabLayout 
             labels = {[matchInfo.teamA.name, matchInfo.teamB.name, matchInfo.league.name]}
         >   
@@ -152,7 +152,7 @@ function SmallLayout({playerList, matchInfo, standingTable, status, date, time, 
                 teamRanks={standingTable.teams}
             /> }
         </TabLayout>
-        {status && <LocationMapSmall address={matchInfo.stadium?.location.description} />}
+        {status && <LocationMapSmall address={matchInfo.stadium?.location?.description} />}
         </Box>
     )
 }
@@ -171,7 +171,7 @@ function BigLayout({playerList, matchInfo, standingTable, status, date, time, ma
             />
             <Grid container spacing={1} sx={{marginTop:"10px"}}>
                 {Array.isArray(matchInfo.matchEvents) && matchInfo.matchEvents.length > 0 && <TimeLineBig matchInfo={matchInfo}/>}
-                {!status && <LocationMapBig address={matchInfo.stadium?.location.description} />}
+                {!status && <LocationMapBig address={matchInfo.stadium?.location?.description} />}
                 <PlayerBig 
                     playerList = {playerList}
                     teams = {[matchInfo.teamA, matchInfo.teamB]}
@@ -181,7 +181,7 @@ function BigLayout({playerList, matchInfo, standingTable, status, date, time, ma
                     <StandingTableBig
                         standingTable = {standingTable}
                     />
-                    {status && <LocationMapBig address={matchInfo.stadium?.location.description} md={4} />}
+                    {status && <LocationMapBig address={matchInfo.stadium?.location?.description} md={4} />}
                 </Grid>
             </Grid>
         </Container>
