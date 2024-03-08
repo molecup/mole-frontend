@@ -176,16 +176,18 @@ function BigLayout({teams, firstTeam, matches, standingTables, news, sx}: layout
 function TeamSection({teams, firstTeam} : {teams: any, firstTeam: number}){
   return(
     <CardSlider sx={marginBottom}>
-      {teams && Array.isArray(teams) && teams.map((team : any, i : number) =>
-        <TeamCard
-          key={team.id}
-          img={team.attributes.logo.data.attributes}
-          url={'/team/' + team.attributes.slug} 
-          initial={i === firstTeam}
-          name={team.attributes.name}
-          noTitle
-        />
-      )}
+      {teams && Array.isArray(teams) && teams.map((team : any, i : number) => {
+        return(
+          <TeamCard
+            key={team.id}
+            img={team.attributes.logo.data?.attributes}
+            url={'/team/' + team.attributes.slug} 
+            initial={i === firstTeam}
+            name={team.attributes.name}
+            noTitle
+          />
+        );
+      })}
     </CardSlider>
   );
 }

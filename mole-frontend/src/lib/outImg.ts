@@ -7,7 +7,7 @@ export default function outImg (path : string | null | undefined, fallback : any
 export type formats = "thumbnail" | "small" | "medium" | "large";
 
 export function stableImg (img? : imgFormatsInterface | null, format : formats = "medium", fallback : any = "/match_placeholder.jpg") : string{
-    if(!img){
+    if(!img?.formats){
         return outImg(undefined, fallback);
     }
     if(img.formats[format]){
