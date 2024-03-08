@@ -5,6 +5,7 @@ import ThemeRegistry from '@/components/ThemeRegistry/ThemeRegistry';
 import Box from '@mui/system/Box';
 import Footer from '@/components/footer';
 import CookiesSnackbar from '@/components/cookiesSnackbar';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 
 
 //const inter = Inter({ subsets: ['latin'] })
@@ -27,6 +28,7 @@ export default function RootLayout({
           <Box sx={{display: 'flex', flexDirection: 'column', minHeight: '130vh',}}>
             <Box sx={{padding : 0}}>
               {children}
+              <SpeedInsights/>
             </Box>
             <Footer/>
           </Box>
@@ -34,6 +36,7 @@ export default function RootLayout({
         </NavBar>
         <CookiesSnackbar/>
       </ThemeRegistry>
+
       </body>
     </html>
   )
