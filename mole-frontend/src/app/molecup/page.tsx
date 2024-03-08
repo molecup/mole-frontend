@@ -14,6 +14,7 @@ import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Toolbar from '@mui/material/Toolbar';
 import Stack from '@mui/material/Stack';
+import { isArray } from 'util';
 
 /*
 import matchImg from "@/components/static_media/match_placeholder.jpg";
@@ -133,8 +134,13 @@ function SmallLayout({teams, firstTeam, matches, standingTables, news, sx}: layo
           matches={matches}
         />
 
-        <Typography variant="h2" align="center" gutterBottom>Notizie</Typography>
-        <RelatedArticles articles={news} sx={marginBottom} />
+        
+        {Array.isArray(news) && news.length > 0 && 
+        <>
+          <Typography variant="h2" align="center" gutterBottom>Notizie</Typography> 
+          <RelatedArticles articles={news} sx={marginBottom} /> 
+        </>
+        }
 
         <Typography variant="h2" align="center" gutterBottom>Il torneo</Typography>
         <StandingTableSection standingTables={standingTables}/>
@@ -157,12 +163,14 @@ function BigLayout({teams, firstTeam, matches, standingTables, news, sx}: layout
                 <MatchSliderSection matches={matches} />
               </Paper>
 
+              {Array.isArray(news) && news.length > 0 &&
               <Paper>
                 <Toolbar sx={{borderRadius: "4px 4px 0 0"}}>
                     <Typography variant='h5'>Ultime notizie</Typography>
                 </Toolbar>
                 <RelatedArticlesGrid articles = {news}/>
               </Paper>
+              }             
             </Grid>
             <Grid md={4}>
               <StandingTableSection standingTables={standingTables}/>
@@ -195,7 +203,7 @@ function TeamSection({teams, firstTeam} : {teams: any, firstTeam: number}){
 function StandingGrid(props: any){
   const {children, ...otherProps} = props;
   return(
-    <Grid xs={12} sm={6} lg={4} {...otherProps}>
+    <Grid xs={12} sm={6} lg={4} {...otherProps} >
       {children}
     </Grid>
   )
@@ -204,18 +212,18 @@ function StandingGrid(props: any){
 function StandingTableSection({standingTables} : {standingTables : any}){
   return(
     <Grid container sx={{...marginBottom, padding:"10px"}} spacing={1}>
+      {standingTables && Array.isArray(standingTables) ? standingTables.sort((a, b) => a.name.localeCompare(b.name)).map((table : {teams : teamRankInterface[], name : string}, i : number) => 
         <StandingGrid>
-          {standingTables && Array.isArray(standingTables) ? standingTables.sort((a, b) => a.name.localeCompare(b.name)).map((table : {teams : teamRankInterface[], name : string}, i : number) => 
-            <StandingTable 
-              key = {i}
-              title = {table.name}
-              teamRanks = {table.teams}
-            />
-          ) :
-            <Typography>Nessun girone trovato</Typography>
-          }
+          <StandingTable 
+            key = {i}
+            title = {table.name}
+            teamRanks = {table.teams}
+          />
         </StandingGrid>
-      </Grid>
+      ) :
+        <Typography>Nessun girone trovato</Typography>
+      }
+    </Grid>
   );
 }
 
