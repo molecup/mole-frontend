@@ -216,9 +216,8 @@ function StandingTableSection({standingTables} : {standingTables : any}){
   return(
     <Grid container sx={{...marginBottom, padding:"10px"}} spacing={1}>
       {standingTables && Array.isArray(standingTables) ? standingTables.sort((a, b) => a.name.localeCompare(b.name)).map((table : {teams : teamRankInterface[], name : string}, i : number) => 
-        <StandingGrid>
-          <StandingTable 
-            key = {i}
+        <StandingGrid key = {i}>
+          <StandingTable
             title = {table.name}
             teamRanks = {table.teams}
           />
