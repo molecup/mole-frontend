@@ -6,7 +6,7 @@ import ListItemText from '@mui/material/ListItemText';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
-import outImg from '@/lib/outImg';
+import { stableImg } from '@/lib/outImg';
 import { imgFormatsInterface } from '@/lib/commonInterfaces';
 import { GoalIcon, YellowCardIcon, RedCardIcon } from '@/components/eventIcons';
 import { mapEventType } from '@/lib/generatePlayerMapEvent';
@@ -26,7 +26,7 @@ export default function PlayerList({ playerList, mapEvent } : {playerList : play
     return (
         <List sx={{ width: '100%', bgcolor: 'background.paper' }}>
             {playerList.sort((entry) => entry.shirtNumber).map((player, i) => {
-                const imgUrl = outImg(player.img?.formats.medium.url, null);
+                const imgUrl = stableImg(player.img, "small", null);
                 return(
                     <Fragment key={i}>
                     <ListItem alignItems="flex-start"

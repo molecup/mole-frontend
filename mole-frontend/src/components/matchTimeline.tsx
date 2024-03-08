@@ -6,7 +6,7 @@ import StepIcon from '@mui/material/StepIcon';
 import { GoalIcon, YellowCardIcon, RedCardIcon } from '@/components/eventIcons';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import { teamInterface } from '@/lib/commonInterfaces';
-import outImg from '@/lib/outImg';
+import { stableImg } from '@/lib/outImg';
 import Avatar from '@mui/material/Avatar';
 import Stack from '@mui/material/Stack';
 import Paper from '@mui/material/Paper';
@@ -49,7 +49,7 @@ export default function MatchTimeline({matchEvents, teams} : {matchEvents : matc
 }
 
 function EventLabel({teams, teamIdx, label}: {teams:[teamInterface, teamInterface], teamIdx:0|1,  label:string}){
-    const img = outImg(teams[teamIdx].logo?.formats.thumbnail.url);
+    const img = stableImg(teams[teamIdx].logo, "thumbnail");
     const colors = ["primary.light", "secondary.light"];
     return(
         <Paper sx={{bgcolor: colors[teamIdx], paddingBottom: "5px"}}>

@@ -6,7 +6,7 @@ import Typography from "@mui/material/Typography";
 import Image from "next/image";
 import Link from "next/link";
 import { imgFormatsInterface } from "@/lib/commonInterfaces";
-import outImg, { stableImg } from "@/lib/outImg";
+import { stableImg } from "@/lib/outImg";
 
 
 export interface teamCardProps {

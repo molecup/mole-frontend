@@ -10,7 +10,7 @@ import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import Avatar from '@mui/material/Avatar';
 import defaultImg from "@/components/static_media/match_placeholder.jpg";
 import { imgFormatsInterface, teamInterface } from "@/lib/commonInterfaces";
-import outImg, { stableImg } from "@/lib/outImg";
+import { stableImg } from "@/lib/outImg";
 import Stack from '@mui/material/Stack';
 import dateTimeText from '@/lib/dateTimeText';
 

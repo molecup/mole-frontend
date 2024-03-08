@@ -10,8 +10,8 @@ import Typography from '@mui/material/Typography';
 import Avatar from '@mui/material/Avatar';
 import Stack from '@mui/system/Stack';
 import Link from 'next/link';
-import { imgFormatsInterface, teamRankInterface } from '@/lib/commonInterfaces';
-import outImg from '@/lib/outImg';
+import { teamRankInterface } from '@/lib/commonInterfaces';
+import { stableImg } from '@/lib/outImg';
 
 /*
 const teamRanking = [
@@ -62,7 +62,7 @@ export default function StandingTable({title, teamRanks, ...props} : {title : st
                         <TableCell sx={{...stickyColStyle, ...stickyColBorderStyle, bgcolor: 'background.paper'}} component="th" scope="row">
                             <Stack direction="row" spacing={1}>
                                 <p>{i + 1}</p>
-                                <Avatar href={"/team/"+entry.slug} component={Link} sx={{ width: 24, height: 24 }} alt={entry.name + " icon"} src={outImg(entry.logo?.formats.thumbnail.url)} />
+                                <Avatar href={"/team/"+entry.slug} component={Link} sx={{ width: 24, height: 24 }} alt={entry.name + " icon"} src={stableImg(entry.logo, "thumbnail")} />
                                 <Link href={"/team/"+entry.slug}><Typography color="primary.main" sx={{textDecoration: "underline", textDecorationColor: "primary.main"}}>{entry.name}</Typography></Link>
                             </Stack>
                         </TableCell>
