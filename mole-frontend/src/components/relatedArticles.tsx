@@ -3,6 +3,7 @@ import CardSlider from "./cardSlider";
 import NewsCard from "./newsCard";
 import { imgFormatsInterface } from "@/lib/commonInterfaces";
 import Grid from '@mui/material/Unstable_Grid2';
+import { Typography } from "@mui/material";
 
 
 export interface relatedArticleInterface {
@@ -51,7 +52,7 @@ export async function getRelatedArticles(tags : {id : number}[]) : Promise<relat
 export default function RelatedArticles({articles, ...otherProps} : {articles: relatedArticleInterface[], [index: string]: any}){
     return(
         <>
-        <CardSlider {...otherProps}>
+        {Array.isArray(articles) && articles.length > 0 ? <CardSlider {...otherProps}>
             {articles.map((article : relatedArticleInterface, i : number) => 
                 <NewsCard
                     key={i}
@@ -65,6 +66,9 @@ export default function RelatedArticles({articles, ...otherProps} : {articles: r
                 />
             )}
         </CardSlider>
+        : 
+            <Typography sx={{margin: "5px"}}>Ancora nessun articolo</Typography>
+        }
         </>
     );
 }
@@ -73,7 +77,7 @@ export function RelatedArticlesGrid({articles, xs=12, sm=6, md=6, lg=6, ...other
     return(
         <div>
             <Grid container spacing={1} sx={{padding:"5px"}}>
-            {articles.map((article : relatedArticleInterface, i : number) => 
+            {Array.isArray(articles) && articles.length > 0 ? articles.map((article : relatedArticleInterface, i : number) => 
                 <Grid lg={lg} md={md} sm={sm} xs={xs} key={i}>
                     <NewsCard
                         title = {article.attributes.title}
@@ -86,7 +90,9 @@ export function RelatedArticlesGrid({articles, xs=12, sm=6, md=6, lg=6, ...other
                         elevation={0}
                     />
                 </Grid>
-            )}
+            ) : 
+            <Typography sx={{margin: "5px"}}>Ancora nessun articolo</Typography>
+            }
             </Grid>
         </div>
     );

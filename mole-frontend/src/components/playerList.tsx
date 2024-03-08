@@ -25,7 +25,7 @@ export interface playerListProps {
 export default function PlayerList({ playerList, mapEvent } : {playerList : playerListProps[], mapEvent?: mapEventType}) {
     return (
         <List sx={{ width: '100%', bgcolor: 'background.paper' }}>
-            {playerList.sort((entry) => entry.shirtNumber).map((player, i) => {
+            {Array.isArray(playerList) && playerList.length>0 ? playerList.sort((entry) => entry.shirtNumber).map((player, i) => {
                 const imgUrl = stableImg(player.img, "small", null);
                 return(
                     <Fragment key={i}>
@@ -68,7 +68,9 @@ export default function PlayerList({ playerList, mapEvent } : {playerList : play
                 </Fragment>
                 );
             }
-            )}
+            ) :
+                <Typography sx={{margin: "5px"}}>Ancora nessun giocatore</Typography>
+            }
         </List>
     );
 }
