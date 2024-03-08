@@ -10,7 +10,7 @@ import CookiesSnackbar from '@/components/cookiesSnackbar';
 //const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'Mole cup - official site',
+  title: 'Mole cup - Sito Ufficiale',
   description: 'Sito ufficiale della Mole Cup',
 }
 
