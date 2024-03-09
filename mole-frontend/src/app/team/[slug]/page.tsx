@@ -21,6 +21,8 @@ import { notFound } from 'next/navigation'
 import Image from "next/image";
 import Stack from '@mui/material/Stack';
 
+const showCircularStats = false;
+
 async function getTeamData(slug : string){
     const path = `/api/teams?filters[slug][$eq]=${slug}&populate[logo]=1&populate[cover]=1&populate[article_tags][fields]=id&populate[playerList]=1`;
     const res  = await publicFetch(path);
@@ -81,7 +83,7 @@ interface layoutInterface {
 function SmallLayout({teamData, teamLeagues, articles, teamMatches, sx} : layoutInterface){
     return(
         <Box sx={sx}>
-        <Container sx={{padding:"10px"}}>
+        {showCircularStats && <Container sx={{padding:"10px"}}>
             <CircularStatistics 
                 statistics={[
                     {title: "Edizioni", value:4, tot:4},
@@ -89,7 +91,7 @@ function SmallLayout({teamData, teamLeagues, articles, teamMatches, sx} : layout
                     {title: "Tifosi", value: 1500, tot:50000, hideTot:true}
                 ]}
             />
-        </Container>
+        </Container>}
         
         <CardSlider>
         {teamMatches && Array.isArray(teamMatches) && teamMatches.map((match : any, i : number) => {
@@ -135,13 +137,13 @@ function BigLayout({teamData, teamLeagues, articles, teamMatches, sx} : layoutIn
     return(
         <Box sx={sx}>
             <Container sx={{padding:"10px"}}>
-                <CircularStatistics 
+                {showCircularStats && <CircularStatistics 
                     statistics={[
                         {title: "Edizioni", value:4, tot:4},
                         {title: "vittorie", value:23, tot:30, color:"success"},
                         {title: "Tifosi", value: 1500, tot:50000, hideTot:true}
                     ]}
-                />
+                />}
                 <CardSlider>
                 {teamMatches && Array.isArray(teamMatches) && teamMatches.map((match : any, i : number) => {
                         const [date, time] = dateTimeText(new Date(match.date));
