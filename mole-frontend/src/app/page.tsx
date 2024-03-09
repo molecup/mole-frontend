@@ -10,23 +10,19 @@ import Diversity1RoundedIcon from '@mui/icons-material/Diversity1Rounded';
 import ForestRoundedIcon from '@mui/icons-material/ForestRounded';
 import AccountBalanceRoundedIcon from '@mui/icons-material/AccountBalanceRounded';
 import WhereToVoteRoundedIcon from '@mui/icons-material/WhereToVoteRounded';
-import Paper from '@mui/material/Paper';
-import FormatQuoteRoundedIcon from '@mui/icons-material/FormatQuoteRounded';
 import ChangeHistoryRoundedIcon from '@mui/icons-material/ChangeHistoryRounded';
 import Button from '@mui/material/Button';
 import Link from 'next/link';
-import LanRoundedIcon from '@mui/icons-material/LanRounded';
 import EmojiEventsRoundedIcon from '@mui/icons-material/EmojiEventsRounded';
 import SportsSoccerRoundedIcon from '@mui/icons-material/SportsSoccerRounded';
 import StarRoundedIcon from '@mui/icons-material/StarRounded';
 
 import Timeline from '@mui/lab/Timeline';
-import TimelineItem, { timelineItemClasses } from '@mui/lab/TimelineItem';
+import TimelineItem from '@mui/lab/TimelineItem';
 import TimelineSeparator from '@mui/lab/TimelineSeparator';
 import TimelineConnector from '@mui/lab/TimelineConnector';
 import TimelineContent from '@mui/lab/TimelineContent';
 import TimelineDot, { TimelineDotProps } from '@mui/lab/TimelineDot';
-import TimelineOppositeContent from '@mui/lab/TimelineOppositeContent';
 import Quote from '@/components/quote';
 
 

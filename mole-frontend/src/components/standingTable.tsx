@@ -15,14 +15,6 @@ import { stableImg } from '@/lib/outImg';
 import Image from "next/image";
 
 
-/*
-const teamRanking = [
-    {id: "alf", name: "Alfieri", points: 4, scored: 3, against: 1, victories: 2, draws: 0, losses: 0, img:'/alfieri.png'},
-    {id: "gal", name: "Galfer", points: 1, scored: 1, against: 2, victories: 2, draws: 0, losses: 0, img:'/cattaneo.png'},
-    {id: "cat", name: "Cattaneo", points: 1, scored: 2, against: 3, victories: 2, draws: 0, losses: 0, img:'/gobetti2022.png'},
-];
-*/
-
 const stickyColStyle = {
     position : 'sticky',
     left : 0,

@@ -22,48 +22,6 @@ import generatePlayerMapEvent, { mapEventType } from '@/lib/generatePlayerMapEve
 import MatchTimeline from '@/components/matchTimeline';
 import Image from "next/image";
 
-
-/*
-const playerList = [
-    {firstName: "Giacomo", lastName: "Rossi", shirtNumber: 10, img: null},
-    {firstName: "Giacomo", lastName: "Rossi", shirtNumber: 2, img: null},
-    {firstName: "Giacomo", lastName: "Rossi", shirtNumber: 7, img: null},
-    {firstName: "Giacomo", lastName: "Rossi", shirtNumber: 4, img: null},
-    {firstName: "Giacomo", lastName: "Rossi", shirtNumber: 9, img: null},
-    {firstName: "Gianferdinando", lastName: "Verdi", shirtNumber: 12, img: null},
-    {firstName: "Giacomo", lastName: "Rossi", shirtNumber: 1, img: null},
-    {firstName: "Giacomo", lastName: "Rossi", shirtNumber: 22, img: null},
-    {firstName: "Giacomo", lastName: "Rossi", shirtNumber: 74, img: null},
-    {firstName: "Giacomo", lastName: "Rossi", shirtNumber: 20, img: null},
-    {firstName: "Giacomo", lastName: "Rossi", shirtNumber: 11, img: null},
-    {firstName: "Giacomo", lastName: "Rossi", shirtNumber: 17, img: null},
-    {firstName: "Giacomo", lastName: "Rossi", shirtNumber: 19, img: null},
-];
-
-const dataExample = {
-    teamA : {
-        id: "Alf",
-        name : "Alfieri",
-        short : "alf",
-        img : "/alfieri.png",
-        playerList: playerList,
-    },
-    teamB : {
-        id: "Alf",
-        name : "Cattaneo",
-        short : "cat",
-        img : "/cattaneo.png",
-        playerList: playerList,
-    },
-    score : [0, 1],
-    time : "20:30",
-    date : "20 ottobre 2023",
-    league : {
-        name: "Girone A",
-    }
-}
-*/
-
 async function getMatchInfo(id : number){
     const path = "/api/matches-report/" + id;
     const res  = await publicFetch(path);

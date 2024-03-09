@@ -1,10 +1,8 @@
 'use client'
-import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import Snackbar from "@mui/material/Snackbar";
 import CloseIcon from '@mui/icons-material/Close';
-import { useEffect, useState } from "react";
-import Link from "next/link";
+import { useState } from "react";
 import { Typography } from "@mui/material";
 import { useCookies } from 'react-cookie'
 

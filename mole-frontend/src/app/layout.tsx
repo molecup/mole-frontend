@@ -1,6 +1,6 @@
 import NavBar from '@/components/navBar';
 import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
+//import { Inter } from 'next/font/google'
 import ThemeRegistry from '@/components/ThemeRegistry/ThemeRegistry';
 import Box from '@mui/system/Box';
 import Footer from '@/components/footer';

@@ -7,7 +7,6 @@ import Image from "next/image";
 import Link from "next/link";
 import Chip from '@mui/material/Chip';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
-import Avatar from '@mui/material/Avatar';
 import defaultImg from "@/components/static_media/match_placeholder.jpg";
 import { imgFormatsInterface, teamInterface } from "@/lib/commonInterfaces";
 import { stableImg } from "@/lib/outImg";

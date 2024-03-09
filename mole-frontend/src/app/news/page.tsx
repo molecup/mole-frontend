@@ -1,8 +1,6 @@
 import { RelatedArticlesGrid, getAllArticles } from "@/components/relatedArticles";
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
-import Paper from '@mui/material/Paper';
-import Grid from '@mui/material/Unstable_Grid2';
 import HeroHeader from "@/components/heroHeader";
 
 

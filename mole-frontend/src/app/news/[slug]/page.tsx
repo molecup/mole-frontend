@@ -1,12 +1,10 @@
 import publicFetch from "@/lib/publicFetch";
 import Container from "@mui/material/Container";
-import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
 import Markdown from "@/components/Markdown";
 import { stableImg } from "@/lib/outImg";
 import { imgFormatsInterface } from "@/lib/commonInterfaces";
 import HeroHeader from "@/components/heroHeader";
-import defaultImg from "@/components/static_media/match_placeholder.jpg";
 import RelatedArticles, { RelatedArticlesGrid, getRelatedArticles, relatedArticleInterface } from "@/components/relatedArticles";
 import Box from "@mui/material/Box";
 import { notFound } from 'next/navigation'

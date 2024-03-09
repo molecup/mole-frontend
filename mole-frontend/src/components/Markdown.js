@@ -2,7 +2,6 @@ import MarkdownJSX from "markdown-to-jsx" ;
 import Typography from "@mui/material/Typography";
 import Link from "next/link";
 import Image from "next/image";
-import Stack from "@mui/material/Stack";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 
