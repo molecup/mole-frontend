@@ -14,7 +14,7 @@ export default async function News(){
             <Typography variant="h1" color="white" textTransform="uppercase">Notizie</Typography>
         </HeroHeader>
         
-        <Container>
+        <Container sx={{display:"flex", flexDirection:"column", minHeight:"40vh"}}>
             <RelatedArticlesGrid articles={news} xs={12} sm={6} md={4} lg={3}/>
         </Container>
         </>
