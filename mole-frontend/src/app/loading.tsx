@@ -1,13 +1,8 @@
 import Container from '@mui/material/Container';
 import Skeleton from '@mui/material/Skeleton';
 import Stack from '@mui/material/Stack';
-import { notFound } from 'next/navigation';
 
 export default function LoadingPage(){
-    /* disable this page if not in development mode  */
-    if(process.env.NODE_ENV !== "development"){
-     notFound();
-    }
     return(
         <Container>
             <Stack spacing={1}>
