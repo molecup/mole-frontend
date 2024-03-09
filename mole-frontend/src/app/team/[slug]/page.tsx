@@ -48,10 +48,26 @@ async function getTeamLeagues(slug : string){
 
 export async function generateMetadata({params} : {params : {slug : string}}, parent: ResolvingMetadata): Promise<Metadata> {
     const teamData = await getTeamData(params.slug);
+    if(!teamData){
+        return({});
+    }
+    const imgUrl = stableImg(teamData.attributes.cover.data?.attributes, "large", "/match_placeholder.jpg");
     return({
-        title: `Squadra ${teamData.attributes.name}`,
+        title: `Mole Cup - Squadra ${teamData.attributes.name}`,
         description: `Le partite e i risultati della squadra del liceo ${teamData.attributes.name} per la Mole Cup Reale Mutua`,
-        keywords: commonKeyWords.concat([teamData.attributes.name, "squadra"])
+        keywords: commonKeyWords.concat([teamData.attributes.name, "squadra"]),
+        openGraph: {
+            title: `Mole Cup - Squadra ${teamData.attributes.name}`,
+            description: `La squadra del liceo ${teamData.attributes.name} per la Mole Cup Reale Mutua`,
+            type: "profile",
+            locale: 'it_IT',
+            images: [
+                {
+                    url: imgUrl,
+                    alt: `La squadra del liceo ${teamData.attributes.name}`
+                }
+            ]
+          },
     })
 }
 

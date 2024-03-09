@@ -23,11 +23,29 @@ async function getArticleData(slug : string){
 
 export async function generateMetadata({params} : {params : {slug : string}}, parent: ResolvingMetadata): Promise<Metadata> {
     const articleData = await getArticleData(params.slug);
+    if(!articleData){
+        return({});
+    }
+    const imgUrl = stableImg(articleData.attributes.cover.data?.attributes, "large", "/match_placeholder.jpg");
     return({
-        title: `Mole Cup Reale Mutua - ${articleData.attributes.title}`,
+        title: `${articleData.attributes.title}`,
         description: articleData.attributes.abstract,
         authors : articleData.attributes.author,
         keywords: commonKeyWords.concat(articleData.attributes.article_tags),
+        openGraph: {
+            title: articleData.attributes.title,
+            description: articleData.attributes.abstract,
+            type: 'article',
+            publishedTime: articleData.attributes.publishedAt,
+            authors: articleData.attributes.author,
+            locale: 'it_IT',
+            images: [
+                {
+                    url: imgUrl,
+                    alt: articleData.attributes.cover.data?.attributes.alternativeText ? articleData.attributes.cover.data?.attributes.alternativeText : articleData.attributes.title
+                }
+            ]
+          },
     })
 }
 

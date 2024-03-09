@@ -18,7 +18,15 @@ export const metadata: Metadata = {
   publisher: "European Students league",
   applicationName: 'Mole Cup Reale Mutua',
   description: 'Sito ufficiale della Mole Cup Reale mutua',
-  keywords: commonKeyWords
+  keywords: commonKeyWords,
+  openGraph: {
+    title: 'Mole Cup Reale Mutua',
+    description: 'Sito ufficiale della Mole Cup Reale mutua',
+    url: 'https://molecup.com',
+    siteName: 'Mole Cup',
+    locale: 'it_IT',
+    type: 'website',
+  },
 }
 
 export default function RootLayout({

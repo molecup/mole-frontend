@@ -51,15 +51,30 @@ async function getPlayerList(teamId : number){
 
 export async function generateMetadata({params} : {params : {slug : number}}, parent: ResolvingMetadata): Promise<Metadata> {
     const matchInfo = await getMatchInfo(params.slug);
-    const [date, time] = dateTimeText(new Date(matchInfo.date));
     if(!matchInfo){
         return({});
     }
+    const [date, time] = dateTimeText(new Date(matchInfo.date));
+    const imgUrl = stableImg(matchInfo.cover, "large", "/match_placeholder.jpg");
+    const title = `${matchInfo.teamA?.short.toUpperCase()} vs ${matchInfo.teamB?.short.toUpperCase()} - ${matchInfo.league?.name}`;
+    const description = `La partita ${matchInfo.teamA?.name} - ${matchInfo.teamB?.name} del ${date} al ${matchInfo.stadium?.name} della Mole Cup Reale Mutua`
     return({
-        title: `${matchInfo.teamA?.short.toUpperCase()} vs ${matchInfo.teamB?.short.toUpperCase()} - ${matchInfo.league?.name}`,
-        description: `La partita ${matchInfo.teamA?.name} - ${matchInfo.teamB?.name} del ${date} al ${matchInfo.stadium?.name} della Mole Cup Reale Mutua`,
-        keywords: commonKeyWords.concat([matchInfo.teamA?.name, matchInfo.teamB?.name, matchInfo.stadium?.name, matchInfo.league?.name, "partita"])
-
+        title: title,
+        description: description,
+        keywords: commonKeyWords.concat([matchInfo.teamA?.name, matchInfo.teamB?.name, matchInfo.stadium?.name, matchInfo.league?.name, "partita"]),
+        openGraph: {
+            title: title,
+            description: description,
+            type: 'article',
+            publishedTime: matchInfo.date,
+            locale: 'it_IT',
+            images: [
+                {
+                    url: imgUrl,
+                    alt: matchInfo.cover?.alternativeText ? matchInfo.cover?.alternativeText : description
+                }
+            ]
+          },
     })
 }
 
