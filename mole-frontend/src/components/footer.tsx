@@ -2,8 +2,9 @@ import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
 import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
-import { Facebook, Instagram, Twitter } from "@mui/icons-material";
+import { Instagram } from "@mui/icons-material";
 import Box from "@mui/material/Box";
+import TikTokIcon from "@/components/tiktokIcon";
 
 export default function Footer() {
   return (
@@ -51,6 +52,12 @@ export default function Footer() {
               color="inherit"
             >
               <Instagram />
+            </Link>
+            <Link
+              href="https://www.tiktok.com/@molecup_torino"
+              color="inherit"
+            >
+              <TikTokIcon />
             </Link>
           </Grid>
         </Grid>
