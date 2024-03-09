@@ -298,7 +298,7 @@ function MatchHeader(props : matchHeaderInterface & {sx?: any}) {
                 </Stack>
                 <Typography variant="overline" sx={{ textAlign: "center" }}>{props.league}</Typography>
                 <Typography variant="h5" sx={{ textAlign: "center", ...capitalizeStyle }} gutterBottom>{props.date}</Typography>
-                <Button variant="contained" sx={{ width: '60%' }}>Registrati</Button>
+                {false && <Button variant="contained" sx={{ width: '60%' }}>Registrati</Button>}
             </Stack>
         </Paper>
     );
