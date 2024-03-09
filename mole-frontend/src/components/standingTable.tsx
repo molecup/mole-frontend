@@ -12,6 +12,8 @@ import Stack from '@mui/system/Stack';
 import Link from 'next/link';
 import { teamRankInterface } from '@/lib/commonInterfaces';
 import { stableImg } from '@/lib/outImg';
+import Image from "next/image";
+
 
 /*
 const teamRanking = [
@@ -62,8 +64,10 @@ export default function StandingTable({title, teamRanks, ...props} : {title : st
                         <TableCell sx={{...stickyColStyle, ...stickyColBorderStyle, bgcolor: 'background.paper'}} component="th" scope="row">
                             <Stack direction="row" spacing={1}>
                                 <p>{i + 1}</p>
-                                <Avatar href={"/team/"+entry.slug} component={Link} sx={{ width: 24, height: 24 }} alt={entry.name + " icon"} src={stableImg(entry.logo, "thumbnail")} />
-                                <Link href={"/team/"+entry.slug}><Typography color="primary.main" sx={{textDecoration: "underline", textDecorationColor: "primary.main"}}>{entry.name}</Typography></Link>
+                                <Avatar href={"/team/"+entry.slug} component={Link} sx={{ width: 24, height: 24, bgcolor:"inherit"}} variant="rounded" >
+                                    <Image alt={`${entry.name} logo`} src={stableImg(entry.logo, "thumbnail")}  width="24" height="24" style={{objectFit: "contain"}} />
+                                </Avatar>
+                                <Link href={"/team/"+entry.slug}><Typography color="primary.main" textTransform="capitalize" sx={{textDecoration: "underline", textDecorationColor: "primary.main"}}>{entry.short}</Typography></Link>
                             </Stack>
                         </TableCell>
                         <TableCell align="right">{entry.pts}</TableCell>

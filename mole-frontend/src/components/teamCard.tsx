@@ -32,11 +32,11 @@ export default function TeamCard(props : teamCardProps){
           >
             <CardActionArea LinkComponent={Link} href={props.url}>
                 <CardMedia 
-                    sx={{height: "100px"}}
-                    title="Match_placeholder"
+                    sx={{height: "120px"}}
+                    title={`${props.name} logo`}
                 >
                     <div style={{ position: 'relative', width: '100%', height: '100%'}}>
-                        <Image alt="Image placeholder" src={imgUrl}  fill={true} style={{objectFit: "fill"}} sizes="(max-width: 768px) 50vw, (max-width: 1200px) 25vw, 12vw"/>
+                        <Image alt={`${props.name} logo`} src={imgUrl}  fill={true} style={{objectFit: "contain"}} sizes="(max-width: 768px) 50vw, (max-width: 1200px) 40vw, 25vw"/>
                     </div>
                     
                 </CardMedia>

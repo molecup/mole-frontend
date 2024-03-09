@@ -5,7 +5,6 @@ import CardSlider from '@/components/cardSlider';
 import MatchCard from '@/components/matchCard';
 import StandingTable from '@/components/standingTable';
 import TabLayout from '@/components/tabLayout';
-import Stack from '@mui/system/Stack';
 import Avatar from '@mui/material/Avatar';
 import HeroHeader from '@/components/heroHeader';
 import CircularStatistics from '@/components/circularStatistics';
@@ -13,13 +12,14 @@ import publicFetch from '@/lib/publicFetch';
 import { stableImg } from '@/lib/outImg';
 import { imgFormatsInterface, teamRankInterface } from '@/lib/commonInterfaces';
 import dateTimeText from '@/lib/dateTimeText';
-import NewsCard, { newsCardInterface } from '@/components/newsCard';
 import RelatedArticles, { getRelatedArticles, RelatedArticlesGrid } from '@/components/relatedArticles';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Unstable_Grid2';
 import Toolbar from '@mui/material/Toolbar';
 import Paper from '@mui/material/Paper';
 import { notFound } from 'next/navigation'
+import Image from "next/image";
+import Stack from '@mui/material/Stack';
 
 
 
@@ -252,13 +252,17 @@ interface teamHeaderProps {
 }
 
 function TeamHeader(props : teamHeaderProps) {
-    const logoUrl = stableImg(props.logo, "small");
+    const logoUrl = stableImg(props.logo, "medium");
     const coverUrl = stableImg(props.cover, "medium", "/match_placeholder.jpg");
     return (
         <>
             <HeroHeader sx={{padding: "10px"}} src={coverUrl}>
-                <Typography variant="h1" color="white">{props.name}</Typography>
-                <Avatar sx={{ width: 80, height: 80 }} alt={props.name + "logo"} src={logoUrl} variant="rounded" />
+                <Stack direction="column" spacing={2} alignItems="center">
+                    <Typography variant="h1" color="white">{props.name}</Typography>
+                    <Avatar sx={{ width: 90, height: 90, bgcolor:"inherit" }} variant="rounded" >
+                        <Image alt={`${props.name} logo`} src={logoUrl}  width="90" height="90" style={{objectFit: "contain"}} />
+                    </Avatar>
+                </Stack>
             </HeroHeader>
         </> 
     );
