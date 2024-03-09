@@ -5,7 +5,7 @@ import SentimentVeryDissatisfiedIcon from '@mui/icons-material/SentimentVeryDiss
  
 export default function NotFound() {
   return (
-    <Container sx={{textAlign : 'center'}}>
+    <Container sx={{textAlign : 'center', minHeight:"40vh"}}>
         <h1>Pagina non trovata</h1>
         <SentimentVeryDissatisfiedIcon />
         <p>Il contenuto che stai cercando non esiste o è stato rimosso</p>

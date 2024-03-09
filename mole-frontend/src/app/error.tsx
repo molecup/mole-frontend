@@ -19,7 +19,7 @@ export default function Error({
   }, [error])
  
   return (
-    <Container sx={{textAlign : 'center'}}>
+    <Container sx={{textAlign : 'center', minHeight:"40vh"}}>
         <h1>Qualcosa è andato storto!</h1>
         <SentimentVeryDissatisfiedIcon />
         <p>Il contenuto che stai cercando ha generato un errore. Riprova più tardi</p>
