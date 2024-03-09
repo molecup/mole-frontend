@@ -20,6 +20,8 @@ import Paper from '@mui/material/Paper';
 import { notFound } from 'next/navigation'
 import Image from "next/image";
 import Stack from '@mui/material/Stack';
+import type { Metadata, ResolvingMetadata } from 'next'
+import { commonKeyWords } from '@/app/layout';
 
 const showCircularStats = false;
 
@@ -42,6 +44,15 @@ async function getTeamLeagues(slug : string){
     const path = `/api/league-standings/team/${slug}`;
     const res  = await publicFetch(path);
     return res.data; 
+}
+
+export async function generateMetadata({params} : {params : {slug : string}}, parent: ResolvingMetadata): Promise<Metadata> {
+    const teamData = await getTeamData(params.slug);
+    return({
+        title: `Squadra ${teamData.attributes.name}`,
+        description: `Le partite e i risultati della squadra del liceo ${teamData.attributes.name} per la Mole Cup Reale Mutua`,
+        keywords: commonKeyWords.concat([teamData.attributes.name, "squadra"])
+    })
 }
 
 export default async function TeamPage({params} : {params : {slug : string}}){

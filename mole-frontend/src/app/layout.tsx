@@ -10,9 +10,15 @@ import { SpeedInsights } from '@vercel/speed-insights/next';
 
 //const inter = Inter({ subsets: ['latin'] })
 
+export const commonKeyWords = ["Mole Cup", "molecup", "Torino", "torneo", "calcio", "liceo"]
+
 export const metadata: Metadata = {
   title: 'Mole cup Reale Mutua - Sito Ufficiale',
+  creator: 'Marco Magnanini',
+  publisher: "European Students league",
+  applicationName: 'Mole Cup Reale Mutua',
   description: 'Sito ufficiale della Mole Cup Reale mutua',
+  keywords: commonKeyWords
 }
 
 export default function RootLayout({

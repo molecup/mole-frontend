@@ -8,6 +8,9 @@ import HeroHeader from "@/components/heroHeader";
 import RelatedArticles, { RelatedArticlesGrid, getRelatedArticles, relatedArticleInterface } from "@/components/relatedArticles";
 import Box from "@mui/material/Box";
 import { notFound } from 'next/navigation'
+import type { Metadata, ResolvingMetadata } from 'next'
+import { commonKeyWords } from "@/app/layout";
+
 
 async function getArticleData(slug : string){
     const path=`/api/articles?filters[slug]=${slug}&populate=*`;
@@ -16,6 +19,16 @@ async function getArticleData(slug : string){
         notFound();
     }
     return res.data[0]; 
+}
+
+export async function generateMetadata({params} : {params : {slug : string}}, parent: ResolvingMetadata): Promise<Metadata> {
+    const articleData = await getArticleData(params.slug);
+    return({
+        title: `Mole Cup Reale Mutua - ${articleData.attributes.title}`,
+        description: articleData.attributes.abstract,
+        authors : articleData.attributes.author,
+        keywords: commonKeyWords.concat(articleData.attributes.article_tags),
+    })
 }
 
 export default async function NewsArticlePage({params} : {params : {slug : string}}){

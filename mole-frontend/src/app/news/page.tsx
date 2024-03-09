@@ -2,7 +2,13 @@ import { RelatedArticlesGrid, getAllArticles } from "@/components/relatedArticle
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import HeroHeader from "@/components/heroHeader";
+import type { Metadata } from 'next'
 
+
+export const metadata: Metadata = {
+  title: 'Notizie',
+  description: 'Tutte le notizie e gli articoli della Mole Cup Reale Mutua',
+}
 
 export default async function News(){
     const news = await getAllArticles();

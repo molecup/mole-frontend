@@ -1,5 +1,10 @@
 import Container from "@mui/material/Container";
+import type { Metadata } from 'next'
 
+
+export const metadata: Metadata = {
+  title: 'Privacy policy',
+}
 export default function CookiesPage(){
     return(
         <Container>

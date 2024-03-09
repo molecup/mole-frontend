@@ -19,7 +19,7 @@ import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
   title: 'Mole cup Reale Mutua - Il torneo',
-  description: 'Le ultime novità della Mole Cup Reale Mutua',
+  description: 'Tutte le informazioni del torneo Mole Cup Reale Mutua',
 }
 
 const marginBottom = {

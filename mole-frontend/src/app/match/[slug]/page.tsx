@@ -21,6 +21,8 @@ import generateGoogleMapsLink from '@/lib/generateGoggleMapsLink';
 import generatePlayerMapEvent, { mapEventType } from '@/lib/generatePlayerMapEvent';
 import MatchTimeline from '@/components/matchTimeline';
 import Image from "next/image";
+import type { Metadata, ResolvingMetadata } from 'next'
+import { commonKeyWords } from '@/app/layout';
 
 async function getMatchInfo(id : number){
     const path = "/api/matches-report/" + id;
@@ -47,10 +49,23 @@ async function getPlayerList(teamId : number){
     return res.data;
 }
 
+export async function generateMetadata({params} : {params : {slug : number}}, parent: ResolvingMetadata): Promise<Metadata> {
+    const matchInfo = await getMatchInfo(params.slug);
+    const [date, time] = dateTimeText(new Date(matchInfo.date));
+    if(!matchInfo){
+        return({});
+    }
+    return({
+        title: `${matchInfo.teamA?.short.toUpperCase()} vs ${matchInfo.teamB?.short.toUpperCase()} - ${matchInfo.league?.name}`,
+        description: `La partita ${matchInfo.teamA?.name} - ${matchInfo.teamB?.name} del ${date} al ${matchInfo.stadium?.name} della Mole Cup Reale Mutua`,
+        keywords: commonKeyWords.concat([matchInfo.teamA?.name, matchInfo.teamB?.name, matchInfo.stadium?.name, matchInfo.league?.name, "partita"])
+
+    })
+}
+
 export default async function MatchPage({params} : {params : {slug : number}}){
     const matchInfo = await getMatchInfo(params.slug);
-    const standingTable = await getStandingTable(matchInfo.league.id);
-    const [playerListA, playerListB] = await Promise.all([getPlayerList(matchInfo.teamA.id), getPlayerList(matchInfo.teamB.id)]);
+    const [standingTable, playerListA, playerListB] = await Promise.all([getStandingTable(matchInfo.league.id), getPlayerList(matchInfo.teamA.id), getPlayerList(matchInfo.teamB.id)]);
     const [date, time] = dateTimeText(new Date(matchInfo.date));
     const status = matchInfo.status === "finished" || matchInfo.status === "live";
     const mapEvents = generatePlayerMapEvent(matchInfo.matchEvents);

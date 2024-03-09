@@ -24,7 +24,11 @@ import TimelineConnector from '@mui/lab/TimelineConnector';
 import TimelineContent from '@mui/lab/TimelineContent';
 import TimelineDot, { TimelineDotProps } from '@mui/lab/TimelineDot';
 import Quote from '@/components/quote';
+import { Metadata } from 'next';
 
+export const metadata: Metadata = {
+    description: "Mole Cup Reale mutua è un'associazione nata nel 2017 con l'obbiettivo di creare un torneo di calcio innovativo e coinvolgente tra le scuole superiori di Torino"
+}
 
 export default function Home(){
     return(
