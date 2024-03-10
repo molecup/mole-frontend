@@ -57,7 +57,7 @@ export default function TwoSpanBlogSection({src = "", children, variant="content
         <Grid xs={4} lg={6} component="span" sx={{ ...polygonShape, height:"100%", position:"relative"}}>
             <Image 
                 src={src} 
-                alt="Section image" 
+                alt= "Section image" 
                 fill
                 style={{
                     objectFit: "cover",
