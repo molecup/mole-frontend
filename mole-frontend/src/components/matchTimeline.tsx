@@ -2,7 +2,6 @@ import Box from '@mui/material/Box';
 import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
-import StepIcon from '@mui/material/StepIcon';
 import { GoalIcon, YellowCardIcon, RedCardIcon } from '@/components/eventIcons';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import { teamInterface } from '@/lib/commonInterfaces';
@@ -11,6 +10,7 @@ import Avatar from '@mui/material/Avatar';
 import Stack from '@mui/material/Stack';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
+import Image from "next/image";
 
 
 export interface matchTimelineInterface{
@@ -49,12 +49,14 @@ export default function MatchTimeline({matchEvents, teams} : {matchEvents : matc
 }
 
 function EventLabel({teams, teamIdx, label}: {teams:[teamInterface, teamInterface], teamIdx:0|1,  label:string}){
-    const img = stableImg(teams[teamIdx].logo, "thumbnail");
+    const img = stableImg(teams[teamIdx].logo, "small");
     const colors = ["primary.light", "secondary.light"];
     return(
         <Paper sx={{bgcolor: colors[teamIdx], paddingBottom: "5px"}}>
             <Stack direction="column" sx={{alignItems: "center", marginTop: "-10px"}}>
-                <Avatar sx={{ width: 40, height: 40, marginTop: "5px", paddingLeft: "5px", paddingRight: "5px" }} alt={"logo " + teams[teamIdx].name} src={img}/>
+                <Avatar variant="rounded" sx={{ width: 40, height: 40, marginTop: "5px" }} alt={"logo " + teams[teamIdx].name} >
+                    <Image alt={"logo " + teams[teamIdx].name} src={img}  width="40" height="40" style={{objectFit: "contain", objectPosition:"center", height:"auto", padding:"1px"}} />
+                </Avatar>
                 <Typography color="primary.contrastText">{label}</Typography>
             </Stack>
         </Paper>
