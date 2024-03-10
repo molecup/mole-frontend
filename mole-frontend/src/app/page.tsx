@@ -16,6 +16,9 @@ import Link from 'next/link';
 import EmojiEventsRoundedIcon from '@mui/icons-material/EmojiEventsRounded';
 import SportsSoccerRoundedIcon from '@mui/icons-material/SportsSoccerRounded';
 import StarRoundedIcon from '@mui/icons-material/StarRounded';
+import Quote from '@/components/quote';
+import { Metadata } from 'next';
+import Image from "next/image";
 
 import Timeline from '@mui/lab/Timeline';
 import TimelineItem from '@mui/lab/TimelineItem';
@@ -23,8 +26,7 @@ import TimelineSeparator from '@mui/lab/TimelineSeparator';
 import TimelineConnector from '@mui/lab/TimelineConnector';
 import TimelineContent from '@mui/lab/TimelineContent';
 import TimelineDot, { TimelineDotProps } from '@mui/lab/TimelineDot';
-import Quote from '@/components/quote';
-import { Metadata } from 'next';
+
 
 export const metadata: Metadata = {
     description: "Mole Cup Reale mutua è un torneo di calcio nato nel 2017 con l'obbiettivo di creare un evento innovativo e coinvolgente tra le scuole superiori di Torino"
@@ -33,7 +35,7 @@ export const metadata: Metadata = {
 export default function Home(){
     return(
         <>
-            <HeroHeader src="/DSC_0666-3.jpg" sx={{height: "70vh"}}>
+            <HeroHeader src="/static/DSC_0666-3.webp" sx={{height: "70vh"}}>
                 <Stack alignItems="center" spacing={2}>
                     <Typography variant="h1" color="white" textTransform="uppercase">{"Mole cup"}</Typography>
                     <Typography variant="h3" color="primary.main" fontWeight={700} textTransform="capitalize">{"Reale mutua"}</Typography>
@@ -41,7 +43,7 @@ export default function Home(){
                     <Button variant="contained" LinkComponent={Link} href="/molecup" sx={{padding: "10px 20px 10px 20px", mt: "20px"}}>Vai al torneo</Button>
                 </Stack>
             </HeroHeader>
-            <TwoSpanBlogSection src="/static/DSCF6614-Migliorato-NR.jpg" sx={{height: {xs:"400px", sm:"300px", md:"300px"}}}>
+            <TwoSpanBlogSection src="/static/DSCF6614-Migliorato-NR.webp" sx={{height: {xs:"400px", sm:"300px", md:"300px"}}}>
                 <Typography variant="h2" color="primary.main" fontWeight={500}>{"Chi siamo"}</Typography>
                 <Stack direction="row">
                     <ChangeHistoryRoundedIcon sx={{transform: "rotate(90deg)", color: "primary.main"}}/>
@@ -144,7 +146,7 @@ function ValuesSection(){
         },
     ]
     return(
-        <TwoSpanBlogSection variant="contentLeft" src="/static/DSCF6576-Migliorato-NR.jpg" sx={{height: {xs:"600px", sm:"450px", md:"450px"}}}>
+        <TwoSpanBlogSection variant="contentLeft" src="/static/DSCF6576-Migliorato-NR.webp" sx={{height: {xs:"600px", sm:"450px", md:"450px"}}}>
             <Typography variant="h2" color="primary.main" fontWeight={500}>I nostri valori</Typography>
             <Quote>{"Lo sport nei giovani può avere un impatto sulla formazione del futuro"}</Quote>
             <Stack spacing={3} sx={{pt: 5}}>
@@ -186,7 +188,9 @@ function PromoterSection(){
                             <Grid xs={12} md={6} key={idx}>
                                 <Box sx = {{padding: "10px"}}>
                                     <Stack direction="column" spacing={2} alignItems="center">
-                                        <Avatar src={promoter.img} alt={promoter.name} sx={{ width: 70, height: 70 }}/>
+                                        <Avatar  alt={promoter.name} sx={{ width: 70, height: 70 }}>
+                                            <Image src={promoter.img} alt={promoter.name} fill style={{objectFit: "cover", objectPosition:"center"}} sizes='150px' />
+                                        </Avatar>
                                         <Typography variant="h4" color="text.primary" textTransform="uppercase">{promoter.name}</Typography>
                                         <Typography variant="caption" textTransform="uppercase" color="primary.main">{promoter.description}</Typography>
                                         <Quote>{promoter.quote}</Quote>

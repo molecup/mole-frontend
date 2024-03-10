@@ -8,6 +8,7 @@ const nextConfig = {
       },
     },
     images: {
+      formats: ['image/webp'],
       remotePatterns: [
         {
           protocol: process.env.MEDIA_PROTOCOL,

@@ -11,7 +11,7 @@ import Image from "next/image";
 import Link from "next/link";
 import Chip from '@mui/material/Chip';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
-import defaultImg from "@/components/static_media/match_placeholder.jpg";
+import defaultImg from "@/components/static_media/match_placeholder.webp";
 import { imgFormatsInterface, teamInterface } from "@/lib/commonInterfaces";
 import { stableImg } from "@/lib/outImg";
 import Stack from '@mui/material/Stack';
@@ -43,7 +43,7 @@ export default function MatchCard(props : matchCardProps) {
       <CardActionArea LinkComponent={Link} href={props.url}>
         <CardMedia
           sx={{ height: "100px", backgroundColor: "rgba(0, 0, 0, 0.6)" }}
-          title="Match_placeholder"
+          title="immagine partita"
         >
           <div style={{ position: 'relative', width: '100%', height: '100%', opacity: 0.9 }}>
             <Image alt="Image placeholder" src={imgUrl} fill={true} style={{ objectFit: "cover" }} sizes="(max-width: 768px) 50vw, (max-width: 1200px) 25vw, 12vw" />

@@ -80,7 +80,7 @@ export default async function NewsArticlePage({params} : {params : {slug : strin
 }
 
 function NewsHeader(props : {title:string, author:string, date:Date, img?: imgFormatsInterface}){
-    const imgUrl = stableImg(props.img, "medium", "/match_placeholder.jpg");
+    const imgUrl = stableImg(props.img, "medium", "/static/match_placeholder.webp");
     const dateText = props.date.toLocaleDateString();
     return (
         <>

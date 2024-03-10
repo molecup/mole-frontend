@@ -51,7 +51,7 @@ export async function generateMetadata({params} : {params : {slug : string}}, pa
     if(!teamData){
         return({});
     }
-    const imgUrl = stableImg(teamData.attributes.cover.data?.attributes, "large", "/match_placeholder.jpg");
+    const imgUrl = stableImg(teamData.attributes.cover.data?.attributes, "large", "/static/match_placeholder.webp");
     return({
         title: `Mole Cup - Squadra ${teamData.attributes.name}`,
         description: `Le partite e i risultati della squadra del liceo ${teamData.attributes.name} per la Mole Cup Reale Mutua`,

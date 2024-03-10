@@ -14,7 +14,7 @@ export default async function News(){
     const news = await getAllArticles();
     return(
         <>
-        <HeroHeader src="/DSC_0666-3.jpg">
+        <HeroHeader src="/static/DSC_0666-3.webp">
             <Typography variant="h1" color="white" textTransform="uppercase">Notizie</Typography>
         </HeroHeader>
         

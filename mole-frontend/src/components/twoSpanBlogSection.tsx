@@ -4,6 +4,8 @@
 */
 import Stack from '@mui/material/Stack';
 import Grid from '@mui/material/Unstable_Grid2';
+import Image from 'next/image';
+
 
 /*
     @params:
@@ -12,7 +14,7 @@ import Grid from '@mui/material/Unstable_Grid2';
         variant: "contentRight" | "contentLeft". Whether to put the content side on the right or on the left
         sx: style prop. Applied to the root Grid element. Declare height attribute to change the height of the section (default 200px)
 */
-export default function TwoSpanBlogSection({src, children, variant="contentRight", sx}: {src?:String, children?:JSX.Element[], variant?:"contentRight" | "contentLeft", sx?: {[key: string] : any} }){
+export default function TwoSpanBlogSection({src = "", children, variant="contentRight", sx}: {src:string, children?:JSX.Element[], variant?:"contentRight" | "contentLeft", sx?: {[key: string] : any} }){
     var polygon = null;
     var margin = null;
     if(variant === "contentRight"){
@@ -52,7 +54,18 @@ export default function TwoSpanBlogSection({src, children, variant="contentRight
     }
 
     const imageSide = (
-        <Grid xs={4} lg={6} component="span" sx={{...backgroundImage, ...polygonShape, height:"100%"}}/>
+        <Grid xs={4} lg={6} component="span" sx={{ ...polygonShape, height:"100%", position:"relative"}}>
+            <Image 
+                src={src} 
+                alt="Section image" 
+                fill
+                style={{
+                    objectFit: "cover",
+                    objectPosition: "center",
+                    filter: "brightness(50%)",
+                }}
+            />
+        </Grid>
     );
 
     if(!sx?.height){

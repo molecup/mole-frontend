@@ -63,7 +63,7 @@ export default async function MoleCup() {
   }
   return (
     <>
-      <HeroHeader src="/DSC_0666-3.jpg" sx={{height: "300px"}}>
+      <HeroHeader src="/static/DSC_0666-3.webp" sx={{height: "300px"}}>
         <Stack alignItems="center" spacing={2}>
           <Typography variant="h1" color="white" textTransform="uppercase">{tournament.name}</Typography>
           <Typography variant="h3" color="primary.main" fontWeight={700} textTransform="capitalize">{"Reale mutua"}</Typography>
