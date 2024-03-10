@@ -36,7 +36,7 @@ export default function TeamCard(props : teamCardProps){
                     title={`${props.name} logo`}
                 >
                     <div style={{ position: 'relative', width: '100%', height: '100%'}}>
-                        <Image alt={`${props.name} logo`} src={imgUrl}  fill={true} style={{objectFit: "contain"}} sizes="(max-width: 768px) 50vw, (max-width: 1200px) 40vw, 25vw"/>
+                        <Image alt={`${props.name} logo`} src={imgUrl} blurDataURL={props.img?.placeholder} fill={true} style={{objectFit: "contain"}} sizes="(max-width: 768px) 50vw, (max-width: 1200px) 40vw, 25vw"/>
                     </div>
                     
                 </CardMedia>

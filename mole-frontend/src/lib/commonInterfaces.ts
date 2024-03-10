@@ -16,6 +16,7 @@ export interface imgFormatsInterface{
     alternativeText: string | null,
     width: number,
     height: number,
+    placeholder?: string
 }
 
 export interface teamInterface {
