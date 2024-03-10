@@ -131,7 +131,7 @@ function NavBar(props) {
               variant="h5"
               noWrap
               component={Link}
-              href="/"
+              href="/molecup"
               sx={{
                 mr: 2,
                 display: { xs: 'flex', md: 'none' },
@@ -152,7 +152,7 @@ function NavBar(props) {
               variant="h6"
               noWrap
               component={Link}
-              href="/"
+              href="/molecup"
               sx={{
                 mr: 2,
                 display: { xs: 'none', md: 'flex' },
