@@ -16,7 +16,8 @@ export default function Footer() {
         py: 3,
         px: 2,
         mt: 'auto',
-        marginTop: "20px"
+        marginTop: "20px",
+        filter: "brightness(110%)"
       }}
     >
       <Container maxWidth="lg">
@@ -43,7 +44,7 @@ export default function Footer() {
               Phone: +1 234 567 8901
             </Typography>
           </Grid>
-          <Grid item xs={12} sm={4}>
+          <Grid item xs={12} sm={4} >
             <Typography variant="h6" color="secondary.contrastText" gutterBottom>
               Seguici
             </Typography>
@@ -51,7 +52,7 @@ export default function Footer() {
               href="https://www.instagram.com/molecup_torino/"
               color="inherit"
             >
-              <Instagram />
+              <Instagram sx={{mr:"7px"}} aria-label="Instagram"/>
             </Link>
             <Link
               href="https://www.tiktok.com/@molecup_torino"
