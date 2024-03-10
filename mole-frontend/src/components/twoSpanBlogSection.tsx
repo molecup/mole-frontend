@@ -64,6 +64,7 @@ export default function TwoSpanBlogSection({src = "", children, variant="content
                     objectPosition: "center",
                     filter: "brightness(50%)",
                 }}
+                sizes="(max-width: 1200px) 40vw, 55vw"
             />
         </Grid>
     );
