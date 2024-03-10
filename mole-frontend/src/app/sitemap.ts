@@ -51,13 +51,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
             url: `${urlBase}`,
             lastModified: buildDate,
             changeFrequency: 'yearly',
-            priority: 1,
+            priority: 0.9,
           },
           {
             url: `${urlBase}/molecup`,
             lastModified: lastUpdatedMatch,
             changeFrequency: 'weekly',
-            priority: 0.9,
+            priority: 1,
           },
           {
             url: `${urlBase}/news`,
