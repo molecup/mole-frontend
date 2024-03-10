@@ -27,6 +27,9 @@ import TimelineConnector from '@mui/lab/TimelineConnector';
 import TimelineContent from '@mui/lab/TimelineContent';
 import TimelineDot, { TimelineDotProps } from '@mui/lab/TimelineDot';
 
+import img1 from "@/public/static/DSCF6614-Migliorato-NR.webp";
+import img2 from "@/public/static/DSCF6576-Migliorato-NR.webp";
+
 
 export const metadata: Metadata = {
     description: "Mole Cup Reale mutua è un torneo di calcio nato nel 2017 con l'obbiettivo di creare un evento innovativo e coinvolgente tra le scuole superiori di Torino"
@@ -43,7 +46,7 @@ export default function Home(){
                     <Button variant="contained" LinkComponent={Link} href="/molecup" sx={{padding: "10px 20px 10px 20px", mt: "20px"}}>Vai al torneo</Button>
                 </Stack>
             </HeroHeader>
-            <TwoSpanBlogSection src="/static/DSCF6614-Migliorato-NR.webp" sx={{height: {xs:"400px", sm:"300px", md:"300px"}}}>
+            <TwoSpanBlogSection src={img1} sx={{height: {xs:"400px", sm:"300px", md:"300px"}}}>
                 <Typography variant="h2" color="primary.main" fontWeight={500}>{"Chi siamo"}</Typography>
                 <Stack direction="row">
                     <ChangeHistoryRoundedIcon sx={{transform: "rotate(90deg)", color: "primary.main"}}/>
@@ -146,7 +149,7 @@ function ValuesSection(){
         },
     ]
     return(
-        <TwoSpanBlogSection variant="contentLeft" src="/static/DSCF6576-Migliorato-NR.webp" sx={{height: {xs:"600px", sm:"450px", md:"450px"}}}>
+        <TwoSpanBlogSection variant="contentLeft" src={img2} sx={{height: {xs:"600px", sm:"450px", md:"450px"}}}>
             <Typography variant="h2" color="primary.main" fontWeight={500}>I nostri valori</Typography>
             <Quote>{"Lo sport nei giovani può avere un impatto sulla formazione del futuro"}</Quote>
             <Stack spacing={3} sx={{pt: 5}}>
