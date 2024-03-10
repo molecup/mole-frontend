@@ -145,8 +145,8 @@ export default function CardSlider(props){
       </Stack>
       
       <ButtonGroup sx={{display : {xs:"none", md:"flex"}, justifyContent:"center"}}>
-        <IconButton onClick={() => handleArrowClick("left")}><ArrowBackIosRoundedIcon/></IconButton>
-        <IconButton onClick={() => handleArrowClick("right")}><ArrowForwardIosRoundedIcon/></IconButton>
+        <IconButton onClick={() => handleArrowClick("left")} aria-label="scroll left"><ArrowBackIosRoundedIcon/></IconButton>
+        <IconButton onClick={() => handleArrowClick("right")} aria-label="scroll right"><ArrowForwardIosRoundedIcon/></IconButton>
       </ButtonGroup>
     </Box>
   );

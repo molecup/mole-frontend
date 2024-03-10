@@ -21,7 +21,7 @@ export default function TabLayout(props){
             <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                 <Tabs value={value} onChange={handleChange} aria-label="tab squadra" variant="scrollable" scrollButtons="auto">
                     {labels.map((label, i) => 
-                        <Tab key={i} label={label} {...a11yProps(i)} />
+                        <Tab key={i} label={label} aria-label={"Scheda " + label} {...a11yProps(i)} />
                     )}
                 </Tabs>
             </Box>
