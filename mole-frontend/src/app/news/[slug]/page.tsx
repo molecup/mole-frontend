@@ -11,6 +11,8 @@ import { notFound } from 'next/navigation'
 import type { Metadata, ResolvingMetadata } from 'next'
 import { commonKeyWords } from "@/app/layout";
 
+import defaultImg from "@/public/static/match_placeholder.webp";
+
 
 async function getArticleData(slug : string){
     const path=`/api/articles?filters[slug]=${slug}&populate=*`;
@@ -80,7 +82,7 @@ export default async function NewsArticlePage({params} : {params : {slug : strin
 }
 
 function NewsHeader(props : {title:string, author:string, date:Date, img?: imgFormatsInterface}){
-    const imgUrl = stableImg(props.img, "medium", "/static/match_placeholder.webp");
+    const imgUrl = stableImg(props.img, "medium", defaultImg);
     const dateText = props.date.toLocaleDateString();
     return (
         <>
