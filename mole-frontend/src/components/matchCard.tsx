@@ -7,11 +7,11 @@ import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
 import CardActionArea from "@mui/material/CardActionArea";
 import Typography from "@mui/material/Typography";
-import Image from "next/image";
+import Image from "@/components/image";
 import Link from "next/link";
 import Chip from '@mui/material/Chip';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
-import defaultImg from "@/components/static_media/match_placeholder.webp";
+import defaultImg from "@/public/static/match_placeholder.webp";
 import { imgFormatsInterface, teamInterface } from "@/lib/commonInterfaces";
 import { stableImg } from "@/lib/outImg";
 import Stack from '@mui/material/Stack';
@@ -30,6 +30,7 @@ export interface matchCardProps {
 
 export default function MatchCard(props : matchCardProps) {
   const imgUrl = stableImg(props.img, "small", defaultImg);
+  const blurDataUrl = props.img?.placeholder;
   return (
     <Card sx={{
       MaxWidth: 200,
@@ -46,7 +47,7 @@ export default function MatchCard(props : matchCardProps) {
           title="immagine partita"
         >
           <div style={{ position: 'relative', width: '100%', height: '100%', opacity: 0.9 }}>
-            <Image alt="Image placeholder" src={imgUrl} fill={true} style={{ objectFit: "cover" }} sizes="(max-width: 768px) 50vw, (max-width: 1200px) 25vw, 12vw" />
+            <Image alt="Image placeholder" src={imgUrl} fill={true} blurDataURL={blurDataUrl} placeholder="blur" style={{ objectFit: "cover" }} sizes="(max-width: 768px) 50vw, (max-width: 1200px) 25vw, 12vw" />
           </div>
         </CardMedia>
         <CardContent>

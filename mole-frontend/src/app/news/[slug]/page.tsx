@@ -84,7 +84,7 @@ function NewsHeader(props : {title:string, author:string, date:Date, img?: imgFo
     const dateText = props.date.toLocaleDateString();
     return (
         <>
-            <HeroHeader sx={{padding: "10px"}} src={imgUrl}>
+            <HeroHeader sx={{padding: "10px"}} src={imgUrl} blurDataUrl={props.img?.placeholder} blur>
                 <Typography variant="h1" color="white" align="center">{props.title}</Typography>
                 <Typography variant="h5" sx={{fontStyle: "italic"}} color="white">{props.author}</Typography>
                 <Typography variant="subtitle1" color="white">{dateText}</Typography>

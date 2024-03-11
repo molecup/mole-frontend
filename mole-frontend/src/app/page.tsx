@@ -29,6 +29,7 @@ import TimelineDot, { TimelineDotProps } from '@mui/lab/TimelineDot';
 
 import img1 from "@/public/static/DSCF6614-Migliorato-NR.webp";
 import img2 from "@/public/static/DSCF6576-Migliorato-NR.webp";
+import headerImg from "@/public/static/DSC_0666-3.webp"
 
 
 export const metadata: Metadata = {
@@ -38,7 +39,7 @@ export const metadata: Metadata = {
 export default function Home(){
     return(
         <>
-            <HeroHeader src="/static/DSC_0666-3.webp" sx={{height: "70vh"}}>
+            <HeroHeader src={headerImg} blur sx={{height: "70vh"}}>
                 <Stack alignItems="center" spacing={2}>
                     <Typography variant="h1" color="white" textTransform="uppercase">{"Mole cup"}</Typography>
                     <Typography variant="h3" color="primary.main" fontWeight={700} textTransform="capitalize">{"Reale mutua"}</Typography>

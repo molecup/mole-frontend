@@ -4,6 +4,8 @@ import Typography from '@mui/material/Typography';
 import HeroHeader from "@/components/heroHeader";
 import type { Metadata } from 'next'
 
+import headerImg from "@/public/static/DSC_0666-3.webp";
+
 
 export const metadata: Metadata = {
   title: 'Notizie',
@@ -14,7 +16,7 @@ export default async function News(){
     const news = await getAllArticles();
     return(
         <>
-        <HeroHeader src="/static/DSC_0666-3.webp">
+        <HeroHeader src={headerImg} blur>
             <Typography variant="h1" color="white" textTransform="uppercase">Notizie</Typography>
         </HeroHeader>
         

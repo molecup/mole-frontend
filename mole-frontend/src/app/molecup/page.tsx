@@ -16,6 +16,7 @@ import Toolbar from '@mui/material/Toolbar';
 import Stack from '@mui/material/Stack';
 import type { Metadata } from 'next'
 
+import headerImg from "@/public/static/DSC_0666-3.webp";
 
 export const metadata: Metadata = {
   title: 'Mole cup Reale Mutua - Il torneo',
@@ -63,7 +64,7 @@ export default async function MoleCup() {
   }
   return (
     <>
-      <HeroHeader src="/static/DSC_0666-3.webp" sx={{height: "300px"}}>
+      <HeroHeader src={headerImg} blur sx={{height: "300px"}}>
         <Stack alignItems="center" spacing={2}>
           <Typography variant="h1" color="white" textTransform="uppercase">{tournament.name}</Typography>
           <Typography variant="h3" color="primary.main" fontWeight={700} textTransform="capitalize">{"Reale mutua"}</Typography>

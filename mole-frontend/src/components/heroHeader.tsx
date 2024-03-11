@@ -4,11 +4,11 @@
 
 import Box from '@mui/material/Box';
 import Stack from '@mui/system/Stack';
-import Image from 'next/image';
+import { StaticImageData } from 'next/image';
+import Image from "@/components/image";
 
 
-export default function HeroHeader(props){
-    const {children, sx, src, ...otherProps} = props;
+export default function HeroHeader({children, sx, src, blurDataURL, blur=false, ...otherProps} : {children?:any, sx?:any, src:string | StaticImageData, blur?:boolean, blurDataUrl?:string, [key: string] : any}){
     const style={
         /* Use "linear-gradient" to add a darken background effect to the image (photographer.jpg). This will make the text easier to read */
         //backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(${src})`,
@@ -28,10 +28,13 @@ export default function HeroHeader(props){
         justifyContent:"center",
         position:"relative",
     }
+    const placeholder = blur? "blur" : "empty";
     return(
         <Box component="header" sx={{...style, ...sx}} {...otherProps}>
             <Image 
                 src={src}
+                blurDataURL={blurDataURL}
+                placeholder={placeholder}
                 alt="Hero image"
                 fill
                 priority

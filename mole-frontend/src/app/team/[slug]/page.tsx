@@ -17,8 +17,9 @@ import Box from '@mui/material/Box';
 import Grid from '@mui/material/Unstable_Grid2';
 import Toolbar from '@mui/material/Toolbar';
 import Paper from '@mui/material/Paper';
+import defaultImg from "@/public/static/match_placeholder.webp";
 import { notFound } from 'next/navigation'
-import Image from "next/image";
+import Image from "@/components/image";
 import Stack from '@mui/material/Stack';
 import type { Metadata, ResolvingMetadata } from 'next'
 import { commonKeyWords } from '@/app/layout';
@@ -230,14 +231,14 @@ interface teamHeaderProps {
 
 function TeamHeader(props : teamHeaderProps) {
     const logoUrl = stableImg(props.logo, "medium");
-    const coverUrl = stableImg(props.cover, "medium", "/match_placeholder.jpg");
+    const coverUrl = stableImg(props.cover, "medium", defaultImg);
     return (
         <>
-            <HeroHeader sx={{padding: "10px"}} src={coverUrl}>
+            <HeroHeader sx={{padding: "10px"}} src={coverUrl} blurDataUrl={props.cover?.placeholder} blur>
                 <Stack direction="column" spacing={2} alignItems="center">
                     <Typography variant="h1" color="white">{props.name}</Typography>
                     <Avatar sx={{ width: 90, height: 90, bgcolor:"inherit" }} variant="rounded" >
-                        <Image alt={`${props.name} logo`} src={logoUrl}  width="90" height="90" style={{objectFit: "contain"}} />
+                        <Image alt={`${props.name} logo`} src={logoUrl} width="90" height="90" style={{objectFit: "contain"}} />
                     </Avatar>
                 </Stack>
             </HeroHeader>
