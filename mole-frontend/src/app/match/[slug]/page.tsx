@@ -22,7 +22,7 @@ import generatePlayerMapEvent, { mapEventType } from '@/lib/generatePlayerMapEve
 import MatchTimeline from '@/components/matchTimeline';
 import Image from "next/image";
 import type { Metadata, ResolvingMetadata } from 'next'
-import { commonKeyWords } from '@/app/layout';
+import { commonKeyWords, commonOpenGraph } from '@/app/layout';
 
 async function getMatchInfo(id : number){
     const path = "/api/matches-report/" + id;
@@ -67,7 +67,8 @@ export async function generateMetadata({params} : {params : {slug : number}}, pa
             description: description,
             type: 'article',
             publishedTime: matchInfo.date,
-            locale: 'it_IT',
+            url: `https://molecup.com/match/${params.slug}`,
+            ...commonOpenGraph,
             images: [
                 {
                     url: imgUrl,

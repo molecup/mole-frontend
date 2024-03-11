@@ -33,6 +33,7 @@ import headerImg from "@/public/static/DSC_0666-3.webp"
 
 
 export const metadata: Metadata = {
+    title: "Chi siamo - Mole Cup Reale Mutua",
     description: "Mole Cup Reale mutua è un torneo di calcio nato nel 2017 con l'obbiettivo di creare un evento innovativo e coinvolgente tra le scuole superiori di Torino"
 }
 

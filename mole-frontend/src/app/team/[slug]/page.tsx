@@ -22,7 +22,7 @@ import { notFound } from 'next/navigation'
 import Image from "@/components/image";
 import Stack from '@mui/material/Stack';
 import type { Metadata, ResolvingMetadata } from 'next'
-import { commonKeyWords } from '@/app/layout';
+import { commonKeyWords, commonOpenGraph } from '@/app/layout';
 
 const showCircularStats = false;
 
@@ -52,16 +52,17 @@ export async function generateMetadata({params} : {params : {slug : string}}, pa
     if(!teamData){
         return({});
     }
-    const imgUrl = stableImg(teamData.attributes.cover.data?.attributes, "large", "/static/match_placeholder.webp");
+    const imgUrl = stableImg(teamData.attributes.logo.data?.attributes, "medium", "/static/match_placeholder.webp");
     return({
-        title: `Mole Cup - Squadra ${teamData.attributes.name}`,
+        title: `Squadra ${teamData.attributes.name}`,
         description: `Le partite e i risultati della squadra del liceo ${teamData.attributes.name} per la Mole Cup Reale Mutua`,
         keywords: commonKeyWords.concat([teamData.attributes.name, "squadra"]),
         openGraph: {
             title: `Mole Cup - Squadra ${teamData.attributes.name}`,
             description: `La squadra del liceo ${teamData.attributes.name} per la Mole Cup Reale Mutua`,
             type: "profile",
-            locale: 'it_IT',
+            ...commonOpenGraph,
+            url: `https://molecup.com/team/${params.slug}`,
             images: [
                 {
                     url: imgUrl,

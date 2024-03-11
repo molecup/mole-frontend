@@ -12,8 +12,16 @@ import { SpeedInsights } from '@vercel/speed-insights/next';
 
 export const commonKeyWords = ["Mole Cup", "molecup", "Torino", "torneo", "calcio", "liceo"]
 
+export const commonOpenGraph = {
+  siteName: 'Mole Cup',
+  locale: 'it_IT',
+}
+
 export const metadata: Metadata = {
-  title: 'Mole cup Reale Mutua - Sito Ufficiale',
+  title: {
+    template: "%s - Mole cup Reale Mutua",
+    default: "Mole cup Reale Mutua"
+  },
   creator: 'Marco Magnanini',
   publisher: "European Students league",
   applicationName: 'Mole Cup Reale Mutua',
@@ -21,10 +29,9 @@ export const metadata: Metadata = {
   keywords: commonKeyWords,
   openGraph: {
     title: 'Mole Cup Reale Mutua',
-    description: 'Sito ufficiale della Mole Cup Reale mutua',
     url: 'https://molecup.com',
-    siteName: 'Mole Cup',
-    locale: 'it_IT',
+    description: 'Sito ufficiale della Mole Cup Reale mutua',
+    ...commonOpenGraph,
     type: 'website',
   },
 }

@@ -9,7 +9,7 @@ import RelatedArticles, { RelatedArticlesGrid, getRelatedArticles, relatedArticl
 import Box from "@mui/material/Box";
 import { notFound } from 'next/navigation'
 import type { Metadata, ResolvingMetadata } from 'next'
-import { commonKeyWords } from "@/app/layout";
+import { commonKeyWords, commonOpenGraph } from "@/app/layout";
 
 import defaultImg from "@/public/static/match_placeholder.webp";
 
@@ -40,7 +40,8 @@ export async function generateMetadata({params} : {params : {slug : string}}, pa
             type: 'article',
             publishedTime: articleData.attributes.publishedAt,
             authors: articleData.attributes.author,
-            locale: 'it_IT',
+            ...commonOpenGraph,
+            url: `https://molecup.com/news/${params.slug}`,
             images: [
                 {
                     url: imgUrl,

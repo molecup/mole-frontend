@@ -5,11 +5,19 @@ import HeroHeader from "@/components/heroHeader";
 import type { Metadata } from 'next'
 
 import headerImg from "@/public/static/DSC_0666-3.webp";
+import { commonOpenGraph } from "../layout";
 
 
 export const metadata: Metadata = {
   title: 'Notizie',
   description: 'Tutte le notizie e gli articoli della Mole Cup Reale Mutua',
+  openGraph: {
+    title: 'Notizie - Mole Cup Reale Mutua',
+    url: 'https://molecup.com/news',
+    description: 'Tutte le notizie e gli articoli della Mole Cup Reale Mutua',
+    ...commonOpenGraph,
+    type: 'website',
+  },
 }
 
 export default async function News(){

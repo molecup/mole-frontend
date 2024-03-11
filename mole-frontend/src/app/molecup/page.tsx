@@ -17,10 +17,18 @@ import Stack from '@mui/material/Stack';
 import type { Metadata } from 'next'
 
 import headerImg from "@/public/static/DSC_0666-3.webp";
+import { commonOpenGraph } from '../layout';
 
 export const metadata: Metadata = {
-  title: 'Mole cup Reale Mutua - Il torneo',
+  title: 'Il torneo',
   description: 'Tutte le informazioni del torneo Mole Cup Reale Mutua',
+  openGraph: {
+    title: 'Il torneo - Mole Cup Reale Mutua',
+    url: 'https://molecup.com/molecup',
+    description: 'Tutte le partite e le informazioni del torneo Mole Cup Reale Mutua',
+    ...commonOpenGraph,
+    type: 'website',
+  },
 }
 
 const marginBottom = {
