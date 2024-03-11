@@ -44,7 +44,7 @@ export default function HeroHeader({children, sx, src, blurDataURL, blur=false, 
                     objectPosition: "center",
                     filter: "brightness(50%)",
                 }}
-                
+                sizes='100vw'
             />
             <Stack sx={{alignItems:"center", alignContent: "center", zIndex:"1"}}>
             {children}
