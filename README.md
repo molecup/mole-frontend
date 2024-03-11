@@ -21,5 +21,13 @@ Via npn module @googlemaps/js-api-loader
 
 For guide refer to [medium](https://lonare.medium.com/how-to-integrate-google-maps-with-marker-on-my-react-next-js-website-with-address-4741d69e6324).
 
+## Json-Ld
+Json-ld schema via [schema-dts](https://www.npmjs.com/package/schema-dts).
+
+For documentation refer to:
+* [nextjs](https://nextjs.org/docs/app/building-your-application/optimizing/metadata#json-ld)
+* [schema.org](https://schema.org/)
+* [guida semplice](https://primosugoogle.com/json-ld-la-guida-definitiva/)
+
 
 
