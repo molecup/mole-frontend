@@ -37,7 +37,7 @@ export default function MatchTimeline({matchEvents, teams} : {matchEvents : matc
         <Box sx={{maxWidth: "100vw", overflowX: "auto"}}>
             <Stepper activeStep={-1} alternativeLabel>
                 <EventElement type="dot"/>
-                {matchEvents.map((event, idx) => 
+                {matchEvents.filter((event) => event.minute > 0).map((event, idx) => 
                     <EventElement type={eventType(event)} key={idx}>
                         <EventLabel teams={teams} label={event.minute + "'"} teamIdx={event.team==="teamA" ? 0 : 1}/>
                     </EventElement>
