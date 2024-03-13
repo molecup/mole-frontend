@@ -13,7 +13,7 @@ export interface goalEventInterface{
     __component: "match-event.goal"
     id: number,
     team: "teamA" | "teamB",
-    scorerShirtNumber: number,
+    scorerShirtNumber?: number | null,
     minute: number,
     penalty: boolean,
 }
@@ -22,7 +22,7 @@ export interface cardEventInterface{
     __component: "match-event.card"
     id: number,
     team: "teamA" | "teamB",
-    playerShirtNumber: number,
+    playerShirtNumber?: number | null,
     minute: number,
     cardType: "yellow" | "red"
 }
@@ -34,10 +34,10 @@ export type mapEventType = Map<number, matchEventInterface[]>;
 export function convertInterface(event : eventRawType) : matchEventInterface{
     var shirtNumber = 0;
     if (event.__component === "match-event.goal"){
-        shirtNumber = event.scorerShirtNumber;
+        shirtNumber = event.scorerShirtNumber? event.scorerShirtNumber : 0;
     }
     else if (event.__component === "match-event.card"){
-        shirtNumber = event.playerShirtNumber;
+        shirtNumber = event.playerShirtNumber? event.playerShirtNumber : 0;
     }
     return({
         ...event,
