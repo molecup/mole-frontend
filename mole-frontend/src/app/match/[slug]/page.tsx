@@ -44,9 +44,9 @@ async function getStandingTable(leagueId : number){
 }
 
 async function getPlayerList(teamId : number){
-    const path = `/api/teams/${teamId}?populate[playerList]=1`;
+    const path = `/api/teams/${teamId}?populate[player_list][populate][0]=players`;
     const res  = await publicFetch(path);
-    return res.data;
+    return res.data.attributes.player_list.data;
 }
 
 export async function generateMetadata({params} : {params : {slug : number}}, parent: ResolvingMetadata): Promise<Metadata> {
@@ -135,8 +135,8 @@ function SmallLayout({playerList, matchInfo, standingTable, status, date, time, 
         <TabLayout 
             labels = {[matchInfo.teamA.name, matchInfo.teamB.name, matchInfo.league.name]}
         >   
-            <PlayerList playerList={playerList[0].attributes.playerList} mapEvent={mapEvents[0]}/>
-            <PlayerList playerList={playerList[1].attributes.playerList} mapEvent={mapEvents[1]}/>
+            <PlayerList playerList={playerList[0]?.attributes.players} mapEvent={mapEvents[0]}/>
+            <PlayerList playerList={playerList[1]?.attributes.players} mapEvent={mapEvents[1]}/>
             {standingTable && <StandingTable 
                 title={standingTable.name} 
                 teamRanks={standingTable.teams}
@@ -244,7 +244,7 @@ function PlayerBig({playerList, teams, mapEvents} : {playerList : [any, any], te
                         <Toolbar sx={{borderRadius: "4px 4px 0 0"}}>
                             <Typography variant='h5'>Rosa {teams[idx].name}</Typography>
                         </Toolbar>
-                        <PlayerList playerList={pl.attributes.playerList} mapEvent={mapEvents[idx]} />
+                        <PlayerList playerList={pl?.attributes.players} mapEvent={mapEvents[idx]} />
                     </Paper>
                 </Grid>
             )}

@@ -27,7 +27,7 @@ import { commonKeyWords, commonOpenGraph } from '@/app/layout';
 const showCircularStats = false;
 
 async function getTeamData(slug : string){
-    const path = `/api/teams?filters[slug][$eq]=${slug}&populate[logo]=1&populate[cover]=1&populate[article_tags][fields]=id&populate[playerList]=1`;
+    const path = `/api/teams?filters[slug][$eq]=${slug}&populate[logo]=1&populate[cover]=1&populate[article_tags][fields]=id&populate[player_list][populate][0]=players`;
     const res  = await publicFetch(path);
     if(!Array.isArray(res.data) || res.data.length === 0){
         notFound();
@@ -145,7 +145,7 @@ function SmallLayout({teamData, teamLeagues, articles, teamMatches, sx} : layout
         <TabLayout 
             labels = {["Rosa giocatori", "Torneo", "News"]}
         >
-            <PlayerList playerList={teamData.attributes.playerList} />
+            <PlayerList playerList={teamData.attributes.player_list.data?.attributes.players} />
             <>
                 {teamLeagues && Array.isArray(teamLeagues) && teamLeagues.map((table : {teams : teamRankInterface[], name : string}, i : number) => 
                     <StandingTable 
@@ -199,7 +199,7 @@ function BigLayout({teamData, teamLeagues, articles, teamMatches, sx} : layoutIn
                             <Toolbar sx={{borderRadius: "4px 4px 0 0"}}>
                                 <Typography variant='h5'>Rosa giocatori</Typography>
                             </Toolbar>
-                            <PlayerList playerList={teamData.attributes.playerList} />
+                            <PlayerList playerList={teamData.attributes.player_list.data?.attributes.players} />
                         </Paper>
                     </Grid>
                     <Grid md={7}>
