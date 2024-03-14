@@ -104,7 +104,7 @@ export default async function MatchPage({params} : {params : {slug : number}}){
     }
     return(
         <>
-            <HeroHeader sx={{minHeight:"300px"}} src={coverUrl} blurDataUrl={matchInfo.cover?.placeholder} blur ></HeroHeader>
+            <HeroHeader sx={{minHeight:"300px"}} src={coverUrl} blurDataURL={matchInfo.cover?.placeholder} blur ></HeroHeader>
             <SmallLayout
                 sx={{display: { xs: 'block', md: 'none' }}}
                 {...layoutProps}

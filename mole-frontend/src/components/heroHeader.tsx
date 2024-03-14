@@ -8,7 +8,7 @@ import { StaticImageData } from 'next/image';
 import Image from "@/components/image";
 
 
-export default function HeroHeader({children, sx, src, blurDataURL, blur=false, minHeight="200px", ...otherProps} : {children?:any, sx?:any, src:string | StaticImageData, blur?:boolean, blurDataUrl?:string, [key: string] : any}){
+export default function HeroHeader({children, sx, src, blurDataURL, blur=false, minHeight="200px", ...otherProps} : {children?:any, sx?:any, src:string | StaticImageData, blur?:boolean, blurDataURL?:string, [key: string] : any}){
     const style={
         /* Use "linear-gradient" to add a darken background effect to the image (photographer.jpg). This will make the text easier to read */
         //backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(${src})`,

@@ -238,7 +238,7 @@ function TeamHeader(props : teamHeaderProps) {
     const coverUrl = stableImg(props.cover, "medium", defaultImg);
     return (
         <>
-            <HeroHeader sx={{padding: "10px"}} src={coverUrl} blurDataUrl={props.cover?.placeholder} blur>
+            <HeroHeader sx={{padding: "10px"}} src={coverUrl} blurDataURL={props.cover?.placeholder} blur>
                 <Stack direction="column" spacing={2} alignItems="center">
                     <Typography variant="h1" color="white">{props.name}</Typography>
                     <Avatar sx={{ width: 90, height: 90, bgcolor:"inherit" }} variant="rounded" >
