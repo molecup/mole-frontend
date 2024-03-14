@@ -30,6 +30,9 @@ export async function generateMetadata({params} : {params : {slug : string}}, pa
     }
     const imgUrl = stableImg(articleData.attributes.cover.data?.attributes, "large", "/match_placeholder.jpg");
     return({
+        alternates: {
+            canonical: `/news/${params.slug}`,
+          },
         title: `${articleData.attributes.title}`,
         description: articleData.attributes.abstract,
         authors : articleData.attributes.author,

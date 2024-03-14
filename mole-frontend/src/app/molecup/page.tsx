@@ -20,6 +20,9 @@ import headerImg from "@/public/static/DSC_0666-3.webp";
 import { commonOpenGraph } from '../layout';
 
 export const metadata: Metadata = {
+  alternates: {
+    canonical: `/molecup`,
+  },
   title: 'Il torneo',
   description: 'Tutte le informazioni del torneo Mole Cup Reale Mutua',
   openGraph: {

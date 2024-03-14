@@ -63,6 +63,9 @@ export async function generateMetadata({params} : {params : {slug : number}}, pa
     const title = `${matchInfo.teamA?.short.toUpperCase()} vs ${matchInfo.teamB?.short.toUpperCase()} - ${matchInfo.league?.name}`;
     const description = `La partita ${matchInfo.teamA?.name} - ${matchInfo.teamB?.name} del ${date} al ${matchInfo.stadium?.name} della Mole Cup Reale Mutua`
     return({
+        alternates: {
+            canonical: `/match/${params.slug}`,
+          },
         title: title,
         description: description,
         keywords: commonKeyWords.concat([matchInfo.teamA?.name, matchInfo.teamB?.name, matchInfo.stadium?.name, matchInfo.league?.name, "partita"]),
@@ -89,7 +92,7 @@ export default async function MatchPage({params} : {params : {slug : number}}){
     const [date, time] = dateTimeText(new Date(matchInfo.date));
     const status = matchInfo.status === "finished" || matchInfo.status === "live";
     const mapEvents = generatePlayerMapEvent(matchInfo.matchEvents);
-    const coverUrl = stableImg(matchInfo.cover, "medium", defaultImg);
+    const coverUrl = stableImg(matchInfo.cover, "large", defaultImg);
     const layoutProps = {
         playerList : [playerListA, playerListB],
         matchInfo : matchInfo,

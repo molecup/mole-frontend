@@ -18,6 +18,10 @@ export const commonOpenGraph = {
 }
 
 export const metadata: Metadata = {
+  metadataBase: new URL(process.env.NEXT_PUBLIC_URL ? process.env.NEXT_PUBLIC_URL : "https://molecup.com"),
+  alternates: {
+    canonical: '/',
+  },
   title: {
     template: "%s - Mole cup Reale Mutua",
     default: "Mole cup Reale Mutua"

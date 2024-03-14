@@ -54,6 +54,9 @@ export async function generateMetadata({params} : {params : {slug : string}}, pa
     }
     const imgUrl = stableImg(teamData.attributes.logo.data?.attributes, "medium", "/static/match_placeholder.webp");
     return({
+        alternates: {
+            canonical: `/team/${params.slug}`,
+          },
         title: `Squadra ${teamData.attributes.name}`,
         description: `Le partite e i risultati della squadra del liceo ${teamData.attributes.name} per la Mole Cup Reale Mutua`,
         keywords: commonKeyWords.concat([teamData.attributes.name, "squadra"]),

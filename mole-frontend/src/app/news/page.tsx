@@ -9,6 +9,9 @@ import { commonOpenGraph } from "../layout";
 
 
 export const metadata: Metadata = {
+  alternates: {
+    canonical: `/news`,
+  },
   title: 'Notizie',
   description: 'Tutte le notizie e gli articoli della Mole Cup Reale Mutua',
   openGraph: {
