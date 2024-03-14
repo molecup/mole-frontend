@@ -23,6 +23,10 @@ import MatchTimeline from '@/components/matchTimeline';
 import Image from "next/image";
 import type { Metadata, ResolvingMetadata } from 'next'
 import { commonKeyWords, commonOpenGraph } from '@/app/layout';
+import HeroHeader from '@/components/heroHeader';
+
+import defaultImg from "@/public/static/match_placeholder.webp";
+
 
 async function getMatchInfo(id : number){
     const path = "/api/matches-report/" + id;
@@ -85,6 +89,7 @@ export default async function MatchPage({params} : {params : {slug : number}}){
     const [date, time] = dateTimeText(new Date(matchInfo.date));
     const status = matchInfo.status === "finished" || matchInfo.status === "live";
     const mapEvents = generatePlayerMapEvent(matchInfo.matchEvents);
+    const coverUrl = stableImg(matchInfo.cover, "medium", defaultImg);
     const layoutProps = {
         playerList : [playerListA, playerListB],
         matchInfo : matchInfo,
@@ -96,6 +101,7 @@ export default async function MatchPage({params} : {params : {slug : number}}){
     }
     return(
         <>
+            <HeroHeader sx={{minHeight:"300px"}} src={coverUrl} blurDataUrl={matchInfo.cover?.placeholder} blur ></HeroHeader>
             <SmallLayout
                 sx={{display: { xs: 'block', md: 'none' }}}
                 {...layoutProps}
