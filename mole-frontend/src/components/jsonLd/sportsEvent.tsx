@@ -24,7 +24,8 @@ export default function SportsEventJsonLd(props : {matchInfo : any, img: string,
         homeTeam : generateSportsTeamJson(props.matchInfo.teamA),
         awayTeam: generateSportsTeamJson(props.matchInfo.teamB),
         startDate: props.matchInfo.date,
-        eventAttendanceMode: "OfflineEventAttendanceMode"
+        eventAttendanceMode: "OfflineEventAttendanceMode",
+        mainEntityOfPage: `${process.env.NEXT_PUBLIC_URL}/match/${props.slug}`,
     };
     return JsonLd<SportsEvent>(json, "jsopnLdmatch"+props.slug);
 }
