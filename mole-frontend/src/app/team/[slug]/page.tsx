@@ -23,6 +23,7 @@ import Image from "@/components/image";
 import Stack from '@mui/material/Stack';
 import type { Metadata, ResolvingMetadata } from 'next'
 import { commonKeyWords, commonOpenGraph } from '@/app/layout';
+import SportsTeamJsonLd from '@/components/jsonLd/sportsTeam';
 
 const showCircularStats = false;
 
@@ -87,6 +88,7 @@ export default async function TeamPage({params} : {params : {slug : string}}){
     }
     return(
         <>
+            <SportsTeamJsonLd team={teamData.attributes} logo={teamData.attributes.logo.data?.attributes}/>
             <TeamHeader
                 name = {teamData.attributes.name}
                 logo = {teamData.attributes.logo.data?.attributes}
