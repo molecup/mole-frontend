@@ -15,10 +15,16 @@ export default function SportsEventJsonLd(props : {matchInfo : any, img: string,
         name: `${props.matchInfo.teamA.name} - ${props.matchInfo.teamB.name}`,
         alternateName: `${props.matchInfo.teamA.short} - ${props.matchInfo.teamB.short}`,
         doorTime: props.matchInfo.date,
-        location: props.matchInfo.stadium?.location?.description,
+        location: {
+            "@type" : "Place",
+            name: props.matchInfo.stadium?.name,
+            address: props.matchInfo.stadium?.location?.description,
+        },
         organizer: molecupOrganization,
         homeTeam : generateSportsTeamJson(props.matchInfo.teamA),
         awayTeam: generateSportsTeamJson(props.matchInfo.teamB),
+        startDate: props.matchInfo.date,
+        eventAttendanceMode: "OfflineEventAttendanceMode"
     };
     return JsonLd<SportsEvent>(json, "jsopnLdmatch"+props.slug);
 }
