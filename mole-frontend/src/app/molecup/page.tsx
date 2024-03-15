@@ -18,6 +18,7 @@ import type { Metadata } from 'next'
 
 import headerImg from "@/public/static/DSC_0666-3.webp";
 import { commonOpenGraph } from '../layout';
+import SportsOrganizationJsonLd from '@/components/jsonLd/sportsOrganization';
 
 export const metadata: Metadata = {
   alternates: {
@@ -75,6 +76,7 @@ export default async function MoleCup() {
   }
   return (
     <>
+      <SportsOrganizationJsonLd/>
       <HeroHeader src={headerImg} blur sx={{height: "300px"}}>
         <Stack alignItems="center" spacing={2}>
           <Typography variant="h1" color="white" textTransform="uppercase">{tournament.name}</Typography>
