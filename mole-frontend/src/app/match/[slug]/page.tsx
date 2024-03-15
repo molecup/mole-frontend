@@ -26,6 +26,7 @@ import { commonKeyWords, commonOpenGraph } from '@/app/layout';
 import HeroHeader from '@/components/heroHeader';
 
 import defaultImg from "@/public/static/match_placeholder.webp";
+import SportsEventJsonLd from '@/components/jsonLd/sportsEvent';
 
 
 async function getMatchInfo(id : number){
@@ -104,6 +105,12 @@ export default async function MatchPage({params} : {params : {slug : number}}){
     }
     return(
         <>
+            <SportsEventJsonLd 
+                slug={params.slug.toString()}
+                matchInfo={matchInfo}
+                img={coverUrl}
+                dateString={date}
+            />
             <HeroHeader sx={{minHeight:"300px"}} src={coverUrl} blurDataURL={matchInfo.cover?.placeholder} blur ></HeroHeader>
             <SmallLayout
                 sx={{display: { xs: 'block', md: 'none' }}}

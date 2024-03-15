@@ -19,3 +19,17 @@ export default function SportsTeamJsonLd(props : {team : teamInterface, logo: im
     };
     return JsonLd<SportsTeam>(json, "jsopnLdteam"+props.team.slug);
 }
+
+export function generateSportsTeamJson(team : teamInterface) : SportsTeam{
+    return {
+        '@type': 'SportsTeam',
+        sport: ["Soccer", "Football"],
+        name : team.name,
+        alternateName: team.short,
+        url: `${process.env.NEXT_PUBLIC_URL}/team/${team.slug}`,
+        logo: team.logo?.formats.medium?.url,
+        description: `La squadra del liceo ${team.name} per la Mole Cup Reale Mutua`,
+        keywords: ["squadra", "team", team.name, team.short, "liceo", "calcio", "Mole Cup", "Molecup"],
+        mainEntityOfPage: `${process.env.NEXT_PUBLIC_URL}/team/${team.slug}`,
+    };
+}
