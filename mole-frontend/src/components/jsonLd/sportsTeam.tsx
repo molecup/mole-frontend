@@ -6,7 +6,7 @@ import { molecupOrganization } from "./sportsOrganization";
 export default function SportsTeamJsonLd(props : {team : teamInterface, logo: imgFormatsInterface}){
     const json : WithContext<SportsOrganization> = {
         "@context": "https://schema.org",
-        '@type': 'SportsOrganization',
+        '@type': "SportsOrganization",
         sport: ["Soccer", "Football"],
         name : props.team.name,
         alternateName: props.team.short,
