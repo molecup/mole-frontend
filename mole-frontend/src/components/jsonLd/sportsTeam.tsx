@@ -21,7 +21,7 @@ export default function SportsTeamJsonLd(props : {team : teamInterface, logo: im
             sport: ["Soccer", "Football"],
             name : props.team.name,
             alternateName: props.team.short,
-            url: `${process.env.NEXT_PUBLIC_URL}/team/${props.team.slug}`, 
+            //url: `${process.env.NEXT_PUBLIC_URL}/team/${props.team.slug}`, 
             logo: props.logo?.formats.medium?.url,
         }
     };
