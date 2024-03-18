@@ -93,7 +93,7 @@ export default function CardSlider(props){
 
   const scrollToInitialTarget = () => {
     let element = findInitialTarget(ref.current);
-    let nextScrollLeft = element ? element.offsetLeft - Math.round(element.offsetWidth / 2) : 0;
+    let nextScrollLeft = element ? element.offsetLeft - Math.round(element.offsetWidth / 1) : 0;
     ref.current.scrollTo({
       left: nextScrollLeft,
       behavior: "instant"

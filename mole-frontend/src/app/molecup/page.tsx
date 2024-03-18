@@ -217,7 +217,7 @@ function MatchSliderSection({matches} : {matches: any}){
               key={match.id}
               img={match.cover}
               url={'/match/' + match.id}
-              initial={match.status === "finished"}
+              initial={match.status !== "finished"}
               teamA={match.teamA}
               teamB={match.teamB}
               date={date}
