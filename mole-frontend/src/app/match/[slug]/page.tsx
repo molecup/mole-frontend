@@ -146,7 +146,7 @@ function SmallLayout({playerList, matchInfo, standingTable, status, date, time, 
             date = {status? date : time}
             sx={{margin: "10px"}}
         />
-        {Array.isArray(matchInfo.matchEvents) && matchInfo.matchEvents.length > 0 && <MatchTimeline matchEvents={matchInfo.matchEvents} teams={[matchInfo.teamA, matchInfo.teamB]}/>}
+        {Array.isArray(matchInfo.matchEvents) && matchInfo.matchEvents.length > 0 && <MatchTimeline matchEvents={matchInfo.matchEvents} teams={[matchInfo.teamA, matchInfo.teamB]} hideMinutes={matchInfo.hideEventMinutes}/>}
         {!status && <LocationMapSmall address={matchInfo.stadium?.location?.description} />}
         <TabLayout 
             labels = {[matchInfo.teamA.name, matchInfo.teamB.name, matchInfo.league.name]}
@@ -199,7 +199,7 @@ function BigLayout({playerList, matchInfo, standingTable, status, date, time, ma
 function TimeLineBig({matchInfo} : {matchInfo : any}){
     return(
         <Grid md={12} sx={{marginBottom: "10px", marginTop: "10px"}}>
-            <MatchTimeline matchEvents={matchInfo.matchEvents} teams={[matchInfo.teamA, matchInfo.teamB]}/>
+            <MatchTimeline matchEvents={matchInfo.matchEvents} teams={[matchInfo.teamA, matchInfo.teamB]} hideMinutes={matchInfo.hideEventMinutes}/>
         </Grid>
     );
 }

@@ -20,7 +20,7 @@ export interface matchTimelineInterface{
     cardType?: "yellow" | "red"
 }
 
-export default function MatchTimeline({matchEvents, teams} : {matchEvents : matchTimelineInterface[], teams: [teamInterface, teamInterface]}){
+export default function MatchTimeline({matchEvents, teams, hideMinutes=false} : {matchEvents : matchTimelineInterface[], teams: [teamInterface, teamInterface], hideMinutes?: boolean}){
     const eventType = (event: matchTimelineInterface) : eventType => {
         if(event.__component === "match-event.goal"){
             return("goal");
@@ -39,7 +39,7 @@ export default function MatchTimeline({matchEvents, teams} : {matchEvents : matc
                 <EventElement type="dot"/>
                 {matchEvents.filter((event) => event.minute > 0).sort((x1, x2) => x1.minute-x2.minute).map((event, idx) => 
                     <EventElement type={eventType(event)} key={idx}>
-                        <EventLabel teams={teams} label={event.minute + "'"} teamIdx={event.team==="teamA" ? 0 : 1}/>
+                        <EventLabel teams={teams} label={hideMinutes ? "" : event.minute + "'"} teamIdx={event.team==="teamA" ? 0 : 1}/>
                     </EventElement>
                 )}
                 <EventElement type="dot"/>
