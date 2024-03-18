@@ -6,6 +6,7 @@ import Box from '@mui/system/Box';
 import Footer from '@/components/footer';
 import CookiesSnackbar from '@/components/cookiesSnackbar';
 import { SpeedInsights } from '@vercel/speed-insights/next';
+import { Analytics } from '@vercel/analytics/react';
 
 
 //const inter = Inter({ subsets: ['latin'] })
@@ -54,6 +55,7 @@ export default function RootLayout({
             <Box sx={{padding : 0}}>
               {children}
               <SpeedInsights/>
+              <Analytics />
             </Box>
             <Footer/>
           </Box>
