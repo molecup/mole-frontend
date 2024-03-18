@@ -296,7 +296,7 @@ function MatchHeader(props : matchHeaderInterface & {sx?: any}) {
                     </Avatar>
                     <Typography variant="h2" color="primary" sx={capitalizeStyle} href={teamALink} component={Link}>{props.teamA.short}</Typography>
                     <Typography variant="h3">{props.scoreText}</Typography>
-                    <Typography variant="h2" color="primary" sx={capitalizeStyle} href={teamBLink} component={Link}>{props.teamB.short}</Typography>
+                    <Typography variant="h2" color="secondary" sx={capitalizeStyle} href={teamBLink} component={Link}>{props.teamB.short}</Typography>
                     <Avatar sx={{ width: 57, height: 57, bgcolor:"inherit" }} href={teamBLink} component={Link} variant="rounded" >
                         <Image alt={`${props.teamB.name} logo`} src={imgB}  width="57" height="57" style={{objectFit: "contain"}} />
                     </Avatar>

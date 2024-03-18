@@ -54,7 +54,7 @@ function EventLabel({teams, teamIdx, label}: {teams:[teamInterface, teamInterfac
     return(
         <Paper sx={{bgcolor: colors[teamIdx], paddingBottom: "5px"}}>
             <Stack direction="column" sx={{alignItems: "center", marginTop: "-10px"}}>
-                <Avatar variant="rounded" sx={{ width: 40, height: 40, marginTop: "5px" }} alt={"logo " + teams[teamIdx].name} >
+                <Avatar variant="rounded" sx={{ width: 40, height: 40, marginTop: "5px", bgcolor: "inherit" }} alt={"logo " + teams[teamIdx].name} >
                     <Image alt={"logo " + teams[teamIdx].name} src={img}  width="40" height="40" style={{objectFit: "contain", objectPosition:"center", height:"auto", padding:"1px"}} />
                 </Avatar>
                 <Typography color="primary.contrastText">{label}</Typography>
