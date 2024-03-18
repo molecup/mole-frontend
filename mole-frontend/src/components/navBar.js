@@ -30,7 +30,7 @@ import useScrollTrigger from '@mui/material/useScrollTrigger';
 import Slide from '@mui/material/Slide';
 
 const pages=[
-  { name: 'Home', url: '/' },
+  { name: 'Chi siamo', url: '/' },
   { name: 'Molecup', url: '/molecup' },
   { name:'News', url: '/news' },
 ];
