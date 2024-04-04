@@ -31,8 +31,9 @@ import Slide from '@mui/material/Slide';
 
 const pages=[
   { name: 'Chi siamo', url: '/' },
-  { name: 'Molecup', url: '/molecup' },
+  { name: 'Torneo', url: '/molecup' },
   { name:'News', url: '/news' },
+  { name: 'Store', url: 'https://store.molecup.com'},
 ];
 
 
