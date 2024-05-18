@@ -92,13 +92,13 @@ export function LeagueTable({title, teamRanks, ...props} : {title : string, team
 function TableTree({title, treeImg} : {title:string, treeImg?: imgFormatsInterface}){
     const imgUrl = stableImg(treeImg, "medium", manualTableTree);
     return(
-        <Paper sx={{ maxWidth:700, marginTop: '10px', marginBottom: '10px' }}>
+        <Paper sx={{maxWidth:700, marginTop: '10px', marginBottom: '10px', width:"100%" }}>
             <Toolbar sx={{borderRadius: "4px 4px 0 0"}}>
                 <Typography variant='h5'>{title}</Typography>
             </Toolbar>
             <Box sx={{height:"300px"}}>
                 <div style={{ position: 'relative', width: '100%', height: '100%', opacity: 0.9 }}>
-                    <Image alt="Final phase tree table" src={imgUrl} fill={true} blurDataURL={treeImg?.placeholder} placeholder="blur" style={{ objectFit: "contain" }} sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 40vw" />
+                    <Image alt="Final phase tree table" src={imgUrl} fill={true} blurDataURL={treeImg?.placeholder} placeholder="blur" style={{ objectFit: "contain" }} sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 50vw" />
                 </div>
             </Box>
         </Paper>
