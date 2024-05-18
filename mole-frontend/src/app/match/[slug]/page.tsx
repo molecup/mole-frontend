@@ -156,6 +156,8 @@ function SmallLayout({playerList, matchInfo, standingTable, status, date, time, 
             {standingTable && <StandingTable 
                 title={standingTable.name} 
                 teamRanks={standingTable.teams}
+                type={standingTable.type}
+                treeImg={standingTable.treeTable}
             /> }
         </TabLayout>
         {status && <LocationMapSmall address={matchInfo.stadium?.location?.description} />}
@@ -244,6 +246,8 @@ function StandingTableBig({standingTable} : {standingTable: any}){
                 <StandingTable 
                 title={standingTable.name} 
                 teamRanks={standingTable.teams}
+                type={standingTable.type}
+                treeImg={standingTable.treeTable}
                 /> 
             }
         </Grid>

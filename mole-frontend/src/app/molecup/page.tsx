@@ -3,7 +3,7 @@ import CardSlider from '@/components/cardSlider';
 import MatchCard from '@/components/matchCard';
 import TeamCard from '@/components/teamCard';
 import Typography from '@mui/material/Typography';
-import StandingTable from '@/components/standingTable';
+import StandingTable, { StandingTables } from '@/components/standingTable';
 import Container from '@mui/material/Container';
 import HeroHeader from '@/components/heroHeader';
 import Grid from '@mui/material/Unstable_Grid2';
@@ -67,6 +67,7 @@ export default async function MoleCup() {
   const news = await getRelatedArticles(tournament.article_tags.data);
   const teams = tournament.teams.data;
   const firstTeam = Math.round(teams.length / 2) - 2;
+  console.log(standingTables)
   const layoutProps = {
     teams: teams,
     firstTeam: firstTeam,
@@ -191,16 +192,7 @@ function StandingGrid(props: any){
 function StandingTableSection({standingTables} : {standingTables : any}){
   return(
     <Grid container sx={{...marginBottom, padding:"10px"}} spacing={1}>
-      {standingTables && Array.isArray(standingTables) ? standingTables.sort((a, b) => a.name.localeCompare(b.name)).map((table : {teams : teamRankInterface[], name : string}, i : number) => 
-        <StandingGrid key = {i}>
-          <StandingTable
-            title = {table.name}
-            teamRanks = {table.teams}
-          />
-        </StandingGrid>
-      ) :
-        <Typography>Nessun girone trovato</Typography>
-      }
+      <StandingTables teamLeagues={standingTables} />
     </Grid>
   );
 }

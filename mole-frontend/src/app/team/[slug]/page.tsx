@@ -3,7 +3,7 @@ import Container from '@mui/material/Container';
 import PlayerList from '@/components/playerList';
 import CardSlider from '@/components/cardSlider';
 import MatchCard from '@/components/matchCard';
-import StandingTable from '@/components/standingTable';
+import StandingTable, { StandingTables } from '@/components/standingTable';
 import TabLayout from '@/components/tabLayout';
 import Avatar from '@mui/material/Avatar';
 import HeroHeader from '@/components/heroHeader';
@@ -151,16 +151,8 @@ function SmallLayout({teamData, teamLeagues, articles, teamMatches, sx} : layout
             labels = {["Rosa giocatori", "Torneo", "News"]}
         >
             <PlayerList playerList={teamData.attributes.player_list.data?.attributes.players} />
-            <>
-                {teamLeagues && Array.isArray(teamLeagues) && teamLeagues.map((table : {teams : teamRankInterface[], name : string}, i : number) => 
-                    <StandingTable 
-                    key = {i}
-                    title = {table.name}
-                    teamRanks = {table.teams}
-                    small
-                    />
-                )}
-            </>
+            <StandingTables teamLeagues={teamLeagues} />
+
             <RelatedArticles articles = {articles}/>
         </TabLayout>
         </Box>
@@ -208,14 +200,7 @@ function BigLayout({teamData, teamLeagues, articles, teamMatches, sx} : layoutIn
                         </Paper>
                     </Grid>
                     <Grid md={7}>
-                        {teamLeagues && Array.isArray(teamLeagues) && teamLeagues.map((table : {teams : teamRankInterface[], name : string}, i : number) => 
-                            <StandingTable 
-                            key = {i}
-                            title = {table.name}
-                            teamRanks = {table.teams}
-                            small
-                            />
-                        )}
+                        <StandingTables teamLeagues={teamLeagues} />
                         <Paper>
                             <Toolbar sx={{borderRadius: "4px 4px 0 0", marginBottom: "10px"}}>
                                 <Typography variant='h5'>Ultimi articoli</Typography>
@@ -251,3 +236,4 @@ function TeamHeader(props : teamHeaderProps) {
         </> 
     );
 }
+

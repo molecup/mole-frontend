@@ -10,9 +10,11 @@ import Typography from '@mui/material/Typography';
 import Avatar from '@mui/material/Avatar';
 import Stack from '@mui/system/Stack';
 import Link from 'next/link';
-import { teamRankInterface } from '@/lib/commonInterfaces';
+import { imgFormatsInterface, teamRankInterface } from '@/lib/commonInterfaces';
 import { stableImg } from '@/lib/outImg';
-import Image from "next/image";
+import Image from "@/components/image";
+import Container from '@mui/material/Container';
+import Box from '@mui/material/Box';
 
 
 const stickyColStyle = {
@@ -23,9 +25,14 @@ const stickyColStyle = {
 const stickyColBorderStyle = {
 }
 
+export default function StandingTable({title, teamRanks, treeImg, type="group", ...props} : {title : string, teamRanks? : teamRankInterface[], treeImg?: imgFormatsInterface, type?: "group" | "elimination", small? : boolean }){
+    if(type=="group"  && teamRanks){
+        return LeagueTable({title: title, teamRanks: teamRanks, small:props.small})
+    }
+    return TableTree({title:title, treeImg:treeImg, ...props})
+}
 
-
-export default function StandingTable({title, teamRanks, ...props} : {title : string, teamRanks : teamRankInterface[], small? : boolean }){
+export function LeagueTable({title, teamRanks, ...props} : {title : string, teamRanks : teamRankInterface[], small? : boolean }){
     return(
         <TableContainer component={Paper} sx={{ maxWidth:700, marginTop: '10px', marginBottom: '10px' }}>
             <Toolbar sx={stickyColStyle}>
@@ -80,4 +87,52 @@ export default function StandingTable({title, teamRanks, ...props} : {title : st
             
         </TableContainer>
     );
+}
+
+function TableTree({title, treeImg} : {title:string, treeImg?: imgFormatsInterface}){
+    const imgUrl = stableImg(treeImg, "medium");
+    return(
+        <Paper sx={{ maxWidth:700, marginTop: '10px', marginBottom: '10px' }}>
+            <Toolbar sx={{borderRadius: "4px 4px 0 0"}}>
+                <Typography variant='h5'>{title}</Typography>
+            </Toolbar>
+            <Box sx={{height:"300px"}}>
+                <div style={{ position: 'relative', width: '100%', height: '100%', opacity: 0.9 }}>
+                    <Image alt="Final phase tree table" src={imgUrl} fill={true} blurDataURL={treeImg?.placeholder} placeholder="blur" style={{ objectFit: "cover" }} sizes="(max-width: 768px) 50vw, (max-width: 1200px) 25vw, 12vw" />
+                </div>
+            </Box>
+        </Paper>
+    )
+}
+
+export function StandingTables({teamLeagues: standings}: any){
+    let finalPhaseUsed = false
+    if(!standings || !Array.isArray(standings)){
+        return (<Typography>Nessun girone trovato</Typography>)
+    }
+    return(
+        <>
+        {standings.map((table : {teams : teamRankInterface[], name : string, type:"group" | "elimination", treeTable?: imgFormatsInterface}, i : number) => {
+            const title = table.type=="group" ? table.name : "Fasi Finali"
+            let showTable = true
+            if(table.type == "elimination"){
+                if(finalPhaseUsed){
+                    showTable = false
+                }
+                finalPhaseUsed = true
+            }
+            return(
+                showTable && <StandingTable 
+                key = {i}
+                title = {title}
+                teamRanks = {table.teams}
+                type= {table.type}
+                treeImg={table.treeTable}
+                small
+                />
+            )
+        }
+        )}
+        </>
+    )
 }
