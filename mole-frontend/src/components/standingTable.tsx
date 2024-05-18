@@ -13,8 +13,8 @@ import Link from 'next/link';
 import { imgFormatsInterface, teamRankInterface } from '@/lib/commonInterfaces';
 import { stableImg } from '@/lib/outImg';
 import Image from "@/components/image";
-import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
+import manualTableTree from '@/public/static/tabellone-quarti.webp';
 
 
 const stickyColStyle = {
@@ -90,7 +90,7 @@ export function LeagueTable({title, teamRanks, ...props} : {title : string, team
 }
 
 function TableTree({title, treeImg} : {title:string, treeImg?: imgFormatsInterface}){
-    const imgUrl = stableImg(treeImg, "medium");
+    const imgUrl = stableImg(treeImg, "medium", manualTableTree);
     return(
         <Paper sx={{ maxWidth:700, marginTop: '10px', marginBottom: '10px' }}>
             <Toolbar sx={{borderRadius: "4px 4px 0 0"}}>
@@ -98,7 +98,7 @@ function TableTree({title, treeImg} : {title:string, treeImg?: imgFormatsInterfa
             </Toolbar>
             <Box sx={{height:"300px"}}>
                 <div style={{ position: 'relative', width: '100%', height: '100%', opacity: 0.9 }}>
-                    <Image alt="Final phase tree table" src={imgUrl} fill={true} blurDataURL={treeImg?.placeholder} placeholder="blur" style={{ objectFit: "cover" }} sizes="(max-width: 768px) 50vw, (max-width: 1200px) 25vw, 12vw" />
+                    <Image alt="Final phase tree table" src={imgUrl} fill={true} blurDataURL={treeImg?.placeholder} placeholder="blur" style={{ objectFit: "contain" }} sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 40vw" />
                 </div>
             </Box>
         </Paper>
