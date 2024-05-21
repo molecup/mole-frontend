@@ -14,7 +14,7 @@ import { imgFormatsInterface, teamRankInterface } from '@/lib/commonInterfaces';
 import { stableImg } from '@/lib/outImg';
 import Image from "@/components/image";
 import Box from '@mui/material/Box';
-import manualTableTree from '@/public/static/tabellone-quarti.webp';
+import manualTableTree from '@/public/static/tabellone-semi.webp';
 
 
 const stickyColStyle = {
