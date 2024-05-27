@@ -17,7 +17,7 @@ import defaultImg from "@/public/static/match_placeholder.webp";
 async function getArticleData(slug : string){
     const path=`/api/articles?filters[slug]=${slug}&populate=*`;
     const res  = await publicFetch(path);
-    if(!Array.isArray(res.data) || res.data.length === 0){
+    if(!Array.isArray(res.data) || res.data.length === 0 || res.data[0].attributes.externalArticle){
         notFound();
     }
     return res.data[0]; 
