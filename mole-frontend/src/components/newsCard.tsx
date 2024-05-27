@@ -51,7 +51,7 @@ export default  function NewsCard({elevation=3, ...props} : newsCardInterface){
         <CardContent>
             
             <Stack justifyContent={"flex-end"}>
-                <Typography variant="h4" color="textPrimary" sx={{ textAlign: "center" }} textTransform="uppercase">{props.title}</Typography>
+                <Typography variant="h5" color="textPrimary" sx={{ textAlign: "center" }} textTransform="uppercase">{props.title}</Typography>
                 <Typography variant="overline" color="textSecondary" sx={{ textAlign: "center" }}>{props.author}</Typography>
                 <Typography variant="body2" >{props.abstract}</Typography>
             </Stack>
