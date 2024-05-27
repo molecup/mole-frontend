@@ -67,7 +67,6 @@ export default async function MoleCup() {
   const news = await getRelatedArticles(tournament.article_tags.data);
   const teams = tournament.teams.data;
   const firstTeam = Math.round(teams.length / 2) - 2;
-  console.log(standingTables)
   const layoutProps = {
     teams: teams,
     firstTeam: firstTeam,
