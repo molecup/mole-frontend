@@ -86,7 +86,7 @@ export function RelatedArticlesGrid({articles, xs=12, sm=6, md=6, lg=6, ...other
                         author = {article.attributes.author}
                         abstract = {article.attributes.abstract}
                         date = {new Date(article.attributes.date)}
-                        url = {"/news/"+article.attributes.slug}
+                        url = {article.attributes.externalArticle && article.attributes.externalArticleLink? article.attributes.externalArticleLink : "/news/"+article.attributes.slug}
                         initial = {i === 0}
                         img= {article.attributes.cover.data?.attributes}
                         elevation={0}
