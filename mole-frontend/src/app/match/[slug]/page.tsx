@@ -145,6 +145,7 @@ function SmallLayout({playerList, matchInfo, standingTable, status, date, time, 
             league = {matchInfo.league.name}
             date = {status? date : time}
             sx={{margin: "10px"}}
+            link= {matchInfo.eventRegistration ? matchInfo.registrationLink : null}
         />
         {Array.isArray(matchInfo.matchEvents) && matchInfo.matchEvents.length > 0 && <MatchTimeline matchEvents={matchInfo.matchEvents} teams={[matchInfo.teamA, matchInfo.teamB]} hideMinutes={matchInfo.hideEventMinutes}/>}
         {!status && <LocationMapSmall address={matchInfo.stadium?.location?.description} />}
@@ -176,6 +177,7 @@ function BigLayout({playerList, matchInfo, standingTable, status, date, time, ma
                 league = {matchInfo.league.name}
                 date = {status? date : time}
                 sx={{marginTop: "10px"}}
+                link= {matchInfo.eventRegistration ? matchInfo.registrationLink : null}
             />
             <Grid container spacing={1} sx={{marginTop:"10px"}}>
                 {Array.isArray(matchInfo.matchEvents) && matchInfo.matchEvents.length > 0 && <TimeLineBig matchInfo={matchInfo}/>}
@@ -283,6 +285,7 @@ interface matchHeaderInterface{
     scoreText : string,
     league : string,
     date : string,
+    link ?: string,
 }
 
 function MatchHeader(props : matchHeaderInterface & {sx?: any}) {
@@ -307,7 +310,7 @@ function MatchHeader(props : matchHeaderInterface & {sx?: any}) {
                 </Stack>
                 <Typography variant="overline" sx={{ textAlign: "center" }}>{props.league}</Typography>
                 <Typography variant="h5" sx={{ textAlign: "center", ...capitalizeStyle }} gutterBottom>{props.date}</Typography>
-                {false && <Button variant="contained" sx={{ width: '60%' }}>Registrati</Button>}
+                {props.link && <Button variant="contained" sx={{ width: '60%' }} href={props.link}>Registrati</Button>}
             </Stack>
         </Paper>
     );
