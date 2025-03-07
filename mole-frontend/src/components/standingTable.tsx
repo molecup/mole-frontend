@@ -36,7 +36,7 @@ export function LeagueTable({title, teamRanks, ...props} : {title : string, team
     return(
         <TableContainer component={Paper} sx={{ maxWidth:700, marginTop: '10px', marginBottom: '10px' }}>
             <Toolbar sx={stickyColStyle}>
-                <Typography variant='h5'>{title}</Typography>
+                <Typography variant='h5' textTransform='capitalize'>{title}</Typography>
             </Toolbar>
             <Table aria-label={"Classifica gironi - "+title} size={props.small ? "small" : "medium"}>
                 <TableHead>
@@ -63,20 +63,20 @@ export function LeagueTable({title, teamRanks, ...props} : {title : string, team
                         <TableCell sx={{...stickyColStyle, ...stickyColBorderStyle, bgcolor: 'background.paper'}} component="th" scope="row">
                             <Stack direction="row" spacing={1}>
                                 <p>{i + 1}</p>
-                                <Avatar href={"/team/"+entry.slug} component={Link} sx={{ width: 24, height: 24, bgcolor:"inherit"}} variant="rounded" >
-                                    <Image alt={`${entry.name} logo`} src={stableImg(entry.logo, "thumbnail")}  width="24" height="24" style={{objectFit: "contain"}} />
+                                <Avatar href={"/team/"+entry.team.data.attributes.slug} component={Link} sx={{ width: 24, height: 24, bgcolor:"inherit"}} variant="rounded" >
+                                    <Image alt={`${entry.team.data.attributes.team?.data.attributes.name} logo`} src={stableImg(entry.team.data.attributes.team?.data.attributes.logo?.data?.attributes, "thumbnail")}  width="24" height="24" style={{objectFit: "contain"}} />
                                 </Avatar>
-                                <Link href={"/team/"+entry.slug}><Typography color="primary.main" textTransform="capitalize" sx={{textDecoration: "underline", textDecorationColor: "primary.main"}}>{entry.short}</Typography></Link>
+                                <Link href={"/team/"+entry.team.data.attributes.slug}><Typography color="primary.main" textTransform="capitalize" sx={{textDecoration: "underline", textDecorationColor: "primary.main"}}>{entry.team.data.attributes.team?.data.attributes.short}</Typography></Link>
                             </Stack>
                         </TableCell>
                         <TableCell align="right">{entry.pts}</TableCell>
-                        <TableCell align="right">{entry.mp}</TableCell>
-                        <TableCell align="right">{entry.w}</TableCell>
-                        <TableCell align="right">{entry.t}</TableCell>
-                        <TableCell align="right">{entry.l}</TableCell>
-                        <TableCell align="right">{entry.gs}</TableCell>
-                        <TableCell align="right">{entry.gt}</TableCell>
-                        <TableCell align="right">{entry.gs - entry.gt}</TableCell>
+                        <TableCell align="right">{entry.played}</TableCell>
+                        <TableCell align="right">{entry.wins}</TableCell>
+                        <TableCell align="right">{entry.draws}</TableCell>
+                        <TableCell align="right">{entry.losses}</TableCell>
+                        <TableCell align="right">{entry.goal_scored}</TableCell>
+                        <TableCell align="right">{entry.goal_taken}</TableCell>
+                        <TableCell align="right">{entry.goal_scored - entry.goal_taken}</TableCell>
 
                     </TableRow>
                 )}
@@ -105,14 +105,14 @@ function TableTree({title, treeImg} : {title:string, treeImg?: imgFormatsInterfa
     )
 }
 
-export function StandingTables({teamLeagues: standings}: any){
+export function StandingTables({teamLeagues: standings}: {teamLeagues: {teams : teamRankInterface[], name : string, type:"group" | "elimination", treeTable?: imgFormatsInterface}[]}) {
     let finalPhaseUsed = false
     if(!standings || !Array.isArray(standings)){
         return (<Typography>Nessun girone trovato</Typography>)
     }
     return(
         <>
-        {standings.map((table : {teams : teamRankInterface[], name : string, type:"group" | "elimination", treeTable?: imgFormatsInterface}, i : number) => {
+        {standings.map((table, i : number) => {
             const title = table.type=="group" ? table.name : "Fasi Finali"
             let showTable = true
             if(table.type == "elimination"){

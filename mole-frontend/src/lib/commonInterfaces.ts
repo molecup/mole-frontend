@@ -3,6 +3,7 @@ export interface imgInterface{
     size : number,
     width : number,
     height : number,
+    mime: string,
 }
 
 export interface imgFormatsInterface{
@@ -20,29 +21,131 @@ export interface imgFormatsInterface{
 }
 
 export interface teamInterface {
-    id : number, 
     name : string, 
     short: string,
     slug : string,
-    logo: imgFormatsInterface | null,
+    logo: rawImgFormatsInterface | null,
 }
 
 export type teamRankInterface  = {
+    id:number,
     rank: number,
-    mp: number,
+    played: number,
     pts : number,
-    gs : number,
-    gt: number,
-    w: number,
-    t: number,
-    l: number,
-    
-} & teamInterface;
+    goal_scored : number,
+    goal_taken : number,
+    wins: number,
+    draws: number,
+    losses: number,
+    team: teamEditionInterface,
+}
 
-/*export interface matchInfo {
-    teamA: teamInterface,
-    teamB: teamInterface,
-    score: [number, number],
-    status: boolean,
-    
-}*/
+
+
+//raws types from APIs
+export interface rawImgFormatsInterface{
+    data: {
+        id: number,
+        attributes: imgFormatsInterface,
+    } | null,
+}
+
+export interface rawTournamentEditionInterface{
+    data: {
+        id: number,
+        attributes: {
+            title: string,
+            slug: string,
+            year?: number,
+            cover?: rawImgFormatsInterface,
+            article_tags?: {
+                data: rawArticleTagsInterface[],
+            },
+            team_editions?: {
+                data: rawTeamEditionInterface[],
+            },
+            group_phases?: {
+                data: groupPhase[]
+            },
+        }
+    }
+}
+
+export interface teamEditionInterface{
+    data: {
+        id: number,
+        attributes: {
+            slug: string,
+            year: number|null,
+            team?: rawTeamInterface
+        },
+    }
+}
+
+export interface matchShortInterface{
+    id: number,
+    attributes: {
+        home_team?: teamEditionInterface,
+        away_team?: teamEditionInterface,
+        home_score: number,
+        away_score: number,
+        penalties: boolean,
+        home_penalties: number,
+        away_penalties: number,
+        event_info: eventInfoInterface,
+        cover?: rawImgFormatsInterface,
+    }
+}
+
+export interface eventInfoInterface{
+        id: number,
+        datetime: string,
+        registration_ling: string,
+        event_registration: boolean,
+        status: string,
+}
+
+export interface groupPhase{
+    id: number,
+    attributes: {
+        name: string,
+        slug: string,
+        teams?: teamRankInterface[],
+        matches?: {
+            data: matchShortInterface[]
+        },
+    }
+}
+
+export interface rawTeamInterface{
+    data: {
+        id: number,
+        attributes: teamInterface,
+    }
+}
+
+export interface rawTeamEditionInterface{
+    id: number,
+    attributes: {
+        slug: string,
+        year: number,
+        team: rawTeamInterface,
+        cover?: rawImgFormatsInterface,
+    }
+}
+
+export interface rawTournamentInterface{
+    id: number,
+    attributes: {
+        name: string,
+        slug: string,
+        main_edition: rawTournamentEditionInterface,
+    }
+}
+
+export interface rawArticleTagsInterface{
+    id: number,
+    attributes: {
+        name: string,
+    }
+}
