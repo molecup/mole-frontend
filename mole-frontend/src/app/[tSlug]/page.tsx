@@ -182,7 +182,7 @@ function TeamSection({teams, firstTeam} : {teams: teamEditionInterface[], firstT
           <TeamCard
             key={team.id}
             img={team.attributes.team.data.attributes.logo?.data?.attributes || null}
-            url={'/team/' + team.attributes.slug} 
+            url={'/team/' + team.attributes.team.data.attributes.slug} 
             initial={i === firstTeam}
             name={team.attributes.team.data.attributes.name}
             noTitle
