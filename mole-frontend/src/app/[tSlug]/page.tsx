@@ -7,7 +7,7 @@ import StandingTable, { StandingTables } from '@/components/standingTable';
 import Container from '@mui/material/Container';
 import HeroHeader from '@/components/heroHeader';
 import Grid from '@mui/material/Unstable_Grid2';
-import { groupPhase, rawTournamentEditionInterface, rawTournamentInterface, teamRankInterface, rawTeamEditionInterface, matchShortInterface } from '@/lib/commonInterfaces';
+import { groupPhase, rawTournamentEditionInterface, tournamentInterface, teamRankInterface, teamEditionInterface, matchShortInterface } from '@/lib/commonInterfaces';
 import dateTimeText from '@/lib/dateTimeText';
 import RelatedArticles, { RelatedArticlesGrid, getRelatedArticles } from '@/components/relatedArticles';
 import Box from '@mui/material/Box';
@@ -41,18 +41,18 @@ const marginBottom = {
 
 export const dynamicParams = false;
 
-export async function generateStaticParams() : Promise<{tSlug: string, id:number, data: rawTournamentInterface}[]>{
+export async function generateStaticParams() : Promise<{tSlug: string, id:number, data: tournamentInterface}[]>{
   const path = "/api/tournaments?populate[main_edition][fields][0]=title&populate[main_edition][fields][1]=slug&populate[main_edition][fields][2]=year&populate[main_edition][populate][cover]=1&populate[main_edition][populate][team_editions][fields][0]=slug&populate[main_edition][populate][team_editions][fields][1]=year&populate[main_edition][populate][team_editions][populate][team][populate][0]=logo&populate[main_edition][populate][team_editions][populate][cover]=1&populate[logo]=1&fields[0]=slug&fields[1]=name";
   const res  = await publicFetch(path);
  
-  return res.data.map((tournament : rawTournamentInterface) => ({
+  return res.data.map((tournament : tournamentInterface) => ({
     tSlug: tournament.attributes.slug,
     editionId: tournament.attributes.main_edition.data.id,
     data: tournament
   }));
 }
 
-async function getTournamentData(tSlug: string) : Promise<rawTournamentInterface> {
+async function getTournamentData(tSlug: string) : Promise<tournamentInterface> {
   const path = `/api/tournaments?filters[slug][$eq]=${tSlug}&populate[main_edition][fields][0]=title&populate[main_edition][fields][1]=slug&populate[main_edition][fields][2]=year&populate[main_edition][populate][cover]=1&populate[main_edition][populate][article_tags]=1&populate[main_edition][populate][team_editions][fields][0]=slug&populate[main_edition][populate][team_editions][fields][1]=year&populate[main_edition][populate][team_editions][populate][team][populate][0]=logo&populate[main_edition][populate][team_editions][populate][cover]=1&populate[main_edition][populate][group_phases][populate][teams][populate][team][populate][team][populate][0]=logo&populate[main_edition][populate][group_phases][populate][matches][populate][0]=home_team&populate[main_edition][populate][group_phases][populate][matches][populate][1]=away_team&populate[main_edition][populate][group_phases][populate][matches][populate][2]=event_info&populate[main_edition][populate][group_phases][populate][matches][populate][3]=cover&populate[logo]=1&fields[0]=slug&fields[1]=name`;
   const res  = await publicFetch(path);
 
@@ -111,7 +111,7 @@ export default async function Page({params} : {params : Promise<{tSlug: string}>
 }
 
 interface layoutInterface{
-  teams: rawTeamEditionInterface[], 
+  teams: teamEditionInterface[], 
   firstTeam: number, 
   matches: (matchShortInterface&{league:string})[], 
   standingTables: groupPhase[], 
@@ -174,10 +174,10 @@ function BigLayout({teams, firstTeam, matches, standingTables, news, sx}: layout
   );
 }
 
-function TeamSection({teams, firstTeam} : {teams: rawTeamEditionInterface[], firstTeam: number}){
+function TeamSection({teams, firstTeam} : {teams: teamEditionInterface[], firstTeam: number}){
   return(
     <CardSlider sx={marginBottom}>
-      {teams && Array.isArray(teams) && teams.map((team : rawTeamEditionInterface, i : number) => {
+      {teams && Array.isArray(teams) && teams.map((team : teamEditionInterface, i : number) => {
         return(
           <TeamCard
             key={team.id}
@@ -211,7 +211,7 @@ function StandingTableSection({standingTables} : {standingTables : groupPhase[]}
   );
 }
 
-function MatchSliderSection({matches, teams} : {matches: (matchShortInterface&{league:string})[], teams: rawTeamEditionInterface[]}){
+function MatchSliderSection({matches, teams} : {matches: (matchShortInterface&{league:string})[], teams: teamEditionInterface[]}){
   return(
     <>
       <CardSlider sx={marginBottom}>
