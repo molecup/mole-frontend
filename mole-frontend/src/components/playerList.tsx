@@ -7,7 +7,7 @@ import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
 import { stableImg } from '@/lib/outImg';
-import { imgFormatsInterface } from '@/lib/commonInterfaces';
+import { imgFormatsInterface, rawPlayerListInterface } from '@/lib/commonInterfaces';
 import { GoalIcon, YellowCardIcon, RedCardIcon } from '@/components/eventIcons';
 import { mapEventType } from '@/lib/generatePlayerMapEvent';
 
@@ -23,17 +23,18 @@ export interface playerListProps {
     captain?: boolean |null,
 }
 
-export default function PlayerList({ playerList, mapEvent } : {playerList : playerListProps[], mapEvent?: mapEventType}) {
+export default function PlayerList({ playerList, mapEvent } : {playerList : rawPlayerListInterface | null, mapEvent?: mapEventType}) {
+    const players = playerList?.data?.attributes.players.data;
     return (
         <List sx={{ width: '100%', bgcolor: 'background.paper' }}>
-            {Array.isArray(playerList) && playerList.length>0 ? playerList.sort((x1, x2) => x1.shirtNumber - x2.shirtNumber).map((player, i) => {
-                const imgUrl = stableImg(player.img, "small", null);
+            {Array.isArray(players) && players.length>0 ? players.sort((x1, x2) => x1.attributes.shirtNumber - x2.attributes.shirtNumber).map((player, i) => {
+                const imgUrl = stableImg(player.attributes.image?.data?.attributes, "small", null);
                 return(
                     <Fragment key={i}>
                     <ListItem alignItems="flex-start"
                         secondaryAction={
                             <>
-                                {mapEvent?.get(player.shirtNumber)?.map((event, idx) => {
+                                {mapEvent?.get(player.attributes.shirtNumber)?.map((event, idx) => {
                                     if(event.__component === "match-event.goal")
                                         return(
                                             <GoalIcon key={idx} />
@@ -49,23 +50,23 @@ export default function PlayerList({ playerList, mapEvent } : {playerList : play
                             </>
                           }>
                         <ListItemAvatar>
-                            <Avatar alt={player.lastName + " image"} src={imgUrl} />
+                            <Avatar alt={player.attributes.lastName + " image"} src={imgUrl} />
                          </ListItemAvatar>
                         <ListItemText
                             disableTypography={true}
                             primary={
                             <>
-                                <Typography variant="h5" color="textPrimary" textTransform="uppercase">{player.shirtNumber + " " + player.lastName}</Typography>
+                                <Typography variant="h5" color="textPrimary" textTransform="uppercase">{player.attributes.shirtNumber + " " + player.attributes.lastName}</Typography>
                             </>
                             }
                             secondary={
                             <>
-                                <Typography color="textSecondary" textTransform="capitalize">{player.firstName}</Typography>
+                                <Typography color="textSecondary" textTransform="capitalize">{player.attributes.firstName}</Typography>
                             </>
                             }
                         />
                     </ListItem>
-                    {(i !== playerList.length - 1) && <Divider component="li" />}
+                    {(i !== players.length - 1) && <Divider component="li" />}
                 </Fragment>
                 );
             }

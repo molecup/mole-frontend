@@ -20,12 +20,7 @@ export interface imgFormatsInterface{
     placeholder?: string
 }
 
-export interface teamInterface {
-    name : string, 
-    short: string,
-    slug : string,
-    logo: rawImgFormatsInterface,
-}
+
 
 export type teamRankInterface  = {
     id:number,
@@ -54,29 +49,39 @@ export interface rawImgFormatsInterface{
     } | null,
 }
 
-export interface rawTournamentEditionInterface{
-    data: {
-        id: number,
-        attributes: {
-            title: string,
-            slug: string,
-            year?: number,
-            cover?: rawImgFormatsInterface,
-            article_tags?: {
-                data: articleTagsInterface[],
-            },
-            team_editions?: {
-                data: teamEditionInterface[],
-            },
-            group_phases?: {
-                data: groupPhase[]
-            },
-        }
-    }
-}
+
 
 export interface rawTeamEditionInterface{
     data: teamEditionInterface
+}
+
+export interface teamEditionInterface{
+    id: number,
+    attributes: {
+        slug: string,
+        year: number,
+        team: rawTeamInterface,
+        cover?: rawImgFormatsInterface,
+        article_tags?: {
+            data: articleTagsInterface[],
+        },
+        player_list?: rawPlayerListInterface,
+    }
+}
+
+export interface rawTeamInterface{
+    data: {
+        id: number,
+        attributes: teamInterface,
+    }
+}
+
+export interface teamInterface {
+    name : string, 
+    short: string,
+    slug : string,
+    logo?: rawImgFormatsInterface,
+    main_edition?: rawTeamEditionInterface,
 }
 
 export interface matchShortInterface{
@@ -91,6 +96,12 @@ export interface matchShortInterface{
         away_penalties: number,
         event_info: eventInfoInterface,
         cover?: rawImgFormatsInterface,
+        group_phase?: {
+            data: groupPhase | null,
+        },
+        knock_out_phase?: {
+            data: knockOutPhase | null,
+        },
     }
 }
 
@@ -114,24 +125,35 @@ export interface groupPhase{
     }
 }
 
-export interface rawTeamInterface{
-    data: {
-        id: number,
-        attributes: teamInterface,
+export interface knockOutPhase{
+    id: number,
+    attributes: {
+        name: string,
+        slug: string,
+        matches?: {
+            data: matchShortInterface[]
+        },
     }
 }
 
-export interface teamEditionInterface{
-    id: number,
-    attributes: {
-        slug: string,
-        year: number,
-        team: rawTeamInterface,
-        cover?: rawImgFormatsInterface,
-        article_tags?: {
-            data: articleTagsInterface[],
-        },
-        player_list?: rawPlayerListInterface,
+export interface rawTournamentEditionInterface{
+    data: {
+        id: number,
+        attributes: {
+            title: string,
+            slug: string,
+            year?: number,
+            cover?: rawImgFormatsInterface,
+            article_tags?: {
+                data: articleTagsInterface[],
+            },
+            team_editions?: {
+                data: teamEditionInterface[],
+            },
+            group_phases?: {
+                data: groupPhase[]
+            },
+        }
     }
 }
 
@@ -156,11 +178,11 @@ export interface playerInterface{
     attributes: {
         lastName: string,
         firstName: string,
-        number: number,
-        role: string,
-        birth: string,
-        captain: boolean,
-        image?: rawImgFormatsInterface,
+        shirtNumber: number,
+        role?: string | null,
+        birth?: string | null,
+        captain?: boolean | null,
+        image?: rawImgFormatsInterface | null,
     }
 }
 
@@ -172,7 +194,7 @@ export interface rawPlayerListInterface{
                 data: playerInterface[],
             }
         }
-    }
+    } | null,
 }
 
 

@@ -10,7 +10,7 @@ import HeroHeader from '@/components/heroHeader';
 import CircularStatistics from '@/components/circularStatistics';
 import publicFetch from '@/lib/publicFetch';
 import { stableImg } from '@/lib/outImg';
-import { imgFormatsInterface, teamRankInterface } from '@/lib/commonInterfaces';
+import { groupPhase, imgFormatsInterface, matchShortInterface, teamInterface, teamRankInterface } from '@/lib/commonInterfaces';
 import dateTimeText from '@/lib/dateTimeText';
 import RelatedArticles, { getRelatedArticles, RelatedArticlesGrid } from '@/components/relatedArticles';
 import Box from '@mui/material/Box';
@@ -27,25 +27,36 @@ import SportsTeamJsonLd from '@/components/jsonLd/sportsTeam';
 
 const showCircularStats = false;
 
-async function getTeamData(slug : string){
-    const path = `/api/teams?filters[slug][$eq]=${slug}&populate[logo]=1&populate[cover]=1&populate[article_tags][fields]=id&populate[player_list][populate][0]=players`;
+async function getTeamData(slug : string) : Promise<{id: number, attributes: teamInterface}>{
+    const path = `/api/teams?filters[slug][$eq]=${slug}&populate[logo]=1&populate[main_edition][populate][cover]=1&populate[main_edition][populate][article_tags]=1&populate[main_edition][populate][player_list][populate][players][populate][0]=image`;
     const res  = await publicFetch(path);
     if(!Array.isArray(res.data) || res.data.length === 0){
         notFound();
     }
+    if(res.data.length > 1){
+        console.warn(`Multiple teams with slug ${slug}`);
+    }
     return res.data[0];
 }
 
-async function getTeamMatches(slug : string){
-    const path = `/api/matches-report/team/${slug}`;
+async function getTeamMatches(teamEditionId?: number) : Promise<{matches_h: {data: matchShortInterface[]}, matches_a: {data: matchShortInterface[]}}>{
+    if(!teamEditionId){
+        notFound();
+    }
+    const path = `/api/team-editions/${teamEditionId}?populate[matches_h][populate][event_info]=1&populate[matches_h][populate][cover]=1&populate[matches_h][populate][group_phase]=1&populate[matches_h][populate][knock_out_phase]=1&populate[matches_h][populate][home_team][populate][0]=team&populate[matches_h][populate][away_team][populate][0]=team&populate[matches_a][populate][event_info]=1&populate[matches_a][populate][cover]=1&populate[matches_a][populate][group_phase]=1&populate[matches_a][populate][knock_out_phase]=1&populate[matches_a][populate][home_team][populate][0]=team&populate[matches_a][populate][away_team][populate][0]=team`;
     const res  = await publicFetch(path);
-    return res.data; 
+    
+    return res.data.attributes
 }
 
-async function getTeamLeagues(slug : string){
-    const path = `/api/league-standings/team/${slug}`;
+async function getTeamGroups(teamEditionId? : number) : Promise<groupPhase[]>{
+    if(!teamEditionId){
+        notFound();
+    }
+    const path = `/api/group-phases?filters[teams][team][id]=${teamEditionId}&populate[teams][populate][team][populate][team][populate][0]=logo`;
     const res  = await publicFetch(path);
-    return res.data; 
+
+   return res.data; 
 }
 
 export async function generateMetadata({params} : {params : {slug : string}}, parent: ResolvingMetadata): Promise<Metadata> {
@@ -53,7 +64,7 @@ export async function generateMetadata({params} : {params : {slug : string}}, pa
     if(!teamData){
         return({});
     }
-    const imgUrl = stableImg(teamData.attributes.logo.data?.attributes, "medium", "/static/match_placeholder.webp");
+    const imgUrl = stableImg(teamData.attributes.logo?.data?.attributes, "medium", "/static/match_placeholder.webp");
     return({
         alternates: {
             canonical: `/team/${params.slug}`,
@@ -78,21 +89,22 @@ export async function generateMetadata({params} : {params : {slug : string}}, pa
 }
 
 export default async function TeamPage({params} : {params : {slug : string}}){
-    const [teamData, teamMatches, teamLeagues] = await Promise.all([getTeamData(params.slug), getTeamMatches(params.slug), getTeamLeagues(params.slug)]);
-    const articles = await getRelatedArticles(teamData.attributes.article_tags.data);
+    const teamData = await getTeamData(params.slug);
+    const [teamGroups, teamMatches] = await Promise.all([getTeamGroups(teamData.attributes.main_edition?.data.id), getTeamMatches(teamData.attributes.main_edition?.data.id)]);
+    const articles = await getRelatedArticles(teamData.attributes.main_edition?.data.attributes.article_tags?.data || []);
     const layoutProps = {
-        teamData: teamData,
-        teamLeagues: teamLeagues,
+        teamData: teamData.attributes,
+        teamLeagues: teamGroups.map((group) : {teams: teamRankInterface[], name: string, type: "group" | "elimination"} => {return {teams: group.attributes.teams || [], name: group.attributes.name, type: 'group'}}),
         articles: articles,
-        teamMatches: teamMatches
+        teamMatches: teamMatches.matches_a.data.concat(teamMatches.matches_h.data).sort((a, b) => a.attributes.event_info.datetime.localeCompare(b.attributes.event_info.datetime)),
     }
     return(
         <>
-            <SportsTeamJsonLd team={teamData.attributes} logo={teamData.attributes.logo.data?.attributes}/>
+            <SportsTeamJsonLd team={teamData.attributes} logo={teamData.attributes.logo?.data?.attributes}/>
             <TeamHeader
                 name = {teamData.attributes.name}
-                logo = {teamData.attributes.logo.data?.attributes}
-                cover = {teamData.attributes.cover.data?.attributes}
+                logo = {teamData.attributes.logo?.data?.attributes}
+                cover = {teamData.attributes.main_edition?.data.attributes.cover?.data?.attributes}
             />
             <SmallLayout
                 sx={{display: { xs: 'block', md: 'none' }}}
@@ -107,10 +119,10 @@ export default async function TeamPage({params} : {params : {slug : string}}){
 }
 
 interface layoutInterface {
-    teamData: any, 
-    teamLeagues: any, 
+    teamData: teamInterface, 
+    teamLeagues: {teams: teamRankInterface[], name: string, type: "group" | "elimination"}[],
     articles: any, 
-    teamMatches: any,
+    teamMatches: matchShortInterface[],
     sx: any
 }
 
@@ -128,20 +140,20 @@ function SmallLayout({teamData, teamLeagues, articles, teamMatches, sx} : layout
         </Container>}
         
         <CardSlider>
-        {teamMatches && Array.isArray(teamMatches) && teamMatches.map((match : any, i : number) => {
-                const [date, time] = dateTimeText(new Date(match.date));
+        {teamMatches && Array.isArray(teamMatches) && teamMatches.map((match, i : number) => {
+                const [date, time] = dateTimeText(new Date(match.attributes.event_info.datetime));
                 return(
                     <MatchCard
                         key={match.id}
-                        img={match.cover}
+                        img={match.attributes.cover?.data?.attributes || null}
                         url={'/match/' + match.id}
-                        initial={match.initial}
-                        teamA={match.teamA}
-                        teamB={match.teamB}
+                        initial={match.attributes.event_info?.status !== "finished"}
+                        teamA={match.attributes.home_team?.data.attributes.team.data.attributes || {} as teamInterface}
+                        teamB={match.attributes.away_team?.data.attributes.team.data.attributes || {} as teamInterface}
                         date={date}
                         time={time}
-                        league={match.league.name}
-                        scoreText={match.status === "finished" ? match.score[0] + " - " + match.score[1] : time}
+                        league={match.attributes.group_phase?.data?.attributes.name || match.attributes.knock_out_phase?.data?.attributes.name || ""}  
+                        scoreText={match.attributes.event_info.status === "finished" ? match.attributes.home_score + " - " + match.attributes.away_score : time}
                     />
                 );
             }
@@ -150,7 +162,7 @@ function SmallLayout({teamData, teamLeagues, articles, teamMatches, sx} : layout
         <TabLayout 
             labels = {["Rosa giocatori", "Torneo", "News"]}
         >
-            <PlayerList playerList={teamData.attributes.player_list.data?.attributes.players} />
+            <PlayerList playerList={teamData.main_edition?.data.attributes.player_list || null} />
             <StandingTables teamLeagues={teamLeagues} />
 
             <RelatedArticles articles = {articles}/>
@@ -171,20 +183,20 @@ function BigLayout({teamData, teamLeagues, articles, teamMatches, sx} : layoutIn
                     ]}
                 />}
                 <CardSlider>
-                {teamMatches && Array.isArray(teamMatches) && teamMatches.map((match : any, i : number) => {
-                        const [date, time] = dateTimeText(new Date(match.date));
+                {teamMatches && Array.isArray(teamMatches) && teamMatches.map((match, i : number) => {
+                        const [date, time] = dateTimeText(new Date(match.attributes.event_info.datetime));
                         return(
                             <MatchCard
                                 key={match.id}
-                                img={match.cover}
+                                img={match.attributes.cover?.data?.attributes || null}
                                 url={'/match/' + match.id}
-                                initial={match.initial}
-                                teamA={match.teamA}
-                                teamB={match.teamB}
+                                initial={match.attributes.event_info?.status !== "finished"}
+                                teamA={match.attributes.home_team?.data.attributes.team.data.attributes || {} as teamInterface}
+                                teamB={match.attributes.away_team?.data.attributes.team.data.attributes || {} as teamInterface}
                                 date={date}
                                 time={time}
-                                league={match.league.name}
-                                scoreText={match.status === "finished" ? match.score[0] + " - " + match.score[1] : time}
+                                league={(match.attributes.group_phase?.data?.attributes.name || match.attributes.knock_out_phase?.data?.attributes.name) || ""}  
+                                scoreText={match.attributes.event_info.status === "finished" ? match.attributes.home_score + " - " + match.attributes.away_score : time}
                             />
                         );
                     }
@@ -196,7 +208,7 @@ function BigLayout({teamData, teamLeagues, articles, teamMatches, sx} : layoutIn
                             <Toolbar sx={{borderRadius: "4px 4px 0 0"}}>
                                 <Typography variant='h5'>Rosa giocatori</Typography>
                             </Toolbar>
-                            <PlayerList playerList={teamData.attributes.player_list.data?.attributes.players} />
+                            <PlayerList playerList={teamData.main_edition?.data.attributes.player_list || null} />
                         </Paper>
                     </Grid>
                     <Grid md={7}>
