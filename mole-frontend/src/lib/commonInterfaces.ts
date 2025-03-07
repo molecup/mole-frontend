@@ -24,7 +24,7 @@ export interface teamInterface {
     name : string, 
     short: string,
     slug : string,
-    logo: rawImgFormatsInterface | null,
+    logo: rawImgFormatsInterface,
 }
 
 export type teamRankInterface  = {
@@ -37,12 +37,16 @@ export type teamRankInterface  = {
     wins: number,
     draws: number,
     losses: number,
-    team: teamEditionInterface,
+    team: rawTeamEditionInterface,
 }
 
 
 
 //raws types from APIs
+/*
+    naming notes: raw* includes the data key
+
+*/
 export interface rawImgFormatsInterface{
     data: {
         id: number,
@@ -59,10 +63,10 @@ export interface rawTournamentEditionInterface{
             year?: number,
             cover?: rawImgFormatsInterface,
             article_tags?: {
-                data: rawArticleTagsInterface[],
+                data: articleTagsInterface[],
             },
             team_editions?: {
-                data: rawTeamEditionInterface[],
+                data: teamEditionInterface[],
             },
             group_phases?: {
                 data: groupPhase[]
@@ -71,22 +75,15 @@ export interface rawTournamentEditionInterface{
     }
 }
 
-export interface teamEditionInterface{
-    data: {
-        id: number,
-        attributes: {
-            slug: string,
-            year: number|null,
-            team?: rawTeamInterface
-        },
-    }
+export interface rawTeamEditionInterface{
+    data: teamEditionInterface
 }
 
 export interface matchShortInterface{
     id: number,
     attributes: {
-        home_team?: teamEditionInterface,
-        away_team?: teamEditionInterface,
+        home_team?: rawTeamEditionInterface,
+        away_team?: rawTeamEditionInterface,
         home_score: number,
         away_score: number,
         penalties: boolean,
@@ -124,17 +121,21 @@ export interface rawTeamInterface{
     }
 }
 
-export interface rawTeamEditionInterface{
+export interface teamEditionInterface{
     id: number,
     attributes: {
         slug: string,
         year: number,
         team: rawTeamInterface,
         cover?: rawImgFormatsInterface,
+        article_tags?: {
+            data: articleTagsInterface[],
+        },
+        player_list?: rawPlayerListInterface,
     }
 }
 
-export interface rawTournamentInterface{
+export interface tournamentInterface{
     id: number,
     attributes: {
         name: string,
@@ -143,9 +144,35 @@ export interface rawTournamentInterface{
     }
 }
 
-export interface rawArticleTagsInterface{
+export interface articleTagsInterface{
     id: number,
     attributes: {
         name: string,
     }
 }
+
+export interface playerInterface{
+    id: number,
+    attributes: {
+        lastName: string,
+        firstName: string,
+        number: number,
+        role: string,
+        birth: string,
+        captain: boolean,
+        image?: rawImgFormatsInterface,
+    }
+}
+
+export interface rawPlayerListInterface{
+    data: {
+        id: number,
+        attributes: {
+            players: {
+                data: playerInterface[],
+            }
+        }
+    }
+}
+
+
