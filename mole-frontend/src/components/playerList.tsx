@@ -34,12 +34,12 @@ export default function PlayerList({ playerList, mapEvent } : {playerList : rawP
                     <ListItem alignItems="flex-start"
                         secondaryAction={
                             <>
-                                {mapEvent?.get(player.attributes.shirtNumber)?.map((event, idx) => {
+                                {mapEvent?.get(player.id)?.map((event, idx) => {
                                     if(event.__component === "match-event.goal")
                                         return(
                                             <GoalIcon key={idx} />
                                         );
-                                    if(event.cardType === "red")
+                                    if(event.card_type === "red")
                                             return(
                                             <RedCardIcon key={idx} />
                                         );

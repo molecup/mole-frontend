@@ -95,6 +95,7 @@ export interface matchShortInterface{
         home_penalties: number,
         away_penalties: number,
         event_info: eventInfoInterface,
+        hide_event_minutes: boolean,
         cover?: rawImgFormatsInterface,
         group_phase?: {
             data: groupPhase | null,
@@ -105,12 +106,39 @@ export interface matchShortInterface{
     }
 }
 
+export interface rawMatchLongInterface{
+    data: matchShortInterface&{
+        attributes: {
+            match_events: matchEventsInterface[],
+        }
+    }
+}
+
 export interface eventInfoInterface{
         id: number,
         datetime: string,
-        registration_ling: string,
+        registration_link: string,
         event_registration: boolean,
         status: string,
+        stadium?: rawStadiumInterface,
+}
+
+export interface rawStadiumInterface{
+    data: {
+        id: number,
+        attributes: {
+            name: string,
+            slug: string,
+            location: {
+                address: string,
+                coordinates: {
+                    lat: number,
+                    lng: number,
+                },
+                geohash: string,
+            }
+        }
+    } | null
 }
 
 export interface groupPhase{
@@ -197,4 +225,13 @@ export interface rawPlayerListInterface{
     } | null,
 }
 
-
+export interface matchEventsInterface{
+    id: number,
+    __component: "match-event.goal" | "match-event.card",
+    card_type?: "yellow" | "red",
+    player: {
+        data: playerInterface | null,
+    },
+    minute: number,
+    team: "home_team" | "away_team",
+}

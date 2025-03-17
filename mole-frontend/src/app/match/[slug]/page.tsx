@@ -8,7 +8,7 @@ import Stack from '@mui/system/Stack';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Link from 'next/link';
-import { teamInterface } from '@/lib/commonInterfaces';
+import { groupPhase, knockOutPhase, rawMatchLongInterface, rawPlayerListInterface, teamInterface } from '@/lib/commonInterfaces';
 import { stableImg } from '@/lib/outImg';
 import publicFetch from '@/lib/publicFetch';
 import { notFound } from 'next/navigation'
@@ -29,16 +29,16 @@ import defaultImg from "@/public/static/match_placeholder.webp";
 import SportsEventJsonLd from '@/components/jsonLd/sportsEvent';
 
 
-async function getMatchInfo(id : number){
-    const path = "/api/matches-report/" + id;
+async function getMatchData(id : number) : Promise<rawMatchLongInterface>{
+    const path = `/api/matches/${id}?populate[cover]=1&populate[match_events][populate][0]=player&populate[knock_out_phase]=1&populate[group_phase][populate][teams][populate][team][populate][team][populate][0]=logo&populate[event_info][populate][stadium]=1&populate[home_team][populate][team][populate][logo]=1&populate[home_team][populate][player_list]=1&populate[away_team][populate][team][populate][logo]=1&populate[away_team][populate][player_list]=1`;
     const res  = await publicFetch(path);
-    if(!Array.isArray(res.data) || res.data.length !== 1){
+    if(!res.data || !res.data.attributes){
         notFound();
     }
-    return res.data[0];
+    return res;
 }
 
-async function getStandingTable(leagueId : number){
+/*async function getStandingTable(leagueId : number){
     const path = "/api/league-standings/" + leagueId;
     const res  = await publicFetch(path);
     if(!Array.isArray(res.data) || res.data.length !== 1){
@@ -46,41 +46,49 @@ async function getStandingTable(leagueId : number){
         return null;
     }
     return res.data[0];
-}
+}*/
 
-async function getPlayerList(teamId : number){
-    const path = `/api/teams/${teamId}?populate[player_list][populate][0]=players`;
-    const res  = await publicFetch(path);
-    return res.data.attributes.player_list.data;
+async function getPlayerList(playerListId? : number): Promise<rawPlayerListInterface | null> {
+    if(!playerListId){
+        return null;
+    }
+    const path = `/api/player-lists/${playerListId}?populate[players]=1`;
+    try{
+        const res  = await publicFetch(path);
+        return res;
+    } catch(error) {
+        console.error("Failed to fetch player list");
+        return null;
+    }
 }
 
 export async function generateMetadata({params} : {params : {slug : number}}, parent: ResolvingMetadata): Promise<Metadata> {
-    const matchInfo = await getMatchInfo(params.slug);
+    const matchInfo = await getMatchData(params.slug);
     if(!matchInfo){
         return({});
     }
-    const [date, time] = dateTimeText(new Date(matchInfo.date));
-    const imgUrl = stableImg(matchInfo.cover, "large", "/match_placeholder.jpg");
-    const title = `${matchInfo.teamA?.short.toUpperCase()} vs ${matchInfo.teamB?.short.toUpperCase()} - ${matchInfo.league?.name}`;
-    const description = `La partita ${matchInfo.teamA?.name} - ${matchInfo.teamB?.name} del ${date} al ${matchInfo.stadium?.name} della Mole Cup Reale Mutua`
+    const [date, time] = dateTimeText(new Date(matchInfo.data.attributes.event_info.datetime));
+    const imgUrl = stableImg(matchInfo.data.attributes.cover?.data?.attributes, "large", "/match_placeholder.jpg");
+    const title = `${matchInfo.data.attributes.home_team?.data.attributes.team.data.attributes.short.toUpperCase()} vs ${matchInfo.data.attributes.away_team?.data.attributes.team.data.attributes.short.toUpperCase()} - ${matchInfo.data.attributes.group_phase?.data?.attributes.name}`;
+    const description = `La partita ${matchInfo.data.attributes.home_team?.data.attributes.team.data.attributes.name} - ${matchInfo.data.attributes.away_team?.data.attributes.team.data.attributes.name} del ${date}`
     return({
         alternates: {
             canonical: `/match/${params.slug}`,
           },
         title: title,
         description: description,
-        keywords: commonKeyWords.concat([matchInfo.teamA?.name, matchInfo.teamB?.name, matchInfo.stadium?.name, matchInfo.league?.name, "partita"]),
+        keywords: commonKeyWords.concat([matchInfo.data.attributes.home_team?.data.attributes.team.data.attributes.name || "", matchInfo.data.attributes.away_team?.data.attributes.team.data.attributes.name || "", matchInfo.data.attributes.group_phase?.data?.attributes.name || "", "partita"]),
         openGraph: {
             title: title,
             description: description,
             type: 'article',
-            publishedTime: matchInfo.date,
+            publishedTime: matchInfo.data.attributes.event_info.datetime,
             url: `https://molecup.com/match/${params.slug}`,
             ...commonOpenGraph,
             images: [
                 {
                     url: imgUrl,
-                    alt: matchInfo.cover?.alternativeText ? matchInfo.cover?.alternativeText : description
+                    alt: matchInfo.data.attributes.cover?.data?.attributes.alternativeText || description
                 }
             ]
           },
@@ -88,16 +96,19 @@ export async function generateMetadata({params} : {params : {slug : number}}, pa
 }
 
 export default async function MatchPage({params} : {params : {slug : number}}){
-    const matchInfo = await getMatchInfo(params.slug);
-    const [standingTable, playerListA, playerListB] = await Promise.all([getStandingTable(matchInfo.league.id), getPlayerList(matchInfo.teamA.id), getPlayerList(matchInfo.teamB.id)]);
-    const [date, time] = dateTimeText(new Date(matchInfo.date));
-    const status = matchInfo.status === "finished" || matchInfo.status === "live";
-    const mapEvents = generatePlayerMapEvent(matchInfo.matchEvents);
-    const coverUrl = stableImg(matchInfo.cover, "large", defaultImg);
+    const matchInfo = await getMatchData(params.slug);
+    const standingTable = matchInfo.data.attributes.group_phase;
+    const treeTable = matchInfo.data.attributes.knock_out_phase;
+    const [playerListA, playerListB] = await Promise.all([getPlayerList(matchInfo.data.attributes.home_team?.data.id), getPlayerList(matchInfo.data.attributes.home_team?.data.id)]);
+    const [date, time] = dateTimeText(new Date(matchInfo.data.attributes.event_info.datetime));
+    const status = matchInfo.data.attributes.event_info.status === "finished" || matchInfo.data.attributes.event_info.status === "live";
+    const mapEvents = generatePlayerMapEvent(matchInfo.data.attributes.match_events);
+    const coverUrl = stableImg(matchInfo.data.attributes.cover?.data?.attributes, "large", defaultImg);
     const layoutProps = {
         playerList : [playerListA, playerListB],
         matchInfo : matchInfo,
-        standingTable : standingTable,
+        standingTable : standingTable?.data,
+        treeTable: treeTable?.data,
         status : status,
         date : date,
         time : time,
@@ -111,7 +122,7 @@ export default async function MatchPage({params} : {params : {slug : number}}){
                 img={coverUrl}
                 dateString={date}
             />
-            <HeroHeader sx={{minHeight:"300px"}} src={coverUrl} blurDataURL={matchInfo.cover?.placeholder} blur ></HeroHeader>
+            <HeroHeader sx={{minHeight:"300px"}} src={coverUrl} blurDataURL={matchInfo.data.attributes.cover?.data?.attributes.placeholder} blur ></HeroHeader>
             <SmallLayout
                 sx={{display: { xs: 'block', md: 'none' }}}
                 {...layoutProps}
@@ -126,72 +137,74 @@ export default async function MatchPage({params} : {params : {slug : number}}){
 
 interface layoutInterface {
     sx : any,
-    playerList : any[2], 
-    matchInfo: any, 
-    standingTable:any, 
+    playerList : (rawPlayerListInterface | null)[], 
+    matchInfo: rawMatchLongInterface, 
+    standingTable?: groupPhase | null, 
+    treeTable?: knockOutPhase | null
     status:boolean, 
     date:string, 
     time:string,
     mapEvents: [mapEventType, mapEventType],
 }
 
-function SmallLayout({playerList, matchInfo, standingTable, status, date, time, mapEvents, sx} : layoutInterface){
+function SmallLayout({playerList, matchInfo, standingTable, treeTable, status, date, time, mapEvents, sx} : layoutInterface){
     return(
         <Box sx={sx}>
         <MatchHeader 
-            teamA = {matchInfo.teamA}
-            teamB = {matchInfo.teamB}
-            scoreText = {status ? matchInfo.score[0] + " - " + matchInfo.score[1] : date}
-            league = {matchInfo.league.name}
+            teamA = {matchInfo.data.attributes.home_team?.data.attributes.team.data.attributes || {} as teamInterface}
+            teamB = {matchInfo.data.attributes.away_team?.data.attributes.team.data.attributes || {} as teamInterface}
+            scoreText = {status ? matchInfo.data.attributes.home_score + " - " + matchInfo.data.attributes.away_score : date}
+            league = {standingTable?.attributes?.name || treeTable?.attributes.name || ""}
             date = {status? date : time}
             sx={{margin: "10px"}}
-            link= {matchInfo.eventRegistration ? matchInfo.registrationLink : null}
+            link= {matchInfo.data.attributes.event_info.event_registration ? matchInfo.data.attributes.event_info.registration_link : undefined}
         />
-        {Array.isArray(matchInfo.matchEvents) && matchInfo.matchEvents.length > 0 && <MatchTimeline matchEvents={matchInfo.matchEvents} teams={[matchInfo.teamA, matchInfo.teamB]} hideMinutes={matchInfo.hideEventMinutes}/>}
-        {!status && <LocationMapSmall address={matchInfo.stadium?.location?.description} />}
+        {Array.isArray(matchInfo.data.attributes.match_events) && matchInfo.data.attributes.match_events.length > 0 && <MatchTimeline matchEvents={matchInfo.data.attributes.match_events} teams={[matchInfo.data.attributes.home_team?.data.attributes.team.data.attributes || {} as teamInterface, matchInfo.data.attributes.away_team?.data.attributes.team.data.attributes || {} as teamInterface]} hideMinutes={matchInfo.data.attributes.hide_event_minutes}/>}
+        {!status && <LocationMapSmall address={matchInfo.data.attributes.event_info.stadium?.data?.attributes.location?.address} />}
         <TabLayout 
-            labels = {[matchInfo.teamA.name, matchInfo.teamB.name, matchInfo.league.name]}
+            labels = {[matchInfo.data.attributes.home_team?.data.attributes.team.data.attributes.name, matchInfo.data.attributes.away_team?.data.attributes.team.data.attributes.name, standingTable?.attributes?.name || treeTable?.attributes.name || ""]}
         >   
-            <PlayerList playerList={playerList[0]?.attributes.players} mapEvent={mapEvents[0]}/>
-            <PlayerList playerList={playerList[1]?.attributes.players} mapEvent={mapEvents[1]}/>
+            <PlayerList playerList={playerList[0]} mapEvent={mapEvents[0]}/>
+            <PlayerList playerList={playerList[1]} mapEvent={mapEvents[1]}/>
             {standingTable && <StandingTable 
-                title={standingTable.name} 
-                teamRanks={standingTable.teams}
-                type={standingTable.type}
-                treeImg={standingTable.treeTable}
+                title={standingTable.attributes.name} 
+                teamRanks={standingTable.attributes.teams}
+                type={standingTable.attributes ? "group" : "elimination"}
+                //treeImg={null}
             /> }
         </TabLayout>
-        {status && <LocationMapSmall address={matchInfo.stadium?.location?.description} />}
+        {status && <LocationMapSmall address={matchInfo.data.attributes.event_info.stadium?.data?.attributes.location.address} />}
         </Box>
     )
 }
 
-function BigLayout({playerList, matchInfo, standingTable, status, date, time, mapEvents, sx} : layoutInterface){
+function BigLayout({playerList, matchInfo, standingTable, treeTable, status, date, time, mapEvents, sx} : layoutInterface){
     return(
         <Box sx={sx}> 
         <Container>
             <MatchHeader 
-                teamA = {matchInfo.teamA}
-                teamB = {matchInfo.teamB}
-                scoreText = {status ? matchInfo.score[0] + " - " + matchInfo.score[1] : date}
-                league = {matchInfo.league.name}
+                teamA = {matchInfo.data.attributes.home_team?.data.attributes.team.data.attributes || {} as teamInterface}
+                teamB = {matchInfo.data.attributes.away_team?.data.attributes.team.data.attributes || {} as teamInterface}
+                scoreText = {status ? matchInfo.data.attributes.home_score + " - " + matchInfo.data.attributes.away_score : date}
+                league = {standingTable?.attributes?.name || treeTable?.attributes.name || ""}
                 date = {status? date : time}
                 sx={{marginTop: "10px"}}
-                link= {matchInfo.eventRegistration ? matchInfo.registrationLink : null}
+                link= {matchInfo.data.attributes.event_info.event_registration ? matchInfo.data.attributes.event_info.registration_link : undefined}
             />
             <Grid container spacing={1} sx={{marginTop:"10px"}}>
-                {Array.isArray(matchInfo.matchEvents) && matchInfo.matchEvents.length > 0 && <TimeLineBig matchInfo={matchInfo}/>}
-                {!status && <LocationMapBig address={matchInfo.stadium?.location?.description} />}
+                {Array.isArray(matchInfo.data.attributes.match_events) && matchInfo.data.attributes.match_events.length > 0 && <TimeLineBig matchInfo={matchInfo}/>}
+                {!status && <LocationMapBig address={matchInfo.data.attributes.event_info.stadium?.data?.attributes.location.address} />}
                 <PlayerBig 
                     playerList = {playerList}
-                    teams = {[matchInfo.teamA, matchInfo.teamB]}
+                    teams = {[matchInfo.data.attributes.home_team?.data.attributes.team.data.attributes || {} as teamInterface, matchInfo.data.attributes.away_team?.data.attributes.team.data.attributes || {} as teamInterface]}
                     mapEvents={mapEvents}
                 />
                 <Grid md={4}>
                     <StandingTableBig
                         standingTable = {standingTable}
+                        treeTable={treeTable}
                     />
-                    {status && <LocationMapBig address={matchInfo.stadium?.location?.description} md={4} />}
+                    {status && <LocationMapBig address={matchInfo.data.attributes.event_info.stadium?.data?.attributes.location.address} md={4} />}
                 </Grid>
             </Grid>
         </Container>
@@ -200,10 +213,10 @@ function BigLayout({playerList, matchInfo, standingTable, status, date, time, ma
     );
 }
 
-function TimeLineBig({matchInfo} : {matchInfo : any}){
+function TimeLineBig({matchInfo} : {matchInfo : rawMatchLongInterface}){
     return(
         <Grid md={12} sx={{marginBottom: "10px", marginTop: "10px"}}>
-            <MatchTimeline matchEvents={matchInfo.matchEvents} teams={[matchInfo.teamA, matchInfo.teamB]} hideMinutes={matchInfo.hideEventMinutes}/>
+            <MatchTimeline matchEvents={matchInfo.data.attributes.match_events} teams={[matchInfo.data.attributes.home_team?.data.attributes.team.data.attributes || {} as teamInterface, matchInfo.data.attributes.home_team?.data.attributes.team.data.attributes || {} as teamInterface]} hideMinutes={matchInfo.data.attributes.hide_event_minutes}/>
         </Grid>
     );
 }
@@ -240,16 +253,16 @@ function LocationMapBig({address, md=12} : {address?:string, md?:number}){
     );
 }
 
-function StandingTableBig({standingTable} : {standingTable: any}){
+function StandingTableBig({standingTable, treeTable} : {standingTable?: groupPhase | null, treeTable?: knockOutPhase | null}){
     return(
         <>
         <Grid md={4}>
             {standingTable && 
                 <StandingTable 
-                title={standingTable.name} 
-                teamRanks={standingTable.teams}
-                type={standingTable.type}
-                treeImg={standingTable.treeTable}
+                title={standingTable?.attributes?.name || treeTable?.attributes.name || ""} 
+                teamRanks={standingTable.attributes.teams}
+                type= {standingTable.attributes ? "group" : "elimination"}
+                //treeImg={standingTable.treeTable}
                 /> 
             }
         </Grid>
@@ -257,7 +270,7 @@ function StandingTableBig({standingTable} : {standingTable: any}){
     );
 }
 
-function PlayerBig({playerList, teams, mapEvents} : {playerList : [any, any], teams:[teamInterface, teamInterface], mapEvents: [mapEventType, mapEventType]}){
+function PlayerBig({playerList, teams, mapEvents} : {playerList : (rawPlayerListInterface | null)[], teams:[teamInterface, teamInterface], mapEvents: [mapEventType, mapEventType]}){
     return(
         <>
             {playerList.map((pl, idx) => 
@@ -266,7 +279,7 @@ function PlayerBig({playerList, teams, mapEvents} : {playerList : [any, any], te
                         <Toolbar sx={{borderRadius: "4px 4px 0 0"}}>
                             <Typography variant='h5'>Rosa {teams[idx].name}</Typography>
                         </Toolbar>
-                        <PlayerList playerList={pl?.attributes.players} mapEvent={mapEvents[idx]} />
+                        <PlayerList playerList={pl} mapEvent={mapEvents[idx]} />
                     </Paper>
                 </Grid>
             )}
@@ -291,8 +304,8 @@ interface matchHeaderInterface{
 function MatchHeader(props : matchHeaderInterface & {sx?: any}) {
     const teamALink = "/team/" + props.teamA.slug;
     const teamBLink = "/team/" + props.teamB.slug;
-    const imgA = stableImg(props.teamA.logo, "thumbnail");
-    const imgB = stableImg(props.teamB.logo, "thumbnail");
+    const imgA = stableImg(props.teamA.logo?.data?.attributes, "thumbnail");
+    const imgB = stableImg(props.teamB.logo?.data?.attributes, "thumbnail");
 
     return (
         <Paper component="header" sx={{ padding: "10px", ...props.sx }}>

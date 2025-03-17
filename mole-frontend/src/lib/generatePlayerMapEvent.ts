@@ -1,5 +1,6 @@
+import { matchEventsInterface } from "./commonInterfaces"
 
-export interface matchEventInterface{
+/*export interface matchEventInterface{
     __component: "match-event.card" | "match-event.goal"
     id: number,
     team: "teamA" | "teamB",
@@ -29,9 +30,11 @@ export interface cardEventInterface{
 
 export type eventRawType = cardEventInterface | goalEventInterface;
 
-export type mapEventType = Map<number, matchEventInterface[]>;
+*/
 
-export function convertInterface(event : eventRawType) : matchEventInterface{
+export type mapEventType = Map<number, matchEventsInterface[]>;
+
+/*export function convertInterface(event : eventRawType) : matchEventInterface{
     var shirtNumber = 0;
     if (event.__component === "match-event.goal"){
         shirtNumber = event.scorerShirtNumber? event.scorerShirtNumber : 0;
@@ -43,25 +46,26 @@ export function convertInterface(event : eventRawType) : matchEventInterface{
         ...event,
         shirtNumber: shirtNumber
     })
-}
+}*/
 
-export default function generatePlayerMapEvent(matchEvents : eventRawType[]): [mapEventType, mapEventType]{
+export default function generatePlayerMapEvent(matchEvents : matchEventsInterface[]): [mapEventType, mapEventType]{
     const teamAEvents : mapEventType = new Map();
     const teamBEvents : mapEventType = new Map();
     var map: mapEventType;
-    var standardEvent: matchEventInterface;
     matchEvents.forEach(event => {
-        if(event.team === "teamA"){
+        if(event.team === "home_team"){
             map = teamAEvents;
         }
         else{
             map = teamBEvents;
         }
-        standardEvent = convertInterface(event);
-        if(! Array.isArray(map.get(standardEvent.shirtNumber))){
-            map.set(standardEvent.shirtNumber, []);
+        const playerId = event.player.data?.id;
+        if (playerId !== undefined) {
+            if (!Array.isArray(map.get(playerId))) {
+                map.set(playerId, []);
+            }
+            map.get(playerId)?.push(event);
         }
-        map.get(standardEvent.shirtNumber)?.push(standardEvent);
     })
     return [teamAEvents, teamBEvents];
 }
