@@ -20,6 +20,7 @@ import headerImg from "@/public/static/DSC_0666-3.webp";
 import { commonKeyWords, commonOpenGraph } from '../layout';
 import SportsOrganizationJsonLd from '@/components/jsonLd/sportsOrganization';
 import { notFound } from 'next/navigation';
+import { stableImg } from '@/lib/outImg';
 
 export async function generateMetadata({params} : {params : {tSlug: string}}, parent: ResolvingMetadata): Promise<Metadata> {
   const tournamentData = await getTournamentData(params.tSlug);
@@ -95,7 +96,7 @@ export default async function Page({params} : {params : Promise<{tSlug: string}>
   return (
     <>
       <SportsOrganizationJsonLd/>
-      <HeroHeader src={headerImg} blur sx={{height: "300px"}}>
+      <HeroHeader src={stableImg(tournament.cover?.data?.attributes, "large", headerImg)} blurDataURL={tournament.cover?.data?.attributes.placeholder} blur sx={{height: "300px"}}>
         <Stack alignItems="center" spacing={2}>
           <Typography variant="h1" color="white" textTransform="uppercase">{tournament.title}</Typography>
           <Typography variant="h3" color="primary.main" fontWeight={700} textTransform="capitalize">{tournament.subtitle}</Typography>
