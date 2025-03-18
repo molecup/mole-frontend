@@ -90,12 +90,8 @@ function NavBar(props) {
 
   const iOS =
   typeof navigator !== 'undefined' && /iPad|iPhone|iPod/.test(navigator.userAgent);
-  console.log(params.tSlug);
-  console.log(tournamentList);
 
   const currentTournament = tournamentList.find(tournament => tournament.attributes.slug === params.tSlug);
-
-  console.log(currentTournament);
 
   return (
     <>

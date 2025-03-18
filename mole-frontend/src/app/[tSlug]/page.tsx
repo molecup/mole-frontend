@@ -19,6 +19,7 @@ import type { Metadata } from 'next'
 import headerImg from "@/public/static/DSC_0666-3.webp";
 import { commonOpenGraph } from '../layout';
 import SportsOrganizationJsonLd from '@/components/jsonLd/sportsOrganization';
+import { notFound } from 'next/navigation';
 
 export const metadata: Metadata = {
   alternates: {
@@ -57,7 +58,8 @@ async function getTournamentData(tSlug: string) : Promise<tournamentInterface> {
   const res  = await publicFetch(path);
 
   if (res.data.length !== 1) {
-    throw new Error("Tournament not found");
+    console.error(`Tournament not found (${tSlug})`);
+    notFound();
   }
 
   return res.data[0];
@@ -129,7 +131,7 @@ function SmallLayout({teams, firstTeam, matches, standingTables, news, sx, tSlug
         firstTeam={firstTeam} 
         tSlug={tSlug} 
       />
-      <Typography variant='h2' align='center' gutterBottom>Le partite</Typography>
+      <Typography variant='h2' align='center' gutterBottom >Le partite</Typography>
       <MatchSliderSection 
         matches={matches}
         teams = {teams}
