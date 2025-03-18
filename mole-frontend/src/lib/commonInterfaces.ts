@@ -169,6 +169,7 @@ export interface rawTournamentEditionInterface{
         id: number,
         attributes: {
             title: string,
+            subtitle: string,
             slug: string,
             year?: number,
             cover?: rawImgFormatsInterface,
