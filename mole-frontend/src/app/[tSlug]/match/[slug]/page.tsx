@@ -24,6 +24,7 @@ import Image from "next/image";
 import type { Metadata, ResolvingMetadata } from 'next'
 import { commonKeyWords, commonOpenGraph } from '@/app/layout';
 import HeroHeader from '@/components/heroHeader';
+import { getTournamentName } from '@/app/[tSlug]/layout';
 
 import defaultImg from "@/public/static/match_placeholder.webp";
 import SportsEventJsonLd from '@/components/jsonLd/sportsEvent';
@@ -37,16 +38,6 @@ async function getMatchData(id : number) : Promise<rawMatchLongInterface>{
     }
     return res;
 }
-
-/*async function getStandingTable(leagueId : number){
-    const path = "/api/league-standings/" + leagueId;
-    const res  = await publicFetch(path);
-    if(!Array.isArray(res.data) || res.data.length !== 1){
-        console.log("ERROR. Standing table not found")
-        return null;
-    }
-    return res.data[0];
-}*/
 
 async function getPlayerList(playerListId? : number): Promise<rawPlayerListInterface | null> {
     if(!playerListId){
@@ -64,13 +55,15 @@ async function getPlayerList(playerListId? : number): Promise<rawPlayerListInter
 
 export async function generateMetadata({params} : {params : {slug : number, tSlug: string}}, parent: ResolvingMetadata): Promise<Metadata> {
     const matchInfo = await getMatchData(params.slug);
+    const tournamentName = await getTournamentName(params.tSlug);
+    const leagueName = matchInfo.data.attributes.group_phase?.data?.attributes.name || matchInfo.data.attributes.knock_out_phase?.data?.attributes.name || "";
     if(!matchInfo){
         return({});
     }
     const [date, time] = dateTimeText(new Date(matchInfo.data.attributes.event_info.datetime));
     const imgUrl = stableImg(matchInfo.data.attributes.cover?.data?.attributes, "large", "/match_placeholder.jpg");
-    const title = `${matchInfo.data.attributes.home_team?.data.attributes.team.data.attributes.short.toUpperCase()} vs ${matchInfo.data.attributes.away_team?.data.attributes.team.data.attributes.short.toUpperCase()} - ${matchInfo.data.attributes.group_phase?.data?.attributes.name}`;
-    const description = `La partita ${matchInfo.data.attributes.home_team?.data.attributes.team.data.attributes.name} - ${matchInfo.data.attributes.away_team?.data.attributes.team.data.attributes.name} del ${date}`
+    const title = `${matchInfo.data.attributes.home_team?.data.attributes.team.data.attributes.short.toUpperCase()} vs ${matchInfo.data.attributes.away_team?.data.attributes.team.data.attributes.short.toUpperCase()} - ${leagueName}`;
+    const description = `${tournamentName}, ${leagueName}. La partita ${matchInfo.data.attributes.home_team?.data.attributes.team.data.attributes.name} - ${matchInfo.data.attributes.away_team?.data.attributes.team.data.attributes.name} del ${date}`
     return({
         alternates: {
             canonical: `/${params.tSlug}/match/${params.slug}`,
@@ -83,7 +76,7 @@ export async function generateMetadata({params} : {params : {slug : number, tSlu
             description: description,
             type: 'article',
             publishedTime: matchInfo.data.attributes.event_info.datetime,
-            url: `https://molecup.com/${params.tSlug}/match/${params.slug}`,
+            url: `${process.env.NEXT_PUBLIC_URL}/${params.tSlug}/match/${params.slug}`,
             ...commonOpenGraph,
             images: [
                 {

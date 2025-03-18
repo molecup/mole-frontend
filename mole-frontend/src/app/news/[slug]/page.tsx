@@ -44,7 +44,7 @@ export async function generateMetadata({params} : {params : {slug : string}}, pa
             publishedTime: articleData.attributes.publishedAt,
             authors: articleData.attributes.author,
             ...commonOpenGraph,
-            url: `https://molecup.com/news/${params.slug}`,
+            url: `${process.env.NEXT_PUBLIC_URL}/news/${params.slug}`,
             images: [
                 {
                     url: imgUrl,

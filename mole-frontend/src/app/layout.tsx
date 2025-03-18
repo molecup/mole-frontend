@@ -1,5 +1,5 @@
 import NavBar from '@/components/navBar';
-import type { Metadata } from 'next'
+import type { Metadata, ResolvingMetadata } from 'next'
 //import { Inter } from 'next/font/google'
 import ThemeRegistry from '@/components/ThemeRegistry/ThemeRegistry';
 import Box from '@mui/system/Box';
@@ -12,35 +12,37 @@ import publicFetch from '@/lib/publicFetch';
 
 //const inter = Inter({ subsets: ['latin'] })
 
-export const commonKeyWords = ["Mole Cup", "molecup", "Torino", "torneo", "calcio", "liceo"]
+export const commonKeyWords = ["LCS", "lcs", "Torino", "torneo", "calcio", "liceo"]
 
 export const commonOpenGraph = {
-  siteName: 'Mole Cup',
+  siteName: 'LCS',
   locale: 'it_IT',
 }
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_URL ? process.env.NEXT_PUBLIC_URL : "https://molecup.com"),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_URL ? process.env.NEXT_PUBLIC_URL : "https://lcs.com"),
   alternates: {
     canonical: '/',
   },
   title: {
-    template: "%s - Mole cup Reale Mutua",
-    default: "Mole cup Reale Mutua"
+    template: "%s - Lega Calcio Studenti",
+    default: "Lega Calcio Studenti",
   },
   creator: 'Marco Magnanini',
-  publisher: "European Students league",
-  applicationName: 'Mole Cup Reale Mutua',
-  description: 'Sito ufficiale della Mole Cup Reale mutua',
+  publisher: "European Students league s.r.l.",
+  applicationName: 'Lega Calcio Studenti',
+  description: 'Sito ufficiale della Lega Calcio Studenti',
   keywords: commonKeyWords,
   openGraph: {
-    title: 'Mole Cup Reale Mutua',
-    url: 'https://molecup.com',
-    description: 'Sito ufficiale della Mole Cup Reale mutua',
+    title: 'Lega Calcio Studenti',
+    url: process.env.NEXT_PUBLIC_URL ? process.env.NEXT_PUBLIC_URL : "https://lcs.com",
+    description: 'Sito ufficiale della Lega Calcio Studenti',
     ...commonOpenGraph,
     type: 'website',
   },
 }
+
+
 
 async function getTournamentList(){
   const path = `/api/tournaments?populate[logo]=1&filters[main_edition][$notNull]=null`;

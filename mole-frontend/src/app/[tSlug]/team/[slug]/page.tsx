@@ -24,6 +24,7 @@ import Stack from '@mui/material/Stack';
 import type { Metadata, ResolvingMetadata } from 'next'
 import { commonKeyWords, commonOpenGraph } from '@/app/layout';
 import SportsTeamJsonLd from '@/components/jsonLd/sportsTeam';
+import { getTournamentName } from '@/app/[tSlug]/layout';
 
 const showCircularStats = false;
 
@@ -61,6 +62,8 @@ async function getTeamGroups(teamEditionId? : number) : Promise<groupPhase[]>{
 
 export async function generateMetadata({params} : {params : {slug : string, tSlug: string}}, parent: ResolvingMetadata): Promise<Metadata> {
     const teamData = await getTeamData(params.slug);
+    const tournamentName = await getTournamentName(params.tSlug);
+    const description = `Le partite e i risultati della squadra del liceo ${teamData.attributes.name} per la ${tournamentName}`;
     if(!teamData){
         return({});
     }
@@ -69,15 +72,15 @@ export async function generateMetadata({params} : {params : {slug : string, tSlu
         alternates: {
             canonical: `/${params.tSlug}/team/${params.slug}`,
           },
-        title: `Squadra ${teamData.attributes.name}`,
-        description: `Le partite e i risultati della squadra del liceo ${teamData.attributes.name} per la Mole Cup Reale Mutua`,
-        keywords: commonKeyWords.concat([teamData.attributes.name, "squadra"]),
+        title: `${teamData.attributes.name}`,
+        description: description,
+        keywords: commonKeyWords.concat([teamData.attributes.name, "squadra", "rosa", "giocatori"]),
         openGraph: {
-            title: `Mole Cup - Squadra ${teamData.attributes.name}`,
-            description: `La squadra del liceo ${teamData.attributes.name} per la Mole Cup Reale Mutua`,
+            title: `${teamData.attributes.name} - ${tournamentName}`,
+            description: description,
             type: "profile",
             ...commonOpenGraph,
-            url: `https://molecup.com/${params.tSlug}/team/${params.slug}`,
+            url: `${process.env.NEXT_PUBLIC_URL}/${params.tSlug}/team/${params.slug}`,
             images: [
                 {
                     url: imgUrl,

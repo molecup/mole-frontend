@@ -14,33 +14,35 @@ import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Toolbar from '@mui/material/Toolbar';
 import Stack from '@mui/material/Stack';
-import type { Metadata } from 'next'
+import type { Metadata, ResolvingMetadata } from 'next'
 
 import headerImg from "@/public/static/DSC_0666-3.webp";
-import { commonOpenGraph } from '../layout';
+import { commonKeyWords, commonOpenGraph } from '../layout';
 import SportsOrganizationJsonLd from '@/components/jsonLd/sportsOrganization';
 import { notFound } from 'next/navigation';
 
-export const metadata: Metadata = {
-  alternates: {
-    canonical: `/molecup`,
-  },
-  title: 'Il torneo',
-  description: 'Tutte le informazioni del torneo Mole Cup Reale Mutua',
-  openGraph: {
-    title: 'Il torneo - Mole Cup Reale Mutua',
-    url: 'https://molecup.com/molecup',
-    description: 'Tutte le partite e le informazioni del torneo Mole Cup Reale Mutua',
-    ...commonOpenGraph,
-    type: 'website',
-  },
+export async function generateMetadata({params} : {params : {tSlug: string}}, parent: ResolvingMetadata): Promise<Metadata> {
+  const tournamentData = await getTournamentData(params.tSlug);
+  return ({
+    alternates: {
+      canonical: `/${params.tSlug}`,
+    },
+    keywords: commonKeyWords.concat([tournamentData.attributes.name, tournamentData.attributes.main_edition.data.attributes.title, tournamentData.attributes.main_edition.data.attributes.subtitle]),
+    title: tournamentData.attributes.name,
+    description: `Tutte le informazioni del torneo ${tournamentData.attributes.main_edition.data.attributes.title} ${tournamentData.attributes.main_edition.data.attributes.subtitle}`,
+    openGraph: {
+      title: `${tournamentData.attributes.name} - Lega Calcio Studenti`,
+      url: `${process.env.NEXT_PUBLIC_URL}/${params.tSlug}`,
+      description: `Tutte le partite e le informazioni del torneo ${tournamentData.attributes.main_edition.data.attributes.title} ${tournamentData.attributes.main_edition.data.attributes.subtitle}`,
+      ...commonOpenGraph,
+      type: 'website',
+    },
+  });
 }
 
 const marginBottom = {
   marginBottom: "20px",
 }
-
-export const dynamicParams = false;
 
 /*export async function generateStaticParams() : Promise<{tSlug: string, id:number, data: tournamentInterface}[]>{
   const path = "/api/tournaments?populate[main_edition][fields][0]=title&populate[main_edition][fields][1]=slug&populate[main_edition][fields][2]=year&populate[main_edition][populate][cover]=1&populate[main_edition][populate][team_editions][fields][0]=slug&populate[main_edition][populate][team_editions][fields][1]=year&populate[main_edition][populate][team_editions][populate][team][populate][0]=logo&populate[main_edition][populate][team_editions][populate][cover]=1&populate[logo]=1&fields[0]=slug&fields[1]=name";
