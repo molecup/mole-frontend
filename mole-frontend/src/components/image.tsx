@@ -9,7 +9,7 @@ export default function Image({placeholder, src, blurDataURL, ...otherProps} : p
             blur = "blur";
         }
         else{
-            console.warn("An image is set with placeholder = 'blur' but it's an external image and no blurDataUrl has been provided. Placeholder property has been changed to 'empty'")
+            console.warn(`An image is set with placeholder = 'blur' but it's an external image and no blurDataUrl has been provided. Placeholder property has been changed to 'empty'. Image: ${src}`)
         }
     }
     return(
