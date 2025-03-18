@@ -58,6 +58,7 @@ export interface rawTeamEditionInterface{
 export interface teamEditionInterface{
     id: number,
     attributes: {
+        updatedAt: any
         slug: string,
         year: number,
         team: rawTeamInterface,
@@ -87,6 +88,7 @@ export interface teamInterface {
 export interface matchShortInterface{
     id: number,
     attributes: {
+        [x: string]: any
         home_team?: rawTeamEditionInterface,
         away_team?: rawTeamEditionInterface,
         home_score: number,
@@ -168,6 +170,9 @@ export interface rawTournamentEditionInterface{
     data: {
         id: number,
         attributes: {
+            knock_out_phase: {
+                data: knockOutPhase | null,
+            }
             title: string,
             subtitle: string,
             slug: string,
