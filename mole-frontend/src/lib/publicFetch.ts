@@ -14,7 +14,6 @@ export default async function publicFetch(path : string){
         Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json'
         },
-        cache: 'force-cache',
         next: { revalidate: 60 }
     });
     if (!res.ok) {
