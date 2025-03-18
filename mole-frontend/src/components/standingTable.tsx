@@ -25,14 +25,14 @@ const stickyColStyle = {
 const stickyColBorderStyle = {
 }
 
-export default function StandingTable({title, teamRanks, treeImg, type="group", ...props} : {title : string, teamRanks? : teamRankInterface[], treeImg?: imgFormatsInterface, type?: "group" | "elimination", small? : boolean }){
+export default function StandingTable({title, teamRanks, treeImg, type="group", teamUrlRoot, ...props} : {title : string, teamRanks? : teamRankInterface[], treeImg?: imgFormatsInterface, type?: "group" | "elimination", small? : boolean, teamUrlRoot: string}){
     if(type=="group"  && teamRanks){
-        return LeagueTable({title: title, teamRanks: teamRanks, small:props.small})
+        return LeagueTable({title: title, teamRanks: teamRanks, small:props.small, teamUrlRoot: teamUrlRoot})
     }
     return TableTree({title:title, treeImg:treeImg, ...props})
 }
 
-export function LeagueTable({title, teamRanks, ...props} : {title : string, teamRanks : teamRankInterface[], small? : boolean }){
+export function LeagueTable({title, teamRanks, teamUrlRoot, ...props} : {title : string, teamRanks : teamRankInterface[], small? : boolean, teamUrlRoot: string}) {
     return(
         <TableContainer component={Paper} sx={{ maxWidth:700, marginTop: '10px', marginBottom: '10px' }}>
             <Toolbar sx={stickyColStyle}>
@@ -63,10 +63,10 @@ export function LeagueTable({title, teamRanks, ...props} : {title : string, team
                         <TableCell sx={{...stickyColStyle, ...stickyColBorderStyle, bgcolor: 'background.paper'}} component="th" scope="row">
                             <Stack direction="row" spacing={1}>
                                 <p>{i + 1}</p>
-                                <Avatar href={"/team/"+entry.team.data.attributes.slug} component={Link} sx={{ width: 24, height: 24, bgcolor:"inherit"}} variant="rounded" >
+                                <Avatar href={teamUrlRoot+entry.team.data.attributes.team.data.attributes.slug} component={Link} sx={{ width: 24, height: 24, bgcolor:"inherit"}} variant="rounded" >
                                     <Image alt={`${entry.team.data.attributes.team?.data.attributes.name} logo`} src={stableImg(entry.team.data.attributes.team?.data.attributes.logo?.data?.attributes, "thumbnail")}  width="24" height="24" style={{objectFit: "contain"}} />
                                 </Avatar>
-                                <Link href={"/team/"+entry.team.data.attributes.slug}><Typography color="primary.main" textTransform="capitalize" sx={{textDecoration: "underline", textDecorationColor: "primary.main"}}>{entry.team.data.attributes.team?.data.attributes.short}</Typography></Link>
+                                <Link href={teamUrlRoot+entry.team.data.attributes.team.data.attributes.slug}><Typography color="primary.main" textTransform="capitalize" sx={{textDecoration: "underline", textDecorationColor: "primary.main"}}>{entry.team.data.attributes.team?.data.attributes.short}</Typography></Link>
                             </Stack>
                         </TableCell>
                         <TableCell align="right">{entry.pts}</TableCell>
@@ -105,7 +105,7 @@ function TableTree({title, treeImg} : {title:string, treeImg?: imgFormatsInterfa
     )
 }
 
-export function StandingTables({teamLeagues: standings}: {teamLeagues: {teams : teamRankInterface[], name : string, type:"group" | "elimination", treeTable?: imgFormatsInterface}[]}) {
+export function StandingTables({teamLeagues: standings, teamUrlRoot}: { teamUrlRoot: string, teamLeagues: {teams : teamRankInterface[], name : string, type:"group" | "elimination", treeTable?: imgFormatsInterface}[]}){
     let finalPhaseUsed = false
     if(!standings || !Array.isArray(standings)){
         return (<Typography>Nessun girone trovato</Typography>)
@@ -123,6 +123,7 @@ export function StandingTables({teamLeagues: standings}: {teamLeagues: {teams : 
             }
             return(
                 showTable && <StandingTable 
+                teamUrlRoot={teamUrlRoot}
                 key = {i}
                 title = {title}
                 teamRanks = {table.teams}

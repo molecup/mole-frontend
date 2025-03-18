@@ -59,7 +59,7 @@ async function getTeamGroups(teamEditionId? : number) : Promise<groupPhase[]>{
    return res.data; 
 }
 
-export async function generateMetadata({params} : {params : {slug : string}}, parent: ResolvingMetadata): Promise<Metadata> {
+export async function generateMetadata({params} : {params : {slug : string, tSlug: string}}, parent: ResolvingMetadata): Promise<Metadata> {
     const teamData = await getTeamData(params.slug);
     if(!teamData){
         return({});
@@ -67,7 +67,7 @@ export async function generateMetadata({params} : {params : {slug : string}}, pa
     const imgUrl = stableImg(teamData.attributes.logo?.data?.attributes, "medium", "/static/match_placeholder.webp");
     return({
         alternates: {
-            canonical: `/team/${params.slug}`,
+            canonical: `/${params.tSlug}/team/${params.slug}`,
           },
         title: `Squadra ${teamData.attributes.name}`,
         description: `Le partite e i risultati della squadra del liceo ${teamData.attributes.name} per la Mole Cup Reale Mutua`,
@@ -77,7 +77,7 @@ export async function generateMetadata({params} : {params : {slug : string}}, pa
             description: `La squadra del liceo ${teamData.attributes.name} per la Mole Cup Reale Mutua`,
             type: "profile",
             ...commonOpenGraph,
-            url: `https://molecup.com/team/${params.slug}`,
+            url: `https://molecup.com/${params.tSlug}/team/${params.slug}`,
             images: [
                 {
                     url: imgUrl,
@@ -88,11 +88,12 @@ export async function generateMetadata({params} : {params : {slug : string}}, pa
     })
 }
 
-export default async function TeamPage({params} : {params : {slug : string}}){
+export default async function TeamPage({params} : {params : {slug : string, tSlug: string}}){
     const teamData = await getTeamData(params.slug);
     const [teamGroups, teamMatches] = await Promise.all([getTeamGroups(teamData.attributes.main_edition?.data.id), getTeamMatches(teamData.attributes.main_edition?.data.id)]);
     const articles = await getRelatedArticles(teamData.attributes.main_edition?.data.attributes.article_tags?.data || []);
     const layoutProps = {
+        tSlug: params.tSlug,
         teamData: teamData.attributes,
         teamLeagues: teamGroups.map((group) : {teams: teamRankInterface[], name: string, type: "group" | "elimination"} => {return {teams: group.attributes.teams || [], name: group.attributes.name, type: 'group'}}),
         articles: articles,
@@ -123,10 +124,11 @@ interface layoutInterface {
     teamLeagues: {teams: teamRankInterface[], name: string, type: "group" | "elimination"}[],
     articles: any, 
     teamMatches: matchShortInterface[],
-    sx: any
+    sx: any,
+    tSlug: string,
 }
 
-function SmallLayout({teamData, teamLeagues, articles, teamMatches, sx} : layoutInterface){
+function SmallLayout({teamData, teamLeagues, articles, teamMatches, sx, tSlug} : layoutInterface){
     return(
         <Box sx={sx}>
         {showCircularStats && <Container sx={{padding:"10px"}}>
@@ -146,7 +148,7 @@ function SmallLayout({teamData, teamLeagues, articles, teamMatches, sx} : layout
                     <MatchCard
                         key={match.id}
                         img={match.attributes.cover?.data?.attributes || null}
-                        url={'/match/' + match.id}
+                        url={"/" + tSlug + '/match/' + match.id}
                         initial={match.attributes.event_info?.status !== "finished"}
                         teamA={match.attributes.home_team?.data.attributes.team.data.attributes || {} as teamInterface}
                         teamB={match.attributes.away_team?.data.attributes.team.data.attributes || {} as teamInterface}
@@ -163,7 +165,7 @@ function SmallLayout({teamData, teamLeagues, articles, teamMatches, sx} : layout
             labels = {["Rosa giocatori", "Torneo", "News"]}
         >
             <PlayerList playerList={teamData.main_edition?.data.attributes.player_list || null} />
-            <StandingTables teamLeagues={teamLeagues} />
+            <StandingTables teamLeagues={teamLeagues} teamUrlRoot={`/${tSlug}/team/`} />
 
             <RelatedArticles articles = {articles}/>
         </TabLayout>
@@ -171,7 +173,7 @@ function SmallLayout({teamData, teamLeagues, articles, teamMatches, sx} : layout
     );
 }
 
-function BigLayout({teamData, teamLeagues, articles, teamMatches, sx} : layoutInterface){
+function BigLayout({teamData, teamLeagues, articles, teamMatches, sx, tSlug} : layoutInterface){
     return(
         <Box sx={sx}>
             <Container sx={{padding:"10px"}}>
@@ -189,7 +191,7 @@ function BigLayout({teamData, teamLeagues, articles, teamMatches, sx} : layoutIn
                             <MatchCard
                                 key={match.id}
                                 img={match.attributes.cover?.data?.attributes || null}
-                                url={'/match/' + match.id}
+                                url={"/" + tSlug + '/match/' + match.id}
                                 initial={match.attributes.event_info?.status !== "finished"}
                                 teamA={match.attributes.home_team?.data.attributes.team.data.attributes || {} as teamInterface}
                                 teamB={match.attributes.away_team?.data.attributes.team.data.attributes || {} as teamInterface}
@@ -212,7 +214,7 @@ function BigLayout({teamData, teamLeagues, articles, teamMatches, sx} : layoutIn
                         </Paper>
                     </Grid>
                     <Grid md={7}>
-                        <StandingTables teamLeagues={teamLeagues} />
+                        <StandingTables teamLeagues={teamLeagues} teamUrlRoot={`/${tSlug}/team/`}/>
                         <Paper>
                             <Toolbar sx={{borderRadius: "4px 4px 0 0", marginBottom: "10px"}}>
                                 <Typography variant='h5'>Ultimi articoli</Typography>

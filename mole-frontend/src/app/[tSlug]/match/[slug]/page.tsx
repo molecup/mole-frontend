@@ -62,7 +62,7 @@ async function getPlayerList(playerListId? : number): Promise<rawPlayerListInter
     }
 }
 
-export async function generateMetadata({params} : {params : {slug : number}}, parent: ResolvingMetadata): Promise<Metadata> {
+export async function generateMetadata({params} : {params : {slug : number, tSlug: string}}, parent: ResolvingMetadata): Promise<Metadata> {
     const matchInfo = await getMatchData(params.slug);
     if(!matchInfo){
         return({});
@@ -73,7 +73,7 @@ export async function generateMetadata({params} : {params : {slug : number}}, pa
     const description = `La partita ${matchInfo.data.attributes.home_team?.data.attributes.team.data.attributes.name} - ${matchInfo.data.attributes.away_team?.data.attributes.team.data.attributes.name} del ${date}`
     return({
         alternates: {
-            canonical: `/match/${params.slug}`,
+            canonical: `/${params.tSlug}/match/${params.slug}`,
           },
         title: title,
         description: description,
@@ -83,7 +83,7 @@ export async function generateMetadata({params} : {params : {slug : number}}, pa
             description: description,
             type: 'article',
             publishedTime: matchInfo.data.attributes.event_info.datetime,
-            url: `https://molecup.com/match/${params.slug}`,
+            url: `https://molecup.com/${params.tSlug}/match/${params.slug}`,
             ...commonOpenGraph,
             images: [
                 {
@@ -95,7 +95,7 @@ export async function generateMetadata({params} : {params : {slug : number}}, pa
     })
 }
 
-export default async function MatchPage({params} : {params : {slug : number}}){
+export default async function MatchPage({params} : {params : {slug : number, tSlug:string}}){
     const matchInfo = await getMatchData(params.slug);
     const standingTable = matchInfo.data.attributes.group_phase;
     const treeTable = matchInfo.data.attributes.knock_out_phase;
@@ -113,6 +113,7 @@ export default async function MatchPage({params} : {params : {slug : number}}){
         date : date,
         time : time,
         mapEvents : mapEvents,
+        tSlug : params.tSlug
     }
     return(
         <>
@@ -145,12 +146,14 @@ interface layoutInterface {
     date:string, 
     time:string,
     mapEvents: [mapEventType, mapEventType],
+    tSlug: string,
 }
 
-function SmallLayout({playerList, matchInfo, standingTable, treeTable, status, date, time, mapEvents, sx} : layoutInterface){
+function SmallLayout({playerList, matchInfo, standingTable, treeTable, status, date, time, mapEvents, sx, tSlug} : layoutInterface){
     return(
         <Box sx={sx}>
         <MatchHeader 
+            teamUrlRoot= {`/${tSlug}/team/`}
             teamA = {matchInfo.data.attributes.home_team?.data.attributes.team.data.attributes || {} as teamInterface}
             teamB = {matchInfo.data.attributes.away_team?.data.attributes.team.data.attributes || {} as teamInterface}
             scoreText = {status ? matchInfo.data.attributes.home_score + " - " + matchInfo.data.attributes.away_score : date}
@@ -170,6 +173,7 @@ function SmallLayout({playerList, matchInfo, standingTable, treeTable, status, d
                 title={standingTable.attributes.name} 
                 teamRanks={standingTable.attributes.teams}
                 type={standingTable.attributes ? "group" : "elimination"}
+                teamUrlRoot={`/${tSlug}/team/`}
                 //treeImg={null}
             /> }
         </TabLayout>
@@ -178,11 +182,12 @@ function SmallLayout({playerList, matchInfo, standingTable, treeTable, status, d
     )
 }
 
-function BigLayout({playerList, matchInfo, standingTable, treeTable, status, date, time, mapEvents, sx} : layoutInterface){
+function BigLayout({playerList, matchInfo, standingTable, treeTable, status, date, time, mapEvents, sx, tSlug} : layoutInterface){
     return(
         <Box sx={sx}> 
         <Container>
             <MatchHeader 
+                teamUrlRoot= {`/${tSlug}/team/`}
                 teamA = {matchInfo.data.attributes.home_team?.data.attributes.team.data.attributes || {} as teamInterface}
                 teamB = {matchInfo.data.attributes.away_team?.data.attributes.team.data.attributes || {} as teamInterface}
                 scoreText = {status ? matchInfo.data.attributes.home_score + " - " + matchInfo.data.attributes.away_score : date}
@@ -203,6 +208,7 @@ function BigLayout({playerList, matchInfo, standingTable, treeTable, status, dat
                     <StandingTableBig
                         standingTable = {standingTable}
                         treeTable={treeTable}
+                        tSlug={tSlug}
                     />
                     {status && <LocationMapBig address={matchInfo.data.attributes.event_info.stadium?.data?.attributes.location.address} md={4} />}
                 </Grid>
@@ -253,12 +259,13 @@ function LocationMapBig({address, md=12} : {address?:string, md?:number}){
     );
 }
 
-function StandingTableBig({standingTable, treeTable} : {standingTable?: groupPhase | null, treeTable?: knockOutPhase | null}){
+function StandingTableBig({standingTable, treeTable, tSlug} : {standingTable?: groupPhase | null, treeTable?: knockOutPhase | null, tSlug: string}){
     return(
         <>
         <Grid md={4}>
             {standingTable && 
                 <StandingTable 
+                teamUrlRoot={`/${tSlug}/team/`}
                 title={standingTable?.attributes?.name || treeTable?.attributes.name || ""} 
                 teamRanks={standingTable.attributes.teams}
                 type= {standingTable.attributes ? "group" : "elimination"}
@@ -299,11 +306,12 @@ interface matchHeaderInterface{
     league : string,
     date : string,
     link ?: string,
+    teamUrlRoot : string,
 }
 
 function MatchHeader(props : matchHeaderInterface & {sx?: any}) {
-    const teamALink = "/team/" + props.teamA.slug;
-    const teamBLink = "/team/" + props.teamB.slug;
+    const teamALink = props.teamUrlRoot + props.teamA.slug;
+    const teamBLink = props.teamUrlRoot + props.teamB.slug;
     const imgA = stableImg(props.teamA.logo?.data?.attributes, "thumbnail");
     const imgB = stableImg(props.teamB.logo?.data?.attributes, "thumbnail");
 

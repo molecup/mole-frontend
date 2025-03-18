@@ -41,7 +41,7 @@ const marginBottom = {
 
 export const dynamicParams = false;
 
-export async function generateStaticParams() : Promise<{tSlug: string, id:number, data: tournamentInterface}[]>{
+/*export async function generateStaticParams() : Promise<{tSlug: string, id:number, data: tournamentInterface}[]>{
   const path = "/api/tournaments?populate[main_edition][fields][0]=title&populate[main_edition][fields][1]=slug&populate[main_edition][fields][2]=year&populate[main_edition][populate][cover]=1&populate[main_edition][populate][team_editions][fields][0]=slug&populate[main_edition][populate][team_editions][fields][1]=year&populate[main_edition][populate][team_editions][populate][team][populate][0]=logo&populate[main_edition][populate][team_editions][populate][cover]=1&populate[logo]=1&fields[0]=slug&fields[1]=name";
   const res  = await publicFetch(path);
  
@@ -50,7 +50,7 @@ export async function generateStaticParams() : Promise<{tSlug: string, id:number
     editionId: tournament.attributes.main_edition.data.id,
     data: tournament
   }));
-}
+}*/
 
 async function getTournamentData(tSlug: string) : Promise<tournamentInterface> {
   const path = `/api/tournaments?filters[slug][$eq]=${tSlug}&populate[main_edition][fields][0]=title&populate[main_edition][fields][1]=slug&populate[main_edition][fields][2]=year&populate[main_edition][fields][3]=subtitle&populate[main_edition][populate][cover]=1&populate[main_edition][populate][article_tags]=1&populate[main_edition][populate][team_editions][fields][0]=slug&populate[main_edition][populate][team_editions][fields][1]=year&populate[main_edition][populate][team_editions][populate][team][populate][0]=logo&populate[main_edition][populate][team_editions][populate][cover]=1&populate[main_edition][populate][group_phases][populate][teams][populate][team][populate][team][populate][0]=logo&populate[main_edition][populate][group_phases][populate][matches][populate][0]=home_team&populate[main_edition][populate][group_phases][populate][matches][populate][1]=away_team&populate[main_edition][populate][group_phases][populate][matches][populate][2]=event_info&populate[main_edition][populate][group_phases][populate][matches][populate][3]=cover&populate[logo]=1&fields[0]=slug&fields[1]=name`;
@@ -85,7 +85,8 @@ export default async function Page({params} : {params : Promise<{tSlug: string}>
     firstTeam: firstTeam,
     matches: groups.flatMap((group : groupPhase) => group.attributes.matches?.data?.map((match) => {return {league: group.attributes.name, ...match}}) || []),
     standingTables: groups,
-    news: news
+    news: news,
+    tSlug: tSlug,
   }
   return (
     <>
@@ -116,38 +117,43 @@ interface layoutInterface{
   matches: (matchShortInterface&{league:string})[], 
   standingTables: groupPhase[], 
   news: any,
-  sx: any
+  sx: any,
+  tSlug: string,
 }
 
-function SmallLayout({teams, firstTeam, matches, standingTables, news, sx}: layoutInterface){
+function SmallLayout({teams, firstTeam, matches, standingTables, news, sx, tSlug}: layoutInterface){
   return(
     <Box sx={sx}>
-      <TeamSection teams={teams} firstTeam={firstTeam} />
-        <Typography variant='h2' align='center' gutterBottom>Le partite</Typography>
-        <MatchSliderSection 
-          matches={matches}
-          teams = {teams}
-        />
+      <TeamSection 
+        teams={teams} 
+        firstTeam={firstTeam} 
+        tSlug={tSlug} 
+      />
+      <Typography variant='h2' align='center' gutterBottom>Le partite</Typography>
+      <MatchSliderSection 
+        matches={matches}
+        teams = {teams}
+        tSlug={tSlug}
+      />
+      
+      {Array.isArray(news) && news.length > 0 && 
+      <>
+        <Typography variant="h2" align="center" gutterBottom>Notizie</Typography> 
+        <RelatedArticles articles={news} sx={marginBottom} /> 
+      </>
+      }
 
-        
-        {Array.isArray(news) && news.length > 0 && 
-        <>
-          <Typography variant="h2" align="center" gutterBottom>Notizie</Typography> 
-          <RelatedArticles articles={news} sx={marginBottom} /> 
-        </>
-        }
-
-        <Typography variant="h2" align="center" gutterBottom>Il torneo</Typography>
-        <StandingTableSection standingTables={standingTables}/>
+      <Typography variant="h2" align="center" gutterBottom>Il torneo</Typography>
+      <StandingTableSection standingTables={standingTables} tSlug={tSlug}/>
     </Box>
   );
 }
 
-function BigLayout({teams, firstTeam, matches, standingTables, news, sx}: layoutInterface){
+function BigLayout({teams, firstTeam, matches, standingTables, news, sx, tSlug}: layoutInterface){
   return(
     <Box sx={sx}>
       <Container>
-        <TeamSection teams={teams} firstTeam={firstTeam} />
+        <TeamSection teams={teams} firstTeam={firstTeam} tSlug={tSlug}/>
 
         <Grid container spacing={1}>
             <Grid md={8} sx={{marginTop: "20px"}}>
@@ -155,7 +161,7 @@ function BigLayout({teams, firstTeam, matches, standingTables, news, sx}: layout
                 <Toolbar sx={{borderRadius: "4px 4px 0 0"}}>
                     <Typography variant='h5'>Le partite</Typography>
                 </Toolbar>
-                <MatchSliderSection matches={matches} teams={teams} />
+                <MatchSliderSection matches={matches} teams={teams} tSlug={tSlug} />
               </Paper>
 
               <Paper>
@@ -166,7 +172,7 @@ function BigLayout({teams, firstTeam, matches, standingTables, news, sx}: layout
               </Paper>        
             </Grid>
             <Grid md={4}>
-              <StandingTableSection standingTables={standingTables}/>
+              <StandingTableSection standingTables={standingTables} tSlug={tSlug}/>
             </Grid>
         </Grid>
       </Container>
@@ -174,7 +180,7 @@ function BigLayout({teams, firstTeam, matches, standingTables, news, sx}: layout
   );
 }
 
-function TeamSection({teams, firstTeam} : {teams: teamEditionInterface[], firstTeam: number}){
+function TeamSection({teams, firstTeam, tSlug} : {teams: teamEditionInterface[], firstTeam: number, tSlug: string}){
   return(
     <CardSlider sx={marginBottom}>
       {teams && Array.isArray(teams) && teams.map((team : teamEditionInterface, i : number) => {
@@ -182,7 +188,7 @@ function TeamSection({teams, firstTeam} : {teams: teamEditionInterface[], firstT
           <TeamCard
             key={team.id}
             img={team.attributes.team.data.attributes.logo?.data?.attributes || null}
-            url={'/team/' + team.attributes.team.data.attributes.slug} 
+            url={tSlug + '/team/' + team.attributes.team.data.attributes.slug} 
             initial={i === firstTeam}
             name={team.attributes.team.data.attributes.name}
             noTitle
@@ -202,16 +208,16 @@ function StandingGrid(props: any){
   )
 }
 
-function StandingTableSection({standingTables} : {standingTables : groupPhase[]}){
+function StandingTableSection({standingTables, tSlug} : {standingTables : groupPhase[], tSlug: string}){
   const tables = standingTables.map((group) : {teams: teamRankInterface[], name: string, type: "group" | "elimination"} => {return {teams: group.attributes.teams || [], name: group.attributes.name, type: 'group'}});
   return(
     <Grid container sx={{...marginBottom, padding:"10px"}} spacing={1}>
-      <StandingTables teamLeagues={tables} />
+      <StandingTables teamLeagues={tables} teamUrlRoot={`/${tSlug}/team/`} />
     </Grid>
   );
 }
 
-function MatchSliderSection({matches, teams} : {matches: (matchShortInterface&{league:string})[], teams: teamEditionInterface[]}){
+function MatchSliderSection({matches, teams, tSlug} : {matches: (matchShortInterface&{league:string})[], teams: teamEditionInterface[], tSlug: string}){
   return(
     <>
       <CardSlider sx={marginBottom}>
@@ -224,7 +230,7 @@ function MatchSliderSection({matches, teams} : {matches: (matchShortInterface&{l
             <MatchCard
               key={match.id}
               img={match.attributes.cover?.data?.attributes || null}
-              url={'/match/' + match.id}
+              url={tSlug + '/match/' + match.id}
               initial={match.attributes.event_info?.status !== "finished"}
               teamA={teams.find((team) => team.id === match.attributes.home_team?.data.id)?.attributes.team.data.attributes || teams[0].attributes.team.data.attributes}
               teamB={teams.find((team) => team.id === match.attributes.away_team?.data.id)?.attributes.team.data.attributes || teams[0].attributes.team.data.attributes}

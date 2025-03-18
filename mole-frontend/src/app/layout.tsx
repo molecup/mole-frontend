@@ -7,6 +7,7 @@ import Footer from '@/components/footer';
 import CookiesSnackbar from '@/components/cookiesSnackbar';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import { Analytics } from '@vercel/analytics/react';
+import publicFetch from '@/lib/publicFetch';
 
 
 //const inter = Inter({ subsets: ['latin'] })
@@ -41,16 +42,24 @@ export const metadata: Metadata = {
   },
 }
 
-export default function RootLayout({
+async function getTournamentList(){
+  const path = `/api/tournaments?populate[logo]=1&filters[main_edition][$notNull]=null`;
+  const res  = await publicFetch(path);
+
+  return res.data;
+}
+
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
+  const tournamentList = await getTournamentList();
   return (
     <html lang="it">
       <body>
       <ThemeRegistry>
-        <NavBar>
+        <NavBar tournamentList = {tournamentList}>
           <Box sx={{display: 'flex', flexDirection: 'column', minHeight: '130vh',}}>
             <Box sx={{padding : 0}}>
               {children}

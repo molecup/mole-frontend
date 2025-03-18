@@ -28,20 +28,11 @@ import Link from "next/link";
 import MoleIcon from '@/components/moleIcon';
 import useScrollTrigger from '@mui/material/useScrollTrigger';
 import Slide from '@mui/material/Slide';
-
-const pages=[
-  { name: 'Chi siamo', url: '/' },
-  { name: 'Torneo', url: '/molecup' },
-  { name:'News', url: '/news' },
-  //{ name: 'Store', url: 'https://store.molecup.com'},
-];
-
-
-const settings = [
-  { name:'Profile', url:"/" },
-  { name:'Account', url:"/" },
-  { name:'Logout', url:"/" },
-];
+import { useParams } from 'next/navigation'
+import Accordion from '@mui/material/Accordion';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 
 function HideOnScroll(props) {
@@ -55,16 +46,23 @@ function HideOnScroll(props) {
   );
 }
 
+
+
 function NavBar(props) {
-  const { children } = props;
+  const { children, tournamentList } = props;
   const [showMobileNav, setShowMobileNav] = useState(false);
   const [anchorElUser, setAnchorElUser] = useState(null);
+  const [anchorElT, setAnchorElT] = useState(null);
+  const params = useParams()
 
   const handleOpenNavMenu = (event) => {
     setShowMobileNav(true);
   };
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
+  };
+  const handleOpenTMenu = (event) => {
+    setAnchorElT(event.currentTarget);
   };
 
   const handleCloseNavMenu = () => {
@@ -74,9 +72,30 @@ function NavBar(props) {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+  const handleCloseTMenu = () => {
+    setAnchorElT(null);
+  };
+
+  const pages=[
+    { name: 'Chi siamo', url: '/' },
+    { name: 'Tornei', url: '/molecup',
+      children: tournamentList.map(t => ({name: t.attributes.name, url: `/${t.attributes.slug}`}))
+    },
+    { name:'News', url: '/news' },
+    //{ name: 'Store', url: 'https://store.molecup.com'},
+  ];
+
+  const settings = [
+  ];
 
   const iOS =
   typeof navigator !== 'undefined' && /iPad|iPhone|iPod/.test(navigator.userAgent);
+  console.log(params.tSlug);
+  console.log(tournamentList);
+
+  const currentTournament = tournamentList.find(tournament => tournament.attributes.slug === params.tSlug);
+
+  console.log(currentTournament);
 
   return (
     <>
@@ -112,15 +131,42 @@ function NavBar(props) {
               <Box
                 sx={{ width: 200}}
                 role="presentation"
-                onClick={handleCloseNavMenu}
+                //onClick={handleCloseNavMenu}
               >
                 <List>
                   {pages.map((page) => (
-                    <ListItem key={page.name} disablePadding>
-                    <ListItemButton component={Link} href={page.url}>
-                      <ListItemText primary={page.name} />
-                    </ListItemButton>
-                  </ListItem>
+                    page.children ? (
+                      <ListItem key={page.name} disablePadding>
+                        <Accordion sx={{ width: '100%' }} elevation={0} defaultExpanded>
+                          <AccordionSummary
+                            expandIcon={<ExpandMoreIcon />}
+                            aria-controls={`${page.name}-content`}
+                            id={`${page.name}-header`}
+                          >
+                            <ListItemText primary={page.name} />
+                          </AccordionSummary>
+                          <AccordionDetails 
+                            sx={{ padding: '0 15px' }}
+                          >
+                            <List disablePadding>
+                              {page.children.map((child) => (
+                                <ListItem key={child.name} disablePadding onClick={handleCloseNavMenu}>
+                                  <ListItemButton component={Link} href={child.url}>
+                                    <ListItemText primary={child.name} />
+                                  </ListItemButton>
+                                </ListItem>
+                              ))}
+                            </List>
+                          </AccordionDetails>
+                        </Accordion>
+                      </ListItem>
+                    ) : (
+                      <ListItem key={page.name} disablePadding onClick={handleCloseNavMenu}>
+                        <ListItemButton component={Link} href={page.url}>
+                          <ListItemText primary={page.name} />
+                        </ListItemButton>
+                      </ListItem>
+                    )
                   ))}
                 </List>
               </Box>
@@ -132,7 +178,7 @@ function NavBar(props) {
               variant="h5"
               noWrap
               component={Link}
-              href="/molecup"
+              href={`/${currentTournament?.attributes?.slug || ""}`}
               sx={{
                 mr: 2,
                 display: { xs: 'flex', md: 'none' },
@@ -142,9 +188,10 @@ function NavBar(props) {
                 letterSpacing: '.3rem',
                 color: 'inherit',
                 textDecoration: 'none',
+                textTransform: 'uppercase',
               }}
             >
-              MOLE
+              {currentTournament?.attributes?.name || "LCS"}
             </Typography>
 
             {/*desktop title*/}
@@ -153,7 +200,7 @@ function NavBar(props) {
               variant="h6"
               noWrap
               component={Link}
-              href="/molecup"
+              href={`/${currentTournament?.attributes?.slug || ""}`}
               sx={{
                 mr: 2,
                 display: { xs: 'none', md: 'flex' },
@@ -162,24 +209,71 @@ function NavBar(props) {
                 letterSpacing: '.3rem',
                 color: 'inherit',
                 textDecoration: 'none',
+                textTransform: 'uppercase',
               }}
             >
-              MOLE
+              {currentTournament?.attributes?.name || "LCS"}
             </Typography>
 
             {/*desktop menu*/}
             <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-              {pages.map((page) => (
+            {pages.map((page) => (
+              page.children ? (
+                <Box 
+                  key={page.name} sx={{ position: 'relative', display: 'block' }}
+                  onMouseEnter={(event) => setAnchorElT(event.currentTarget)} // Open dropdown on hover
+                  onMouseLeave={() => setAnchorElT(null)} // Close dropdown when mouse leaves
+                >
                   <Button
-                    key={page.name}
-                    component={Link}
-                    href={page.url}
-                    onClick={handleCloseNavMenu}
-                    sx={{ my: 2, color: 'white', display: 'block' }}
+                    sx={{ my: 2, color: 'white', display: 'flex', alignItems: 'center',backgroundColor: Boolean(anchorElT) ? 'rgba(255, 255, 255, 0.1)' : 'transparent',
+                    }}
+                    onClick={(event) => setAnchorElT(anchorElT ? null : event.currentTarget)} 
+                    aria-expanded={Boolean(anchorElT)}
                   >
-                      {page.name}
+                    {page.name}
+                    <ExpandMoreIcon sx={{ ml: 1 }} />
                   </Button>
-              ))}
+                  <Menu
+                    anchorEl={anchorElT}
+                    open={Boolean(anchorElT)}
+                    onClose={() => setAnchorElT(null)}
+                    MenuListProps={{
+                      onMouseLeave: () => setAnchorElT(null), // Close dropdown when mouse leaves the menu
+                    }}
+                    sx={{ mt: "45px" }}
+                    anchorOrigin={{
+                      vertical: 'top',
+                      horizontal: 'right',
+                    }}
+                    keepMounted
+                    transformOrigin={{
+                      vertical: 'top',
+                      horizontal: 'right',
+                    }}
+                  >
+                    {page.children.map((child) => (
+                      <MenuItem
+                        key={child.name}
+                        component={Link}
+                        href={child.url}
+                        onClick={handleCloseTMenu}
+                      >
+                        {child.name}
+                      </MenuItem>
+                    ))}
+                  </Menu>
+                </Box>
+              ) : (
+                <Button
+                  key={page.name}
+                  component={Link}
+                  href={page.url}
+                  sx={{ my: 2, color: 'white', display: 'block' }}
+                >
+                  {page.name}
+                </Button>
+              )
+            ))}
             </Box>
             
             {/*profile settings*/}
