@@ -25,7 +25,7 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import { NextLinkComposed } from '@/components/Link';
 import Link from "next/link";
-import MoleIcon from '@/components/moleIcon';
+import LcsIcon from '@/components/lcsIcon';
 import useScrollTrigger from '@mui/material/useScrollTrigger';
 import Slide from '@mui/material/Slide';
 import { useParams } from 'next/navigation'
@@ -173,7 +173,7 @@ function NavBar(props) {
             </SwipeableDrawer>
 
             {/*mobile title*/}
-            <MoleIcon fontSize='large'  sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
+            <LcsIcon fontSize='large'  sx={{ display: { xs: 'flex', md: 'none' }, mr: 1, ml:-6 }} />
             <Typography
               variant="h5"
               noWrap
@@ -195,7 +195,7 @@ function NavBar(props) {
             </Typography>
 
             {/*desktop title*/}
-            <MoleIcon fontSize='large' sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
+            <LcsIcon fontSize='large' sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
             <Typography
               variant="h6"
               noWrap
