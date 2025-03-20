@@ -4,7 +4,7 @@ import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 import { GoalIcon, YellowCardIcon, RedCardIcon } from '@/components/eventIcons';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
-import { teamInterface } from '@/lib/commonInterfaces';
+import { matchEventsInterface, teamInterface } from '@/lib/commonInterfaces';
 import { stableImg } from '@/lib/outImg';
 import Avatar from '@mui/material/Avatar';
 import Stack from '@mui/material/Stack';
@@ -20,13 +20,13 @@ export interface matchTimelineInterface{
     cardType?: "yellow" | "red"
 }
 
-export default function MatchTimeline({matchEvents, teams, hideMinutes=false} : {matchEvents : matchTimelineInterface[], teams: [teamInterface, teamInterface], hideMinutes?: boolean}){
-    const eventType = (event: matchTimelineInterface) : eventType => {
+export default function MatchTimeline({matchEvents, teams, hideMinutes=false} : {matchEvents : matchEventsInterface[], teams: [teamInterface, teamInterface], hideMinutes?: boolean}){
+    const eventType = (event: matchEventsInterface) : eventType => {
         if(event.__component === "match-event.goal"){
             return("goal");
         }
         if(event.__component === "match-event.card"){
-            if(event.cardType === "red"){
+            if(event.card_type === "red"){
                 return("redCard");
             }
             return("yellowCard");
@@ -39,7 +39,7 @@ export default function MatchTimeline({matchEvents, teams, hideMinutes=false} : 
                 <EventElement type="dot"/>
                 {matchEvents.filter((event) => event.minute > 0).sort((x1, x2) => x1.minute-x2.minute).map((event, idx) => 
                     <EventElement type={eventType(event)} key={idx}>
-                        <EventLabel teams={teams} label={hideMinutes ? "" : event.minute + "'"} teamIdx={event.team==="teamA" ? 0 : 1}/>
+                        <EventLabel teams={teams} label={hideMinutes ? "" : event.minute + "'"} teamIdx={event.team==="home_team" ? 0 : 1}/>
                     </EventElement>
                 )}
                 <EventElement type="dot"/>
@@ -49,7 +49,7 @@ export default function MatchTimeline({matchEvents, teams, hideMinutes=false} : 
 }
 
 function EventLabel({teams, teamIdx, label}: {teams:[teamInterface, teamInterface], teamIdx:0|1,  label:string}){
-    const img = stableImg(teams[teamIdx].logo, "small");
+    const img = stableImg(teams[teamIdx].logo?.data?.attributes, "small");
     const colors = ["primary.light", "secondary.light"];
     return(
         <Paper sx={{bgcolor: colors[teamIdx], paddingBottom: "5px"}}>

@@ -9,6 +9,7 @@ import { useCookies } from 'react-cookie'
 export default function CookiesSnackbar(){
     const [cookies, setCookie, removeCookie] = useCookies(['cookies-accepted'])
     const [open, setOpen] = useState(!cookies["cookies-accepted"]);
+    //const [open, setOpen] = useState(true);
 
     const handleClose = (event: React.SyntheticEvent | Event, reason?: string) => {
         if (reason === 'clickaway') {

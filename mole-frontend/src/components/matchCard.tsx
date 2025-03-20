@@ -33,8 +33,8 @@ export default function MatchCard(props : matchCardProps) {
   const blurDataUrl = props.img?.placeholder;
   return (
     <Card sx={{
-      MaxWidth: 200,
-      minWidth: 200,
+      MaxWidth: 210,
+      minWidth: 210,
       transition: "transform 0.15s ease-in-out",
       "&:hover": { transform: "scale3d(0.98, 0.98, 1)" }
     }}

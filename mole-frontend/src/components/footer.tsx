@@ -27,7 +27,7 @@ export default function Footer() {
               Chi siamo
             </Typography>
             <Typography variant="body2" color="secondary.text">
-            {"Mole Cup è un'associazione nata nel 2017 con l'obbiettivo di creare un torneo di calcio innovativo e coinvolgente tra le scuole superiori di Torino"}
+            {"European Students League è una società con l'obbiettivo di creare un torneo di calcio innovativo e coinvolgente tra le scuole superiori di tutta Italia"}
             </Typography>
           </Grid>
           <Grid item xs={12} sm={4}>
@@ -38,7 +38,7 @@ export default function Footer() {
               Via Don Giovanni Minzoni 14, Torino, 10121
             </Typography>
             <Typography variant="body2" color="secondary.text">
-              Email: molecup@gmail.com
+              Email: amministrazione@estudentsleague.com
             </Typography>
             <Typography variant="body2" color="secondary.text" sx={{display: "none"}}>
               Phone: +1 234 567 8901
@@ -65,8 +65,8 @@ export default function Footer() {
         <Box mt={5}>
           <Typography variant="body2" color="text.secondary" align="center">
             {"Copyright © "}
-            <Link color="inherit" href="https://molecup.com/">
-              Mole cup
+            <Link color="inherit" href={process.env.NEXT_PUBLIC_URL}>
+              European Students League
             </Link>{" "}
             {new Date().getFullYear()}
             {"."}
