@@ -24,7 +24,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const teamPages : MetadataRoute.Sitemap = sitemapData.flatMap((tournament) => {
         const tSlug = tournament.attributes.slug;
 
-        return tournament.attributes.main_edition.data.attributes.team_editions?.data.map((teamEdition) => ({
+        return tournament.attributes.main_edition.data.attributes.team_editions?.data
+        .filter((teamEdition) => teamEdition.attributes.team.data !== null)
+        .map((teamEdition) => ({
             url: `${urlBase}/${tSlug}/team/${teamEdition.attributes.team.data.attributes.slug}`,
             lastModified: teamEdition.attributes.updatedAt,
             changeFrequency: 'weekly',
