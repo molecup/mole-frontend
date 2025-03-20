@@ -10,6 +10,7 @@ const nextConfig = {
     images: {
       unoptimized: process.env.UNOPTIMIZE_IMAGES ? Boolean(process.env.UNOPTIMIZE_IMAGES) : false,
       formats: ['image/webp'],
+      minimumCacheTTL: 2678400, // 31 days
       remotePatterns: [
         {
           protocol: process.env.MEDIA_PROTOCOL,
