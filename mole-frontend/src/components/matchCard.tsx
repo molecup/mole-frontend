@@ -33,8 +33,8 @@ export default function MatchCard(props : matchCardProps) {
   const blurDataUrl = props.img?.placeholder;
   return (
     <Card sx={{
-      MaxWidth: 210,
-      minWidth: 210,
+      MaxWidth: 215,
+      minWidth: 215,
       transition: "transform 0.15s ease-in-out",
       "&:hover": { transform: "scale3d(0.98, 0.98, 1)" }
     }}
@@ -43,11 +43,11 @@ export default function MatchCard(props : matchCardProps) {
     >
       <CardActionArea LinkComponent={Link} href={props.url}>
         <CardMedia
-          sx={{ height: "100px", backgroundColor: "rgba(0, 0, 0, 0.6)" }}
+          sx={{ height: "130px", backgroundColor: "rgba(0, 0, 0, 0.6)" }}
           title="immagine partita"
         >
           <div style={{ position: 'relative', width: '100%', height: '100%', opacity: 0.9 }}>
-            <Image alt="Image placeholder" src={imgUrl} fill={true} blurDataURL={blurDataUrl} placeholder="blur" style={{ objectFit: "cover" }} sizes="(max-width: 768px) 50vw, (max-width: 1200px) 25vw, 12vw" />
+            <Image alt="Image placeholder" src={imgUrl} fill={true} blurDataURL={blurDataUrl} placeholder="blur" style={{ objectFit: "cover", objectPosition: "50% 14%" }} sizes="(max-width: 768px) 50vw, (max-width: 1200px) 25vw, 12vw" />
           </div>
         </CardMedia>
         <CardContent>
