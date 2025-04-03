@@ -4,9 +4,10 @@ export interface imgInterface{
     width : number,
     height : number,
     mime: string,
+    ext: string,
 }
 
-export interface imgFormatsInterface{
+/*export interface imgFormatsInterface{
     formats: {
         large? : imgInterface,
         medium? : imgInterface,
@@ -18,9 +19,31 @@ export interface imgFormatsInterface{
     width: number,
     height: number,
     placeholder?: string
+} */
+
+export type imgFormatsInterface = imgCommonInterface & (imgSvgInterface | imgGenInterface);
+
+export interface imgSvgInterface extends imgInterface{
+    ext: ".svg",
 }
 
+export interface imgGenInterface extends imgInterface{
+    ext: ".jpg" | ".jpeg" | ".png" | ".webp",
+    formats: {
+        large? : imgInterface,
+        medium? : imgInterface,
+        small? : imgInterface,
+        thumbnail : imgInterface,
+    },
+}
 
+export interface imgCommonInterface{
+    caption : string | null,
+    alternativeText: string | null,
+    width: number,
+    height: number,
+    placeholder?: string
+}
 
 export type teamRankInterface  = {
     id:number,
@@ -148,6 +171,7 @@ export interface groupPhase{
     attributes: {
         name: string,
         slug: string,
+        hide_table: boolean,
         teams?: teamRankInterface[],
         matches?: {
             data: matchShortInterface[]

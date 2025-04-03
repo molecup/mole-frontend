@@ -25,6 +25,7 @@ import type { Metadata, ResolvingMetadata } from 'next'
 import { commonKeyWords, commonOpenGraph } from '@/app/layout';
 import SportsTeamJsonLd from '@/components/jsonLd/sportsTeam';
 import { getTournamentName } from '@/app/[tSlug]/layout';
+import scoreText from '@/lib/scoreText';
 
 const showCircularStats = false;
 
@@ -98,7 +99,7 @@ export default async function TeamPage({params} : {params : {slug : string, tSlu
     const layoutProps = {
         tSlug: params.tSlug,
         teamData: teamData.attributes,
-        teamLeagues: teamGroups.map((group) : {teams: teamRankInterface[], name: string, type: "group" | "elimination"} => {return {teams: group.attributes.teams || [], name: group.attributes.name, type: 'group'}}),
+        teamLeagues: teamGroups.map((group) : {teams: teamRankInterface[], name: string, type: "group" | "elimination", hide_table:boolean} => {return {teams: group.attributes.teams || [], name: group.attributes.name, type: 'group', hide_table: group.attributes.hide_table}}),
         articles: articles,
         teamMatches: teamMatches.matches_a.data.concat(teamMatches.matches_h.data).sort((a, b) => a.attributes.event_info.datetime.localeCompare(b.attributes.event_info.datetime)),
     }
@@ -124,7 +125,7 @@ export default async function TeamPage({params} : {params : {slug : string, tSlu
 
 interface layoutInterface {
     teamData: teamInterface, 
-    teamLeagues: {teams: teamRankInterface[], name: string, type: "group" | "elimination"}[],
+    teamLeagues: {teams: teamRankInterface[], name: string, type: "group" | "elimination", hide_table:boolean}[],
     articles: any, 
     teamMatches: matchShortInterface[],
     sx: any,
@@ -158,7 +159,8 @@ function SmallLayout({teamData, teamLeagues, articles, teamMatches, sx, tSlug} :
                         date={date}
                         time={time}
                         league={match.attributes.group_phase?.data?.attributes.name || match.attributes.knock_out_phase?.data?.attributes.name || ""}  
-                        scoreText={match.attributes.event_info.status === "finished" ? match.attributes.home_score + " - " + match.attributes.away_score : time}
+                        //scoreText={match.attributes.event_info.status === "finished" ? match.attributes.home_score + " - " + match.attributes.away_score : time}
+                        scoreText={scoreText(match)}
                     />
                 );
             }
@@ -201,7 +203,8 @@ function BigLayout({teamData, teamLeagues, articles, teamMatches, sx, tSlug} : l
                                 date={date}
                                 time={time}
                                 league={(match.attributes.group_phase?.data?.attributes.name || match.attributes.knock_out_phase?.data?.attributes.name) || ""}  
-                                scoreText={match.attributes.event_info.status === "finished" ? match.attributes.home_score + " - " + match.attributes.away_score : time}
+                                //scoreText={match.attributes.event_info.status === "finished" ? match.attributes.home_score + " - " + match.attributes.away_score : time}
+                                scoreText={scoreText(match)}
                             />
                         );
                     }

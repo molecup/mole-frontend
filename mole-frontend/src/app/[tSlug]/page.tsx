@@ -21,6 +21,7 @@ import { commonKeyWords, commonOpenGraph } from '../layout';
 import SportsOrganizationJsonLd from '@/components/jsonLd/sportsOrganization';
 import { notFound } from 'next/navigation';
 import { stableImg } from '@/lib/outImg';
+import scoreText from '@/lib/scoreText';
 
 export async function generateMetadata({params} : {params : {tSlug: string}}, parent: ResolvingMetadata): Promise<Metadata> {
   const tournamentData = await getTournamentData(params.tSlug);
@@ -214,7 +215,7 @@ function StandingGrid(props: any){
 }
 
 function StandingTableSection({standingTables, tSlug} : {standingTables : groupPhase[], tSlug: string}){
-  const tables = standingTables.map((group) : {teams: teamRankInterface[], name: string, type: "group" | "elimination"} => {return {teams: group.attributes.teams || [], name: group.attributes.name, type: 'group'}});
+  const tables = standingTables.map((group) : {teams: teamRankInterface[], name: string, type: "group" | "elimination", hide_table:boolean} => {return {teams: group.attributes.teams || [], name: group.attributes.name, type: 'group', hide_table:group.attributes.hide_table}});
   return(
     <Grid container sx={{...marginBottom, padding:"10px"}} spacing={1}>
       <StandingTables teamLeagues={tables} teamUrlRoot={`/${tSlug}/team/`} />
@@ -242,7 +243,8 @@ function MatchSliderSection({matches, teams, tSlug} : {matches: (matchShortInter
               date={date}
               time={time}
               league={match.league}
-              scoreText={match.attributes.event_info?.status === "finished" ? match.attributes.home_score + " - " + match.attributes.away_score : time}
+              //scoreText={match.attributes.event_info?.status === "finished" ? match.attributes.home_score + " - " + match.attributes.away_score : time}
+              scoreText={scoreText(match)}
             />
           );
         }

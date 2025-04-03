@@ -12,7 +12,7 @@ import { groupPhase, knockOutPhase, rawMatchLongInterface, rawPlayerListInterfac
 import { stableImg } from '@/lib/outImg';
 import publicFetch from '@/lib/publicFetch';
 import { notFound } from 'next/navigation'
-import dateTimeText from '@/lib/dateTimeText';
+import dateTimeText, { dateTimeTextDynamic } from '@/lib/dateTimeText';
 import Grid from '@mui/material/Unstable_Grid2';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -28,6 +28,7 @@ import { getTournamentName } from '@/app/[tSlug]/layout';
 
 import defaultImg from "@/public/static/match_placeholder.webp";
 import SportsEventJsonLd from '@/components/jsonLd/sportsEvent';
+import scoreText from '@/lib/scoreText';
 
 
 async function getMatchData(id : number) : Promise<rawMatchLongInterface>{
@@ -93,7 +94,7 @@ export default async function MatchPage({params} : {params : {slug : number, tSl
     const standingTable = matchInfo.data.attributes.group_phase;
     const treeTable = matchInfo.data.attributes.knock_out_phase;
     const [playerListA, playerListB] = await Promise.all([getPlayerList(matchInfo.data.attributes.home_team?.data.id), getPlayerList(matchInfo.data.attributes.home_team?.data.id)]);
-    const [date, time] = dateTimeText(new Date(matchInfo.data.attributes.event_info.datetime));
+    const datetime = new Date(matchInfo.data.attributes.event_info.datetime);
     const status = matchInfo.data.attributes.event_info.status === "finished" || matchInfo.data.attributes.event_info.status === "live";
     const mapEvents = generatePlayerMapEvent(matchInfo.data.attributes.match_events);
     const coverUrl = stableImg(matchInfo.data.attributes.cover?.data?.attributes, "large", defaultImg);
@@ -103,8 +104,7 @@ export default async function MatchPage({params} : {params : {slug : number, tSl
         standingTable : standingTable?.data,
         treeTable: treeTable?.data,
         status : status,
-        date : date,
-        time : time,
+        datetime : datetime,
         mapEvents : mapEvents,
         tSlug : params.tSlug
     }
@@ -114,9 +114,9 @@ export default async function MatchPage({params} : {params : {slug : number, tSl
                 slug={params.slug.toString()}
                 matchInfo={matchInfo}
                 img={coverUrl}
-                dateString={date}
+                dateString={dateTimeText(datetime)[0]}
             />
-            <HeroHeader sx={{minHeight:"300px"}} src={coverUrl} blurDataURL={matchInfo.data.attributes.cover?.data?.attributes.placeholder} blur ></HeroHeader>
+            <HeroHeader sx={{minHeight:"300px"}} imgObjectPosition="50% 16%" src={coverUrl} blurDataURL={matchInfo.data.attributes.cover?.data?.attributes.placeholder} blur ></HeroHeader>
             <SmallLayout
                 sx={{display: { xs: 'block', md: 'none' }}}
                 {...layoutProps}
@@ -136,22 +136,22 @@ interface layoutInterface {
     standingTable?: groupPhase | null, 
     treeTable?: knockOutPhase | null
     status:boolean, 
-    date:string, 
-    time:string,
+    datetime: Date,
     mapEvents: [mapEventType, mapEventType],
     tSlug: string,
 }
 
-function SmallLayout({playerList, matchInfo, standingTable, treeTable, status, date, time, mapEvents, sx, tSlug} : layoutInterface){
+function SmallLayout({playerList, matchInfo, standingTable, treeTable, status, datetime, mapEvents, sx, tSlug} : layoutInterface){
     return(
         <Box sx={sx}>
         <MatchHeader 
             teamUrlRoot= {`/${tSlug}/team/`}
             teamA = {matchInfo.data.attributes.home_team?.data.attributes.team.data.attributes || {} as teamInterface}
             teamB = {matchInfo.data.attributes.away_team?.data.attributes.team.data.attributes || {} as teamInterface}
-            scoreText = {status ? matchInfo.data.attributes.home_score + " - " + matchInfo.data.attributes.away_score : date}
+            //scoreText = {status ? matchInfo.data.attributes.home_score + " - " + matchInfo.data.attributes.away_score : date}
+            scoreText= {scoreText(matchInfo.data)}
             league = {standingTable?.attributes?.name || treeTable?.attributes.name || ""}
-            date = {status? date : time}
+            date = {status? dateTimeText(datetime)[0] : dateTimeTextDynamic(datetime, true)}
             sx={{margin: "10px"}}
             link= {matchInfo.data.attributes.event_info.event_registration ? matchInfo.data.attributes.event_info.registration_link : undefined}
         />
@@ -162,7 +162,7 @@ function SmallLayout({playerList, matchInfo, standingTable, treeTable, status, d
         >   
             <PlayerList playerList={playerList[0]} mapEvent={mapEvents[0]}/>
             <PlayerList playerList={playerList[1]} mapEvent={mapEvents[1]}/>
-            {standingTable && <StandingTable 
+            {standingTable && !standingTable.attributes.hide_table && <StandingTable 
                 title={standingTable.attributes.name} 
                 teamRanks={standingTable.attributes.teams}
                 type={standingTable.attributes ? "group" : "elimination"}
@@ -175,7 +175,7 @@ function SmallLayout({playerList, matchInfo, standingTable, treeTable, status, d
     )
 }
 
-function BigLayout({playerList, matchInfo, standingTable, treeTable, status, date, time, mapEvents, sx, tSlug} : layoutInterface){
+function BigLayout({playerList, matchInfo, standingTable, treeTable, status, datetime, mapEvents, sx, tSlug} : layoutInterface){
     return(
         <Box sx={sx}> 
         <Container>
@@ -183,9 +183,10 @@ function BigLayout({playerList, matchInfo, standingTable, treeTable, status, dat
                 teamUrlRoot= {`/${tSlug}/team/`}
                 teamA = {matchInfo.data.attributes.home_team?.data.attributes.team.data.attributes || {} as teamInterface}
                 teamB = {matchInfo.data.attributes.away_team?.data.attributes.team.data.attributes || {} as teamInterface}
-                scoreText = {status ? matchInfo.data.attributes.home_score + " - " + matchInfo.data.attributes.away_score : date}
+                //scoreText = {status ? matchInfo.data.attributes.home_score + " - " + matchInfo.data.attributes.away_score : date}
+                scoreText= {scoreText(matchInfo.data)}
                 league = {standingTable?.attributes?.name || treeTable?.attributes.name || ""}
-                date = {status? date : time}
+                date = {status? dateTimeText(datetime)[0] : dateTimeTextDynamic(datetime, true)}
                 sx={{marginTop: "10px"}}
                 link= {matchInfo.data.attributes.event_info.event_registration ? matchInfo.data.attributes.event_info.registration_link : undefined}
             />
@@ -256,7 +257,7 @@ function StandingTableBig({standingTable, treeTable, tSlug} : {standingTable?: g
     return(
         <>
         <Grid md={4}>
-            {standingTable && 
+            {standingTable && !standingTable.attributes.hide_table && 
                 <StandingTable 
                 teamUrlRoot={`/${tSlug}/team/`}
                 title={standingTable?.attributes?.name || treeTable?.attributes.name || ""} 
@@ -310,20 +311,20 @@ function MatchHeader(props : matchHeaderInterface & {sx?: any}) {
 
     return (
         <Paper component="header" sx={{ padding: "10px", ...props.sx }}>
-            <Stack sx={{ alignItems: 'center' }}>
-                <Stack direction="row" sx={{ justifyContent: "center", alignItems: "center" }} spacing={2}>
-                    <Avatar sx={{ width: 57, height: 57, bgcolor:"inherit" }} href={teamALink} component={Link} variant="rounded" >
+            <Stack sx={{ alignItems: 'center' }} spacing={1}>
+                <Stack direction="row" sx={{ justifyContent: "center", alignItems: "center" }} spacing={{xs: 0.5, md:3}}>
+                    <Avatar sx={{ width: 57, height: 57, bgcolor:"inherit", marginRight:"-60px" }} href={teamALink} component={Link} variant="rounded" >
                         <Image alt={`${props.teamA.name} logo`} src={imgA}  width="57" height="57" style={{objectFit: "contain"}} />
                     </Avatar>
                     <Typography variant="h2" color="primary" sx={capitalizeStyle} href={teamALink} component={Link}>{props.teamA.short}</Typography>
-                    <Typography variant="h3">{props.scoreText}</Typography>
+                    <Typography variant="h3" minWidth={70} align='center'>{props.scoreText}</Typography>
                     <Typography variant="h2" color="secondary" sx={capitalizeStyle} href={teamBLink} component={Link}>{props.teamB.short}</Typography>
-                    <Avatar sx={{ width: 57, height: 57, bgcolor:"inherit" }} href={teamBLink} component={Link} variant="rounded" >
+                    <Avatar sx={{ width: 57, height: 57, bgcolor:"inherit", marginLeft:"-60px" }} href={teamBLink} component={Link} variant="rounded" >
                         <Image alt={`${props.teamB.name} logo`} src={imgB}  width="57" height="57" style={{objectFit: "contain"}} />
                     </Avatar>
                 </Stack>
-                <Typography variant="overline" sx={{ textAlign: "center" }}>{props.league}</Typography>
-                <Typography variant="h5" sx={{ textAlign: "center", ...capitalizeStyle }} gutterBottom>{props.date}</Typography>
+                <Typography variant="overline" align="center">{props.league}</Typography>
+                <Typography variant="h5" align="center" sx={{ ...capitalizeStyle }} gutterBottom>{props.date}</Typography>
                 {props.link && <Button variant="contained" sx={{ width: '60%' }} href={props.link}>Registrati</Button>}
             </Stack>
         </Paper>
