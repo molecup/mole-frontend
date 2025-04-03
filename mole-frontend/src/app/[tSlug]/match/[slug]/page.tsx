@@ -162,7 +162,7 @@ function SmallLayout({playerList, matchInfo, standingTable, treeTable, status, d
         >   
             <PlayerList playerList={playerList[0]} mapEvent={mapEvents[0]}/>
             <PlayerList playerList={playerList[1]} mapEvent={mapEvents[1]}/>
-            {standingTable && <StandingTable 
+            {standingTable && !standingTable.attributes.hide_table && <StandingTable 
                 title={standingTable.attributes.name} 
                 teamRanks={standingTable.attributes.teams}
                 type={standingTable.attributes ? "group" : "elimination"}
@@ -256,7 +256,7 @@ function StandingTableBig({standingTable, treeTable, tSlug} : {standingTable?: g
     return(
         <>
         <Grid md={4}>
-            {standingTable && 
+            {standingTable && !standingTable.attributes.hide_table && 
                 <StandingTable 
                 teamUrlRoot={`/${tSlug}/team/`}
                 title={standingTable?.attributes?.name || treeTable?.attributes.name || ""} 

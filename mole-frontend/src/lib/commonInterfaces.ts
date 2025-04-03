@@ -171,6 +171,7 @@ export interface groupPhase{
     attributes: {
         name: string,
         slug: string,
+        hide_table: boolean,
         teams?: teamRankInterface[],
         matches?: {
             data: matchShortInterface[]

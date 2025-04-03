@@ -98,7 +98,7 @@ export default async function TeamPage({params} : {params : {slug : string, tSlu
     const layoutProps = {
         tSlug: params.tSlug,
         teamData: teamData.attributes,
-        teamLeagues: teamGroups.map((group) : {teams: teamRankInterface[], name: string, type: "group" | "elimination"} => {return {teams: group.attributes.teams || [], name: group.attributes.name, type: 'group'}}),
+        teamLeagues: teamGroups.map((group) : {teams: teamRankInterface[], name: string, type: "group" | "elimination", hide_table:boolean} => {return {teams: group.attributes.teams || [], name: group.attributes.name, type: 'group', hide_table: group.attributes.hide_table}}),
         articles: articles,
         teamMatches: teamMatches.matches_a.data.concat(teamMatches.matches_h.data).sort((a, b) => a.attributes.event_info.datetime.localeCompare(b.attributes.event_info.datetime)),
     }
@@ -124,7 +124,7 @@ export default async function TeamPage({params} : {params : {slug : string, tSlu
 
 interface layoutInterface {
     teamData: teamInterface, 
-    teamLeagues: {teams: teamRankInterface[], name: string, type: "group" | "elimination"}[],
+    teamLeagues: {teams: teamRankInterface[], name: string, type: "group" | "elimination", hide_table:boolean}[],
     articles: any, 
     teamMatches: matchShortInterface[],
     sx: any,

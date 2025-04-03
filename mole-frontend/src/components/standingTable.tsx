@@ -105,7 +105,7 @@ function TableTree({title, treeImg} : {title:string, treeImg?: imgFormatsInterfa
     )
 }
 
-export function StandingTables({teamLeagues: standings, teamUrlRoot}: { teamUrlRoot: string, teamLeagues: {teams : teamRankInterface[], name : string, type:"group" | "elimination", treeTable?: imgFormatsInterface}[]}){
+export function StandingTables({teamLeagues: standings, teamUrlRoot}: { teamUrlRoot: string, teamLeagues: {teams : teamRankInterface[], name : string, type:"group" | "elimination", treeTable?: imgFormatsInterface, hide_table:boolean}[]}){
     let finalPhaseUsed = false
     if(!standings || !Array.isArray(standings)){
         return (<Typography>Nessun girone trovato</Typography>)
@@ -122,7 +122,7 @@ export function StandingTables({teamLeagues: standings, teamUrlRoot}: { teamUrlR
                 finalPhaseUsed = true
             }
             return(
-                showTable && <StandingTable 
+                showTable && !table.hide_table && <StandingTable 
                 teamUrlRoot={teamUrlRoot}
                 key = {i}
                 title = {title}
