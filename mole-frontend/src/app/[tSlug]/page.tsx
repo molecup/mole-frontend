@@ -22,6 +22,7 @@ import SportsOrganizationJsonLd from '@/components/jsonLd/sportsOrganization';
 import { notFound } from 'next/navigation';
 import { stableImg } from '@/lib/outImg';
 import { group } from 'console';
+import scoreText from '@/lib/scoreText';
 
 export async function generateMetadata({params} : {params : {tSlug: string}}, parent: ResolvingMetadata): Promise<Metadata> {
   const tournamentData = await getTournamentData(params.tSlug);
@@ -243,7 +244,8 @@ function MatchSliderSection({matches, teams, tSlug} : {matches: (matchShortInter
               date={date}
               time={time}
               league={match.league}
-              scoreText={match.attributes.event_info?.status === "finished" ? match.attributes.home_score + " - " + match.attributes.away_score : time}
+              //scoreText={match.attributes.event_info?.status === "finished" ? match.attributes.home_score + " - " + match.attributes.away_score : time}
+              scoreText={scoreText(match)}
             />
           );
         }

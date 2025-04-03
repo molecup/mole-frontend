@@ -25,6 +25,7 @@ import type { Metadata, ResolvingMetadata } from 'next'
 import { commonKeyWords, commonOpenGraph } from '@/app/layout';
 import SportsTeamJsonLd from '@/components/jsonLd/sportsTeam';
 import { getTournamentName } from '@/app/[tSlug]/layout';
+import scoreText from '@/lib/scoreText';
 
 const showCircularStats = false;
 
@@ -158,7 +159,8 @@ function SmallLayout({teamData, teamLeagues, articles, teamMatches, sx, tSlug} :
                         date={date}
                         time={time}
                         league={match.attributes.group_phase?.data?.attributes.name || match.attributes.knock_out_phase?.data?.attributes.name || ""}  
-                        scoreText={match.attributes.event_info.status === "finished" ? match.attributes.home_score + " - " + match.attributes.away_score : time}
+                        //scoreText={match.attributes.event_info.status === "finished" ? match.attributes.home_score + " - " + match.attributes.away_score : time}
+                        scoreText={scoreText(match)}
                     />
                 );
             }
@@ -201,7 +203,8 @@ function BigLayout({teamData, teamLeagues, articles, teamMatches, sx, tSlug} : l
                                 date={date}
                                 time={time}
                                 league={(match.attributes.group_phase?.data?.attributes.name || match.attributes.knock_out_phase?.data?.attributes.name) || ""}  
-                                scoreText={match.attributes.event_info.status === "finished" ? match.attributes.home_score + " - " + match.attributes.away_score : time}
+                                //scoreText={match.attributes.event_info.status === "finished" ? match.attributes.home_score + " - " + match.attributes.away_score : time}
+                                scoreText={scoreText(match)}
                             />
                         );
                     }

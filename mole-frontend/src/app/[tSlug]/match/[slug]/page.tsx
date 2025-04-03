@@ -28,6 +28,7 @@ import { getTournamentName } from '@/app/[tSlug]/layout';
 
 import defaultImg from "@/public/static/match_placeholder.webp";
 import SportsEventJsonLd from '@/components/jsonLd/sportsEvent';
+import scoreText from '@/lib/scoreText';
 
 
 async function getMatchData(id : number) : Promise<rawMatchLongInterface>{
@@ -149,7 +150,8 @@ function SmallLayout({playerList, matchInfo, standingTable, treeTable, status, d
             teamUrlRoot= {`/${tSlug}/team/`}
             teamA = {matchInfo.data.attributes.home_team?.data.attributes.team.data.attributes || {} as teamInterface}
             teamB = {matchInfo.data.attributes.away_team?.data.attributes.team.data.attributes || {} as teamInterface}
-            scoreText = {status ? matchInfo.data.attributes.home_score + " - " + matchInfo.data.attributes.away_score : date}
+            //scoreText = {status ? matchInfo.data.attributes.home_score + " - " + matchInfo.data.attributes.away_score : date}
+            scoreText= {scoreText(matchInfo.data)}
             league = {standingTable?.attributes?.name || treeTable?.attributes.name || ""}
             date = {status? date : time}
             sx={{margin: "10px"}}
@@ -183,7 +185,8 @@ function BigLayout({playerList, matchInfo, standingTable, treeTable, status, dat
                 teamUrlRoot= {`/${tSlug}/team/`}
                 teamA = {matchInfo.data.attributes.home_team?.data.attributes.team.data.attributes || {} as teamInterface}
                 teamB = {matchInfo.data.attributes.away_team?.data.attributes.team.data.attributes || {} as teamInterface}
-                scoreText = {status ? matchInfo.data.attributes.home_score + " - " + matchInfo.data.attributes.away_score : date}
+                //scoreText = {status ? matchInfo.data.attributes.home_score + " - " + matchInfo.data.attributes.away_score : date}
+                scoreText= {scoreText(matchInfo.data)}
                 league = {standingTable?.attributes?.name || treeTable?.attributes.name || ""}
                 date = {status? date : time}
                 sx={{marginTop: "10px"}}
