@@ -12,7 +12,7 @@ import { groupPhase, knockOutPhase, rawMatchLongInterface, rawPlayerListInterfac
 import { stableImg } from '@/lib/outImg';
 import publicFetch from '@/lib/publicFetch';
 import { notFound } from 'next/navigation'
-import dateTimeText from '@/lib/dateTimeText';
+import dateTimeText, { dateTimeTextDynamic } from '@/lib/dateTimeText';
 import Grid from '@mui/material/Unstable_Grid2';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -94,7 +94,7 @@ export default async function MatchPage({params} : {params : {slug : number, tSl
     const standingTable = matchInfo.data.attributes.group_phase;
     const treeTable = matchInfo.data.attributes.knock_out_phase;
     const [playerListA, playerListB] = await Promise.all([getPlayerList(matchInfo.data.attributes.home_team?.data.id), getPlayerList(matchInfo.data.attributes.home_team?.data.id)]);
-    const [date, time] = dateTimeText(new Date(matchInfo.data.attributes.event_info.datetime));
+    const datetime = new Date(matchInfo.data.attributes.event_info.datetime);
     const status = matchInfo.data.attributes.event_info.status === "finished" || matchInfo.data.attributes.event_info.status === "live";
     const mapEvents = generatePlayerMapEvent(matchInfo.data.attributes.match_events);
     const coverUrl = stableImg(matchInfo.data.attributes.cover?.data?.attributes, "large", defaultImg);
@@ -104,8 +104,7 @@ export default async function MatchPage({params} : {params : {slug : number, tSl
         standingTable : standingTable?.data,
         treeTable: treeTable?.data,
         status : status,
-        date : date,
-        time : time,
+        datetime : datetime,
         mapEvents : mapEvents,
         tSlug : params.tSlug
     }
@@ -115,7 +114,7 @@ export default async function MatchPage({params} : {params : {slug : number, tSl
                 slug={params.slug.toString()}
                 matchInfo={matchInfo}
                 img={coverUrl}
-                dateString={date}
+                dateString={dateTimeText(datetime)[0]}
             />
             <HeroHeader sx={{minHeight:"300px"}} imgObjectPosition="50% 16%" src={coverUrl} blurDataURL={matchInfo.data.attributes.cover?.data?.attributes.placeholder} blur ></HeroHeader>
             <SmallLayout
@@ -137,13 +136,12 @@ interface layoutInterface {
     standingTable?: groupPhase | null, 
     treeTable?: knockOutPhase | null
     status:boolean, 
-    date:string, 
-    time:string,
+    datetime: Date,
     mapEvents: [mapEventType, mapEventType],
     tSlug: string,
 }
 
-function SmallLayout({playerList, matchInfo, standingTable, treeTable, status, date, time, mapEvents, sx, tSlug} : layoutInterface){
+function SmallLayout({playerList, matchInfo, standingTable, treeTable, status, datetime, mapEvents, sx, tSlug} : layoutInterface){
     return(
         <Box sx={sx}>
         <MatchHeader 
@@ -153,7 +151,7 @@ function SmallLayout({playerList, matchInfo, standingTable, treeTable, status, d
             //scoreText = {status ? matchInfo.data.attributes.home_score + " - " + matchInfo.data.attributes.away_score : date}
             scoreText= {scoreText(matchInfo.data)}
             league = {standingTable?.attributes?.name || treeTable?.attributes.name || ""}
-            date = {status? date : time}
+            date = {status? dateTimeText(datetime)[0] : dateTimeTextDynamic(datetime, true)}
             sx={{margin: "10px"}}
             link= {matchInfo.data.attributes.event_info.event_registration ? matchInfo.data.attributes.event_info.registration_link : undefined}
         />
@@ -177,7 +175,7 @@ function SmallLayout({playerList, matchInfo, standingTable, treeTable, status, d
     )
 }
 
-function BigLayout({playerList, matchInfo, standingTable, treeTable, status, date, time, mapEvents, sx, tSlug} : layoutInterface){
+function BigLayout({playerList, matchInfo, standingTable, treeTable, status, datetime, mapEvents, sx, tSlug} : layoutInterface){
     return(
         <Box sx={sx}> 
         <Container>
@@ -188,7 +186,7 @@ function BigLayout({playerList, matchInfo, standingTable, treeTable, status, dat
                 //scoreText = {status ? matchInfo.data.attributes.home_score + " - " + matchInfo.data.attributes.away_score : date}
                 scoreText= {scoreText(matchInfo.data)}
                 league = {standingTable?.attributes?.name || treeTable?.attributes.name || ""}
-                date = {status? date : time}
+                date = {status? dateTimeText(datetime)[0] : dateTimeTextDynamic(datetime, true)}
                 sx={{marginTop: "10px"}}
                 link= {matchInfo.data.attributes.event_info.event_registration ? matchInfo.data.attributes.event_info.registration_link : undefined}
             />
