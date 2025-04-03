@@ -311,20 +311,20 @@ function MatchHeader(props : matchHeaderInterface & {sx?: any}) {
 
     return (
         <Paper component="header" sx={{ padding: "10px", ...props.sx }}>
-            <Stack sx={{ alignItems: 'center' }}>
+            <Stack sx={{ alignItems: 'center' }} spacing={1}>
                 <Stack direction="row" sx={{ justifyContent: "center", alignItems: "center" }} spacing={{xs: 0.5, md:3}}>
                     <Avatar sx={{ width: 57, height: 57, bgcolor:"inherit", marginRight:"-60px" }} href={teamALink} component={Link} variant="rounded" >
                         <Image alt={`${props.teamA.name} logo`} src={imgA}  width="57" height="57" style={{objectFit: "contain"}} />
                     </Avatar>
                     <Typography variant="h2" color="primary" sx={capitalizeStyle} href={teamALink} component={Link}>{props.teamA.short}</Typography>
-                    <Typography variant="h3" minWidth={70}>{props.scoreText}</Typography>
+                    <Typography variant="h3" minWidth={70} align='center'>{props.scoreText}</Typography>
                     <Typography variant="h2" color="secondary" sx={capitalizeStyle} href={teamBLink} component={Link}>{props.teamB.short}</Typography>
-                    <Avatar sx={{ width: 57, height: 57, bgcolor:"inherit" }} href={teamBLink} component={Link} variant="rounded" >
+                    <Avatar sx={{ width: 57, height: 57, bgcolor:"inherit", marginLeft:"-60px" }} href={teamBLink} component={Link} variant="rounded" >
                         <Image alt={`${props.teamB.name} logo`} src={imgB}  width="57" height="57" style={{objectFit: "contain"}} />
                     </Avatar>
                 </Stack>
-                <Typography variant="overline" sx={{ textAlign: "center" }}>{props.league}</Typography>
-                <Typography variant="h5" sx={{ textAlign: "center", ...capitalizeStyle }} gutterBottom>{props.date}</Typography>
+                <Typography variant="overline" align="center">{props.league}</Typography>
+                <Typography variant="h5" align="center" sx={{ ...capitalizeStyle }} gutterBottom>{props.date}</Typography>
                 {props.link && <Button variant="contained" sx={{ width: '60%' }} href={props.link}>Registrati</Button>}
             </Stack>
         </Paper>

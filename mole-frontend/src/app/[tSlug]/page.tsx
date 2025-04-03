@@ -21,7 +21,6 @@ import { commonKeyWords, commonOpenGraph } from '../layout';
 import SportsOrganizationJsonLd from '@/components/jsonLd/sportsOrganization';
 import { notFound } from 'next/navigation';
 import { stableImg } from '@/lib/outImg';
-import { group } from 'console';
 import scoreText from '@/lib/scoreText';
 
 export async function generateMetadata({params} : {params : {tSlug: string}}, parent: ResolvingMetadata): Promise<Metadata> {
