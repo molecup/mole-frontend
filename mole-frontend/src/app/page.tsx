@@ -88,7 +88,7 @@ function HowDoesItWork(){
             color: "primary",
         },
         {
-            title: "Finale nazionale tra le vincitrici di ogni città",
+            title: "Finale nazionale",
             description: "Stay tuned",
             Icon: StarRoundedIcon,
             color: "warning",
