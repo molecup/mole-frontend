@@ -52,12 +52,14 @@ export default function Home(){
                 <Typography variant="h2" color="primary.main" fontWeight={500}>{"Chi siamo"}</Typography>
                 <Stack direction="row">
                     <ChangeHistoryRoundedIcon sx={{transform: "rotate(90deg)", color: "primary.main"}}/>
-                    <Typography variant="body1">{"Mole Cup è un'associazione nata nel 2017 con l'obbiettivo di creare un torneo di calcio innovativo e coinvolgente tra le scuole superiori di Torino"}</Typography>
+                    <Typography variant="body1">{"Mole Cup è una società con l'obbiettivo di creare un torneo di calcio innovativo e coinvolgente tra le scuole superiori di tutta Italia"}</Typography>
                 </Stack>
+                {/*}
                 <Stack direction="row">
                     <ChangeHistoryRoundedIcon sx={{transform: "rotate(90deg)", color: "primary.main"}}/>
                     <Typography variant="body1">{"Dal 2025 la Molecup si espanderà in tutta Italia, con l'obbiettivo di creare un campionato nazionale che abbia un torneo in ogni grande città italiana, a partire da Torino, Firenze e Milano"}</Typography>
                 </Stack>
+                */}
             </TwoSpanBlogSection>
 
             <HowDoesItWork />
@@ -81,12 +83,12 @@ function HowDoesItWork(){
         },
         {
             title: "Eliminazione diretta",
-            description: "Le prime due squadre di ogni girone e le due migliori terze procedono alla fase ad eliminazione diretta",
+            description: "Le 12 migliori squadre procedono alla fase ad eliminazione diretta",
             Icon: EmojiEventsRoundedIcon,
             color: "primary",
         },
         {
-            title: "Rappresentativa Mole Cup vs pro clubs",
+            title: "Finale nazionale tra le vincitrici di ogni città",
             description: "Stay tuned",
             Icon: StarRoundedIcon,
             color: "warning",
