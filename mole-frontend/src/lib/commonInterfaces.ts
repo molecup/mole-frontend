@@ -187,7 +187,20 @@ export interface knockOutPhase{
         matches?: {
             data: matchShortInterface[]
         },
+        round_of_16?: roundInterface[],
+        round_of_8?: roundInterface[],
+        semifinal?: roundInterface[],
+        final?: roundInterface | null,
+        final_3_4?: roundInterface | null,
     }
+}
+
+export interface roundInterface{
+    id: number,
+    winner: "team_a" | "team_b" | "none",
+    matches: {
+        data: matchShortInterface[],
+    },
 }
 
 export interface rawTournamentEditionInterface{
