@@ -69,10 +69,10 @@ async function getTournamentData(tSlug: string) : Promise<tournamentInterface> {
   return res.data[0];
 }
 
-async function getKOMatches(tSlug: string) : Promise<knockOutPhase> {
-  const path = `/api/tournaments?filter[slug]=${tSlug}&populate[main_edition][populate][knock_out_phase][populate][round_of_8][populate][matches][populate][0]=home_team&populate[main_edition][populate][knock_out_phase][populate][round_of_8][populate][matches][populate][1]=away_team&populate[main_edition][populate][knock_out_phase][populate][round_of_8][populate][matches][populate][2]=event_info&populate[main_edition][populate][knock_out_phase][populate][round_of_8][populate][matches][populate][3]=cover&populate[main_edition][populate][knock_out_phase][populate][semifinal][populate][matches][populate][0]=home_team&populate[main_edition][populate][knock_out_phase][populate][semifinal][populate][matches][populate][1]=away_team&populate[main_edition][populate][knock_out_phase][populate][semifinal][populate][matches][populate][2]=event_info&populate[main_edition][populate][knock_out_phase][populate][semifinal][populate][matches][populate][3]=cover&populate[main_edition][populate][knock_out_phase][populate][final][populate][matches][populate][0]=home_team&populate[main_edition][populate][knock_out_phase][populate][final][populate][matches][populate][1]=away_team&populate[main_edition][populate][knock_out_phase][populate][final][populate][matches][populate][2]=event_info&populate[main_edition][populate][knock_out_phase][populate][final][populate][matches][populate][3]=cover&populate[main_edition][populate][knock_out_phase][populate][final_3_4][populate][matches][populate][0]=home_team&populate[main_edition][populate][knock_out_phase][populate][final_3_4][populate][matches][populate][1]=away_team&populate[main_edition][populate][knock_out_phase][populate][final_3_4][populate][matches][populate][2]=event_info&populate[main_edition][populate][knock_out_phase][populate][final_3_4][populate][matches][populate][3]=cover`;
+async function getKOMatches(tSlug: string) : Promise<knockOutPhase | null> {
+  const path = `/api/tournaments?filters[slug]=${tSlug}&populate[main_edition][populate][knock_out_phase][populate][round_of_8][populate][matches][populate][0]=home_team&populate[main_edition][populate][knock_out_phase][populate][round_of_8][populate][matches][populate][1]=away_team&populate[main_edition][populate][knock_out_phase][populate][round_of_8][populate][matches][populate][2]=event_info&populate[main_edition][populate][knock_out_phase][populate][round_of_8][populate][matches][populate][3]=cover&populate[main_edition][populate][knock_out_phase][populate][semifinal][populate][matches][populate][0]=home_team&populate[main_edition][populate][knock_out_phase][populate][semifinal][populate][matches][populate][1]=away_team&populate[main_edition][populate][knock_out_phase][populate][semifinal][populate][matches][populate][2]=event_info&populate[main_edition][populate][knock_out_phase][populate][semifinal][populate][matches][populate][3]=cover&populate[main_edition][populate][knock_out_phase][populate][final][populate][matches][populate][0]=home_team&populate[main_edition][populate][knock_out_phase][populate][final][populate][matches][populate][1]=away_team&populate[main_edition][populate][knock_out_phase][populate][final][populate][matches][populate][2]=event_info&populate[main_edition][populate][knock_out_phase][populate][final][populate][matches][populate][3]=cover&populate[main_edition][populate][knock_out_phase][populate][final_3_4][populate][matches][populate][0]=home_team&populate[main_edition][populate][knock_out_phase][populate][final_3_4][populate][matches][populate][1]=away_team&populate[main_edition][populate][knock_out_phase][populate][final_3_4][populate][matches][populate][2]=event_info&populate[main_edition][populate][knock_out_phase][populate][final_3_4][populate][matches][populate][3]=cover`;
   const res  = await publicFetch(path);
-  const matches = res.data[0].attributes.main_edition.data.attributes.knock_out_phase.data;
+  const matches = res.data[0].attributes?.main_edition.data.attributes.knock_out_phase.data;
   return matches
 }
 
@@ -94,11 +94,12 @@ export default async function Page({params} : {params : Promise<{tSlug: string}>
   const teams = tournament.team_editions?.data || [];
   const firstTeam = Math.round(teams.length / 2) - 2;
   const groups = tournament.group_phases?.data || [];
-  const matches_ro8 = KOPhase.attributes.round_of_8?.flatMap((round) => round.matches.data.map(match => {return {league: "Quarti", ...match}})) || [];
-  const matches_semifinal = KOPhase.attributes.semifinal?.flatMap((round) => round.matches.data.map(match => {return {league: "Semifinali", ...match}})) || [];
-  const matches_final = KOPhase.attributes.final?.matches.data.map(match => {return {league: "Finale", ...match}}) || [];
-  const matches_final_3_4 = KOPhase.attributes.final_3_4?.matches.data.map(match => {return {league: "Finale 3/4 posto", ...match}}) || [];
-  console.log(matches_ro8, matches_semifinal, matches_final, matches_final_3_4);
+  //console.log(KOPhase)
+  const matches_ro8 = KOPhase?.attributes.round_of_8?.flatMap((round) => round.matches.data.map(match => {return {league: "Quarti", ...match}})) || [];
+  const matches_semifinal = KOPhase?.attributes.semifinal?.flatMap((round) => round.matches.data.map(match => {return {league: "Semifinali", ...match}})) || [];
+  const matches_final = KOPhase?.attributes.final?.matches.data.map(match => {return {league: "Finale", ...match}}) || [];
+  const matches_final_3_4 = KOPhase?.attributes.final_3_4?.matches.data.map(match => {return {league: "Finale 3/4 posto", ...match}}) || [];
+  //console.log(matches_ro8, matches_semifinal, matches_final, matches_final_3_4);
 
   const matches_group = groups.flatMap((group : groupPhase) => group.attributes.matches?.data?.map((match) => {return {league: group.attributes.name, ...match}}) || []);
   //console.log(matches_group);
