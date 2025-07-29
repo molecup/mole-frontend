@@ -31,6 +31,7 @@ import img1 from "@/public/static/DSCF6614-Migliorato-NR.webp";
 import img2 from "@/public/static/DSCF6576-Migliorato-NR.webp";
 import headerImg from "@/public/static/DSC_0666-3.webp"
 
+import PersonIcon from '@mui/icons-material/Person';
 
 export const metadata: Metadata = {
     title: "Chi siamo - Mole Cup Reale Mutua",
@@ -177,8 +178,14 @@ function PromoterSection(){
             quote: "L'iniziativa ripercorre i veri valori dello sport in cui credo e in cui mi riconosco. \
                 Il torneo si svolge in maniera spontanea e genuina con l'impegno e la dedizione degli organizzatori.",
         },
+        // {
+        //     img: "/static/ciro-ferrara.jpg",
+        //     name: "Ciro Ferrara",
+        //     description: "Allenatore, ex calciatore",
+        //     quote: "Grazie ad un torneo simile io ho dato inizio alla mia carriera",
+        // },
         {
-            img: "/static/ciro-ferrara.jpg",
+            img: "",
             name: "Ciro Ferrara",
             description: "Allenatore, ex calciatore",
             quote: "Grazie ad un torneo simile io ho dato inizio alla mia carriera",
@@ -196,7 +203,8 @@ function PromoterSection(){
                                 <Box sx = {{padding: "10px"}}>
                                     <Stack direction="column" spacing={2} alignItems="center">
                                         <Avatar  alt={promoter.name} sx={{ width: 70, height: 70 }}>
-                                            <Image src={promoter.img} alt={promoter.name} fill style={{objectFit: "cover", objectPosition:"center"}} sizes='150px' />
+                                            {/* <Image src={promoter.img} alt={promoter.name} fill style={{objectFit: "cover", objectPosition:"center"}} sizes='150px' /> */}
+                                            <PersonIcon />
                                         </Avatar>
                                         <Typography variant="h4" color="text.primary" textTransform="uppercase">{promoter.name}</Typography>
                                         <Typography variant="caption" textTransform="uppercase" color="primary.main">{promoter.description}</Typography>
